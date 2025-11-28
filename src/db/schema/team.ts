@@ -13,5 +13,5 @@ export const teamTable = sqliteTable('teams', {
 		.references(() => userTable.id)
 });
 
-export type DrizzleTeamSelect = typeof teamTable.$inferSelect;
-export type DrizzleTeamInsert = typeof teamTable.$inferInsert;
+export type TeamSelectEntity = typeof teamTable.$inferSelect;
+export type TeamInsertEntity = Omit<typeof teamTable.$inferInsert, 'id'>;

@@ -7,7 +7,7 @@ export const mapEntityToSelectModel = (entity: UserSelectEntity): UserSelectMode
     surname: entity.surname,
     nickname: entity.nickname,
     email: entity.email,
-    phoneNumber: entity.phoneNumber,
+    phoneNumber: entity.phoneNumber ,
     avatarUrl: entity.imageUrl,
 });
 
