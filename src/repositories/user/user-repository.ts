@@ -1,4 +1,7 @@
-import type { UserSelectEntity, UserInsertEntity } from '@/db/schema/user';
+import type {
+	UserSelectEntity,
+	UserInsertEntity
+} from '@/repositories/user/schema';
 import { db, userTable } from '@/db';
 import { eq } from 'drizzle-orm';
 
