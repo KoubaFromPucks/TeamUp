@@ -1,9 +1,9 @@
-import { UserSelectModel, UserInsertModel } from './schema';
+import { UserInsertModel, UserListModel } from './schema';
 import { UserInsertEntity, UserSelectEntity } from '@/db/schema/user';
 
 export const mapEntityToSelectModel = (
 	entity: UserSelectEntity
-): UserSelectModel => ({
+): UserListModel => ({
 	id: entity.id,
 	name: entity.name,
 	surname: entity.surname,
@@ -14,7 +14,7 @@ export const mapEntityToSelectModel = (
 });
 
 export const mapSelectModelToEntity = (
-	model: UserSelectModel
+	model: UserListModel
 ): UserSelectEntity => ({
 	id: model.id,
 	name: model.name,

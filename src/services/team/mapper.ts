@@ -1,9 +1,9 @@
-import { TeamSelectModel, TeamInsertModel } from './schema';
+import { TeamListModel, TeamInsertModel } from './schema';
 import { TeamSelectEntity, TeamInsertEntity } from '@/db/schema/team';
 
 export const mapEntityToSelectModel = (
 	entity: TeamSelectEntity
-): TeamSelectModel => ({
+): TeamListModel => ({
 	id: entity.id,
 	name: entity.name,
 	description: entity.desc,
@@ -12,7 +12,7 @@ export const mapEntityToSelectModel = (
 });
 
 export const mapSelectModelToEntity = (
-	model: TeamSelectModel
+	model: TeamListModel
 ): TeamSelectEntity => ({
 	id: model.id,
 	name: model.name,
