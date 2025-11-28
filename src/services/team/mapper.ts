@@ -1,5 +1,5 @@
 import { TeamListModel, TeamInsertModel } from './schema';
-import { TeamSelectEntity, TeamInsertEntity } from '@/db/schema/team';
+import { TeamSelectEntity, TeamInsertEntity } from '@/repositories/team/schema';
 
 export const mapEntityToSelectModel = (
 	entity: TeamSelectEntity

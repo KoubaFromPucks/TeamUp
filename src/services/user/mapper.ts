@@ -1,5 +1,5 @@
 import { UserInsertModel, UserListModel } from './schema';
-import { UserInsertEntity, UserSelectEntity } from '@/db/schema/user';
+import { UserInsertEntity, UserSelectEntity } from '@/repositories/user/schema';
 
 export const mapEntityToSelectModel = (
 	entity: UserSelectEntity

@@ -1,4 +1,4 @@
-import { TeamInsertEntity, TeamSelectEntity } from '@/db/schema/team';
+import { TeamInsertEntity, TeamSelectEntity } from './schema';
 import { db, teamMemberTable, teamTable, userTable } from '@/db';
 import { and, eq } from 'drizzle-orm';
 

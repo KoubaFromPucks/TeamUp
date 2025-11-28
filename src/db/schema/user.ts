@@ -14,6 +14,3 @@ export const userTable = sqliteTable('users', {
 
 // TODO vazby (co)organizator
 // TODO vazby eventInvitation
-
-export type UserSelectEntity = typeof userTable.$inferSelect;
-export type UserInsertEntity = Omit<typeof userTable.$inferInsert, 'id'>;
