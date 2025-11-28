@@ -1,0 +1,127 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="28.2.9">
+  <diagram name="Stránka-1" id="0wwWDtzZxbJZY-BBO0Ol">
+    <mxGraphModel dx="1426" dy="1918" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-1" target="2XjrbdrW7AiE6PKXZxD3-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-1" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="120" y="150" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-2" value="Registered user" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="120" y="370" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-3" value="Browse public events" style="ellipse;whiteSpace=wrap;html=1;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="230" y="150" width="115" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-5" value="" style="endArrow=block;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;endFill=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="150" y="320" as="sourcePoint" />
+            <mxPoint x="135" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-6" value="Manage my team (CRUD)" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="345" y="230" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-7" value="Manage event (CRUD) - public/team" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="330" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-8" value="Manage Locations (CRUD)" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="520" y="430" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-9" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-2" target="2XjrbdrW7AiE6PKXZxD3-6" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="110" y="570" as="sourcePoint" />
+            <mxPoint x="160" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-10" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-2" target="2XjrbdrW7AiE6PKXZxD3-7" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="120" y="580" as="sourcePoint" />
+            <mxPoint x="170" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-11" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-2" target="2XjrbdrW7AiE6PKXZxD3-8" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="120" y="550" as="sourcePoint" />
+            <mxPoint x="170" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-13" value="Invite member to team" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="590" y="200" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-14" value="" style="endArrow=open;html=1;rounded=0;dashed=1;endFill=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-7" target="2XjrbdrW7AiE6PKXZxD3-15" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="330" as="sourcePoint" />
+            <mxPoint x="440" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-18" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="2XjrbdrW7AiE6PKXZxD3-14" vertex="1" connectable="0">
+          <mxGeometry x="0.0053" y="1" relative="1" as="geometry">
+            <mxPoint x="-6" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-15" value="Add post to bulletin board" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="650" y="310" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-20" value="" style="endArrow=open;html=1;rounded=0;dashed=1;endFill=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-6" target="2XjrbdrW7AiE6PKXZxD3-13" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="292" as="sourcePoint" />
+            <mxPoint x="488" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-21" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="2XjrbdrW7AiE6PKXZxD3-20" vertex="1" connectable="0">
+          <mxGeometry x="0.0053" y="1" relative="1" as="geometry">
+            <mxPoint x="-6" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-22" value="" style="endArrow=open;html=1;rounded=0;dashed=1;endFill=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-6" target="2XjrbdrW7AiE6PKXZxD3-7" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="270" as="sourcePoint" />
+            <mxPoint x="560" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-23" value="&amp;lt;&amp;lt;extend&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="2XjrbdrW7AiE6PKXZxD3-22" vertex="1" connectable="0">
+          <mxGeometry x="0.0053" y="1" relative="1" as="geometry">
+            <mxPoint x="37" y="-9" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-24" value="Systém umožňující vytvářet události - buď veřejné nebo soukromé (v rámci týmu/pouze na pozvání) - na události je možné zatrhnout zda přijdu/nepřijdu/nevím.&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;K událostem je možné přidat místo konání, přidávat informace na nástěnku. Toto může dělat jen organizátor události, teoreticky spoluorganizátor. Událost může ještě např explicitně obsahovat informaci, kolik bude stát vstup nebo pronájem sportoviště. Asi by mělo jít rozpočítat cenu ze sportoviště nebo si zvolit vlastní vstupné.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Lokace - mělo by mít informaci o tom, kde se nachází (GPS/slovně), název, popis, dobrovolně ceník,...&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Událost má organizátory a spoluorganizátory, kteří ji spravují. Mohou přidat věci na nástěnku. Každá událost by měla uchovávat informaci o tom, kdo označil, že na událost jde, nejde nebo neví. Zároveň by bylo fajn, kdyby si šlo zobrazit statistku účasti na událostech &lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;(př. Franta byl na 75% událostí v tomto týmu, Filip jen na 3 %)&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;. Události by měli být 3 typů - veřejná/soukromá - soukromá by měla být v rámci týmu nebo jen na pozvání, bez týmu. Měla by zde být i možnost rozpočítání peněz, buď jednorázově na akci nebo po X akcích v rámci týmu.&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Tým by měl mít název, popis, obrázek, členy, administrátora a spoluadministrátory. V rámci týmu může (spolu)administrátor přidávat/odebírat lidi. Tým se chová jako skupina lidí - lze na událost pozvat např. celý tým + pár jednotlivců. Při pozvání týmu jsou odeslány pozvánky všem členům zvlášť.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Uživatel má jméno, příjmení, přezdívku, mail, obrázek, tel. číslo. Asi by zde mohla být stránka na zobrazení profilu, kde bude kontakt, případně statistika návštěvy událostí v rámci týmů, ve kterých se nachází.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Aplikace by měla umožňovat filtrovat akce podle data, názvu. Neukazovat akce z minulosti, na kterých jsem nebyl. Uživatel vidí svoji historii (ne)navštívených akcí.&lt;/div&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" parent="1" vertex="1">
+          <mxGeometry x="100" y="-320" width="690" height="460" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-25" value="Chagne information about telling if i go to the event" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="310" y="450" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-26" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-2" target="2XjrbdrW7AiE6PKXZxD3-25" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="470" y="480" as="sourcePoint" />
+            <mxPoint x="790" y="509" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-28" value="See attandance statistics in team" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="310" y="545" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-29" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-2" target="2XjrbdrW7AiE6PKXZxD3-28" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="290" y="470" as="sourcePoint" />
+            <mxPoint x="458" y="534" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-30" value="Browse teams - name and some description" style="ellipse;whiteSpace=wrap;html=1;verticalAlign=middle;" parent="1" vertex="1">
+          <mxGeometry x="210" y="230" width="115" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="2XjrbdrW7AiE6PKXZxD3-33" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" source="2XjrbdrW7AiE6PKXZxD3-1" target="2XjrbdrW7AiE6PKXZxD3-30" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="417" as="sourcePoint" />
+            <mxPoint x="486" y="320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WBc7kB9Ksw4IjgHnYG-C-1" value="Když bude málo funckionality:&lt;div&gt;Každý má svůj veřejný kalendář, kde je vidět, kdy mají volno nebo co mají v plánu.&lt;/div&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="1">
+          <mxGeometry x="827" y="-200" width="430" height="310" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
