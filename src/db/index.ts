@@ -1,6 +1,6 @@
 import { db } from './client';
+import { eventTable } from './schema/event';
 import { userTable } from './schema/user';
-import { teamTable } from './schema/team';
-import { teamMemberTable } from './schema/team-member';
+import { venueTable } from './schema/venue';
 
-export { db, userTable, teamTable, teamMemberTable };
+export { db, userTable , venueTable, eventTable };

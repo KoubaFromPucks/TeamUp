@@ -1,4 +1,7 @@
 import { relations } from 'drizzle-orm';
+import { venueTable } from './venue';
+import { eventTable } from './event';
+import { userTable } from './user';
 
 // TODO př.
 /*
@@ -7,3 +10,22 @@ export const userRelations = relations(userTable, ({ many }) => ({
 	teamMembers: many(teamMemberTable)
 }));
 */
+
+export const venueRelations = relations(venueTable, ({ many }) => ({
+  events: many(eventTable),
+}));
+
+export const eventRelations = relations(eventTable, ({ one }) => ({
+  venue: one(venueTable, {
+    fields: [eventTable.VenueId],
+    references: [venueTable.Id],
+  }),
+  organiser: one(userTable, {
+    fields: [eventTable.OrganisatorId],
+    references: [userTable.id],
+  }),
+}));
+
+export const userRelations = relations(userTable, ({ many }) => ({
+  organizedEvents: many(eventTable),
+}));
