@@ -1,6 +1,6 @@
 import type { TeamCreateEntity, TeamEntity } from './schema';
 import { db, teamMemberTable, teamTable, userTable } from '@/db';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 export const teamRepository = {
 	async createTeam(teamEntity: TeamCreateEntity) {
@@ -42,8 +42,29 @@ export const teamRepository = {
 			.leftJoin(userTable, eq(teamMemberTable.userId, userTable.id))
 			.where(eq(teamTable.id, teamId))
 			.limit(1);
-			
+
 		return teamWithMembers[0];
 	},
 
+	async addUserToTeam(teamId: string, userId: string) {
+		return await db
+			.insert(teamMemberTable)
+			.values({
+				teamId,
+				userId
+			})
+			.returning();
+	},
+
+	async removeUserFromTeam(teamId: string, userId: string) {
+		return await db
+			.delete(teamMemberTable)
+			.where(
+				and(
+					eq(teamMemberTable.teamId, teamId),
+					eq(teamMemberTable.userId, userId)
+				)
+			)
+			.returning();
+	}
 };
