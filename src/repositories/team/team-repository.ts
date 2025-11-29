@@ -1,4 +1,8 @@
-import { TeamInsertEntity, TeamSelectEntity } from './schema';
+import {
+	TeamInsertEntity,
+	TeamSelectEntity,
+	TeamWithMembersEntity
+} from './schema';
 import { db, teamMemberTable, teamTable, userTable } from '@/db';
 import { and, eq } from 'drizzle-orm';
 
@@ -35,15 +39,30 @@ export const teamRepository = {
 	},
 
 	async getTeamWithMembersById(teamId: string) {
-		const teamWithMembers = await db
+		const dbResult = await db
 			.select()
 			.from(teamTable)
 			.leftJoin(teamMemberTable, eq(teamTable.id, teamMemberTable.teamId))
 			.leftJoin(userTable, eq(teamMemberTable.userId, userTable.id))
 			.where(eq(teamTable.id, teamId))
-			.limit(1);
+			.all();
 
-		return teamWithMembers[0];
+		if (dbResult.length === 0) {
+			return null;
+		}
+
+		const organizer = await db
+			.select()
+			.from(userTable)
+			.where(eq(userTable.id, dbResult[0].teams.organizerId));
+
+		const teamWithMembers = {
+			...dbResult[0].teams,
+			members: dbResult.map(row => row.users),
+			organizer: organizer[0]
+		};
+
+		return teamWithMembers as TeamWithMembersEntity;
 	},
 
 	async addUserToTeam(teamId: string, userId: string) {

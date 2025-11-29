@@ -1,8 +1,9 @@
 import type {
 	UserSelectEntity,
-	UserInsertEntity
+	UserInsertEntity,
+	UserWithTeamsEntity
 } from '@/repositories/user/schema';
-import { db, userTable } from '@/db';
+import { db, teamTable, userTable, teamMemberTable } from '@/db';
 import { eq } from 'drizzle-orm';
 
 export const userRepository = {
@@ -35,5 +36,34 @@ export const userRepository = {
 			.where(eq(userTable.id, userId))
 			.returning();
 		return updatedUser[0] as UserSelectEntity | undefined;
+	},
+
+	async getUserWithTeamsById(userId: string) {
+		const adminedTeams = await db
+			.select()
+			.from(teamTable)
+			.where(eq(teamTable.organizerId, userId))
+			.all();
+
+		const memeberTeams = await db
+			.select({ teams: teamTable })
+			.from(teamTable)
+			.leftJoin(teamMemberTable, eq(teamTable.id, teamMemberTable.teamId))
+			.leftJoin(userTable, eq(teamMemberTable.userId, userTable.id))
+			.where(eq(teamMemberTable.userId, userId))
+			.all();
+
+		const user = await db
+			.select()
+			.from(userTable)
+			.where(eq(userTable.id, userId));
+
+		const userWithTeamsEntity = {
+			...user[0],
+			adminedTeams,
+			memberTeams: memeberTeams.map(row => row.teams)
+		};
+
+		return userWithTeamsEntity as UserWithTeamsEntity;
 	}
 };
