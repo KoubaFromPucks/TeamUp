@@ -1,47 +1,47 @@
-import type { VenueInsertModel, VenueListModel } from "./schema";
+import type { VenueInsertModel, VenueListModel } from './schema';
 import type {
-  VenueInsertEntity,
-  VenueSelectEntity,
-} from "@/repositories/venue/schema";
+	VenueInsertEntity,
+	VenueSelectEntity
+} from '@/repositories/venue/schema';
 
 export const mapEntityToSelectModel = (
-  entity: VenueSelectEntity
+	entity: VenueSelectEntity
 ): VenueListModel => ({
-  Id: entity.Id,
-  Name: entity.Name,
-  Address: entity.Address,
-  GPS: entity.GPS ?? null,
-  Description: entity.Description ?? null,
-  PricePerHour: entity.PricePerHour ?? 0,
+	Id: entity.Id,
+	Name: entity.Name,
+	Address: entity.Address,
+	GPS: entity.GPS ?? null,
+	Description: entity.Description ?? null,
+	PricePerHour: entity.PricePerHour ?? 0
 });
 
 export const mapSelectModelToEntity = (
-  model: VenueListModel
+	model: VenueListModel
 ): VenueSelectEntity => ({
-  Id: model.Id,
-  Name: model.Name,
-  Address: model.Address,
-  GPS: model.GPS,
-  Description: model.Description,
-  PricePerHour: model.PricePerHour,
+	Id: model.Id,
+	Name: model.Name,
+	Address: model.Address,
+	GPS: model.GPS,
+	Description: model.Description,
+	PricePerHour: model.PricePerHour
 });
 
 export const mapInsertModelToEntity = (
-  model: VenueInsertModel
+	model: VenueInsertModel
 ): VenueInsertEntity => ({
-  Name: model.Name,
-  Address: model.Address,
-  GPS: model.GPS,
-  Description: model.Description,
-  PricePerHour: model.PricePerHour,
+	Name: model.Name,
+	Address: model.Address,
+	GPS: model.GPS,
+	Description: model.Description,
+	PricePerHour: model.PricePerHour
 });
 
 export const mapEntityToInsertModel = (
-  entity: VenueInsertEntity
+	entity: VenueInsertEntity
 ): VenueInsertModel => ({
-  Name: entity.Name,
-  Address: entity.Address,
-  GPS: entity.GPS ?? null,
-  Description: entity.Description ?? null,
-  PricePerHour: entity.PricePerHour ?? 0,
+	Name: entity.Name,
+	Address: entity.Address,
+	GPS: entity.GPS ?? null,
+	Description: entity.Description ?? null,
+	PricePerHour: entity.PricePerHour ?? 0
 });

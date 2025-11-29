@@ -14,5 +14,12 @@ const client = createClient({
 });
 
 export const db = drizzle(client, {
-	schema: { userTable, teamTable, teamMemberTable, venueTable, eventTable, ...relations }
+	schema: {
+		userTable,
+		teamTable,
+		teamMemberTable,
+		venueTable,
+		eventTable,
+		...relations
+	}
 });

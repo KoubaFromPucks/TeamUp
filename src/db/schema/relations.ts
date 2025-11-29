@@ -11,18 +11,18 @@ export const userRelations = relations(userTable, ({ many }) => ({
 }));
 
 export const venueRelations = relations(venueTable, ({ many }) => ({
-  events: many(eventTable),
+	events: many(eventTable)
 }));
 
 export const eventRelations = relations(eventTable, ({ one }) => ({
-  venue: one(venueTable, {
-    fields: [eventTable.VenueId],
-    references: [venueTable.Id],
-  }),
-  organiser: one(userTable, {
-    fields: [eventTable.OrganisatorId],
-    references: [userTable.id],
-  }),
+	venue: one(venueTable, {
+		fields: [eventTable.VenueId],
+		references: [venueTable.Id]
+	}),
+	organiser: one(userTable, {
+		fields: [eventTable.OrganisatorId],
+		references: [userTable.id]
+	})
 }));
 
 export const teamRelations = relations(teamTable, ({ many, one }) => ({
