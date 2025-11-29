@@ -1,0 +1,38 @@
+import { z } from 'zod';
+
+export const UserUpdateCreateSchema = z
+	.object({
+		name: z
+			.string()
+			.min(1, 'Name is required')
+			.max(40, 'Name must be at most 40 characters'),
+		surname: z
+			.string()
+			.min(1, 'Surname is required')
+			.max(40, 'Surname must be at most 40 characters'),
+		nickname: z
+			.string()
+			.min(1, 'Nickname is required')
+			.max(40, 'Nickname must be at most 40 characters'),
+		email: z.string().email('Invalid email address'),
+		phoneNumber: z.string().min(1, 'Phone number is required').optional(),
+		imageUrl: z.string().url('Invalid URL').optional()
+	})
+	.refine(
+		data => {
+			if (!data.phoneNumber || data.phoneNumber.length == 0) return true;
+
+			const phoneRegex = /^\+?[1-9][\d+ ?]*$/;
+			if (!phoneRegex.test(data.phoneNumber)) return false;
+			if (data.phoneNumber.replace(/\D/g, '').length < 9) return false;
+
+			return true;
+		},
+		{
+			message:
+				'Invalid phone number format. It should be in format: +<prefix> <number>',
+			path: ['phoneNumber']
+		}
+	);
+
+export type UserUpdateCreateType = z.infer<typeof UserUpdateCreateSchema>;
