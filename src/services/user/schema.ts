@@ -12,5 +12,8 @@ export type UserDetailModel = {
 	memberTeams: TeamListModel[];
 };
 
-export type UserListModel = Omit<UserDetailModel, 'adminedTeams' | 'memberTeams'>;
+export type UserListModel = Omit<
+	UserDetailModel,
+	'adminedTeams' | 'memberTeams'
+>;
 export type UserInsertModel = Omit<UserListModel, 'id'>;
