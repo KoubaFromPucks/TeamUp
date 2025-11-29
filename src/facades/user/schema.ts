@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import { TeamListDto } from '../team/schema';
 
-export const UserUpdateCreateSchema = z
+export const userUpdateCreateSchema = z
 	.object({
 		name: z
 			.string()
@@ -35,4 +36,18 @@ export const UserUpdateCreateSchema = z
 		}
 	);
 
-export type UserUpdateCreateType = z.infer<typeof UserUpdateCreateSchema>;
+export type UserUpdateCreateDto = z.infer<typeof userUpdateCreateSchema>;
+
+export type UserDetatilDto = {
+	id: string;
+	name: string;
+	surname: string;
+	nickname: string;
+	email: string;
+	phoneNumber?: string;
+	imageUrl?: string;
+	adminedTeams: TeamListDto[];
+	memberTeams: TeamListDto[];
+};
+
+export type UserListDto = Omit<UserDetatilDto, 'adminedTeams' | 'memberTeams'>;
