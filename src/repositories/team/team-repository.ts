@@ -85,5 +85,20 @@ export const teamRepository = {
 				)
 			)
 			.returning();
+	},
+
+	async isUserInTeam(teamId: string, userId: string) {
+		const membership = await db
+			.select()
+			.from(teamMemberTable)
+			.where(
+				and(
+					eq(teamMemberTable.teamId, teamId),
+					eq(teamMemberTable.userId, userId)
+				)
+			)
+			.limit(1);
+
+		return membership.length > 0;
 	}
 };
