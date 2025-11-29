@@ -8,4 +8,11 @@ export default defineConfig([
     { files: ["src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: globals.browser } },
     tseslint.configs.recommended,
     pluginReact.configs.flat.recommended,
+    {
+        settings: {
+            react: {
+                version: "detect",
+            },
+        },
+    },
 ]);
