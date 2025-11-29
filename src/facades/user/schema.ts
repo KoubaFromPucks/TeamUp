@@ -38,7 +38,7 @@ export const userUpdateCreateSchema = z
 
 export type UserUpdateCreateDto = z.infer<typeof userUpdateCreateSchema>;
 
-export type UserDetatilDto = {
+export type UserDetailDto = {
 	id: string;
 	name: string;
 	surname: string;
@@ -50,4 +50,4 @@ export type UserDetatilDto = {
 	memberTeams: TeamListDto[];
 };
 
-export type UserListDto = Omit<UserDetatilDto, 'adminedTeams' | 'memberTeams'>;
+export type UserListDto = Omit<UserDetailDto, 'adminedTeams' | 'memberTeams'>;

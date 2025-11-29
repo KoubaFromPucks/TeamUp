@@ -3,7 +3,7 @@ import { UserListModel } from '../user/schema';
 export type TeamDetailModel = {
 	id: string;
 	name: string;
-	description: string;
+	desc: string | null;
 	imageUrl: string | null;
 	organizerId: string;
 	organizer: UserListModel;
