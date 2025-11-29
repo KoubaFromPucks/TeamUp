@@ -1,9 +1,9 @@
 'use server';
 
 import { exampleService } from '@/services/example/example-service';
-import { type Example, ExampleCreateSchema } from './schema';
+import { ExampleCreateSchema } from './schema';
 
-export const createExample = async (formData: FormData): Example => {
+export const createExample = async (formData: FormData) => {
 	const data = Object.fromEntries(formData.entries());
 
 	const validationResult = ExampleCreateSchema.safeParse(data);
