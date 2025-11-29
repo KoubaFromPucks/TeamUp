@@ -8,10 +8,9 @@ export type UserDetailModel = {
 	email: string;
 	phoneNumber: string | null;
 	avatarUrl: string | null;
-	ownedTeams: TeamListModel[];
+	adminedTeams: TeamListModel[];
 	memberTeams: TeamListModel[];
 };
 
-export type UserListModel = Omit<UserDetailModel, 'ownedTeams' | 'memberTeams'>;
-
+export type UserListModel = Omit<UserDetailModel, 'adminedTeams' | 'memberTeams'>;
 export type UserInsertModel = Omit<UserListModel, 'id'>;
