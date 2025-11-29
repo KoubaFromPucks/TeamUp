@@ -1,7 +1,9 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 
-import { exampleTable } from './schema/example';
+import { userTable } from './schema/user';
+import { teamTable } from './schema/team';
+import { teamMemberTable } from './schema/team-member';
 import * as relations from './schema/relations';
 
 const client = createClient({
@@ -10,5 +12,5 @@ const client = createClient({
 });
 
 export const db = drizzle(client, {
-	schema: { exampleTable, ...relations }
+	schema: { userTable, teamTable, teamMemberTable, ...relations }
 });
