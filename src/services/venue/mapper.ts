@@ -7,41 +7,41 @@ import type {
 export const mapEntityToSelectModel = (
 	entity: VenueSelectEntity
 ): VenueListModel => ({
-	Id: entity.Id,
-	Name: entity.Name,
-	Address: entity.Address,
-	GPS: entity.GPS ?? null,
-	Description: entity.Description ?? null,
-	PricePerHour: entity.PricePerHour ?? 0
+	id: entity.id,
+	name: entity.name,
+	address: entity.address,
+	gps: entity.gps ?? null,
+	description: entity.description ?? null,
+	pricePerHour: entity.pricePerHour ?? 0
 });
 
 export const mapSelectModelToEntity = (
 	model: VenueListModel
 ): VenueSelectEntity => ({
-	Id: model.Id,
-	Name: model.Name,
-	Address: model.Address,
-	GPS: model.GPS,
-	Description: model.Description,
-	PricePerHour: model.PricePerHour
+	id: model.id,
+	name: model.name,
+	address: model.address,
+	gps: model.gps,
+	description: model.description,
+	pricePerHour: model.pricePerHour
 });
 
 export const mapInsertModelToEntity = (
 	model: VenueInsertModel
 ): VenueInsertEntity => ({
-	Name: model.Name,
-	Address: model.Address,
-	GPS: model.GPS,
-	Description: model.Description,
-	PricePerHour: model.PricePerHour
+	name: model.name,
+	address: model.address,
+	gps: model.gps,
+	description: model.description,
+	pricePerHour: model.pricePerHour
 });
 
 export const mapEntityToInsertModel = (
 	entity: VenueInsertEntity
 ): VenueInsertModel => ({
-	Name: entity.Name,
-	Address: entity.Address,
-	GPS: entity.GPS ?? null,
-	Description: entity.Description ?? null,
-	PricePerHour: entity.PricePerHour ?? 0
+	name: entity.name,
+	address: entity.address,
+	gps: entity.gps ?? null,
+	description: entity.description ?? null,
+	pricePerHour: entity.pricePerHour ?? 0
 });

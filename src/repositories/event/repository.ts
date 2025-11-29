@@ -16,7 +16,7 @@ export const eventRepository = {
 		const event = await db
 			.select()
 			.from(eventTable)
-			.where(eq(eventTable.Id, eventId))
+			.where(eq(eventTable.id, eventId))
 			.limit(1);
 
 		return event[0] as EventSelectEntity | undefined;
@@ -34,7 +34,7 @@ export const eventRepository = {
 		const updated = await db
 			.update(eventTable)
 			.set(eventEntity)
-			.where(eq(eventTable.Id, eventId))
+			.where(eq(eventTable.id, eventId))
 			.returning();
 
 		return updated[0] as EventSelectEntity | undefined;
@@ -43,13 +43,12 @@ export const eventRepository = {
 	async deleteEventById(eventId: string) {
 		const deleted = await db
 			.delete(eventTable)
-			.where(eq(eventTable.Id, eventId))
+			.where(eq(eventTable.id, eventId))
 			.returning();
 
 		return deleted[0] as EventSelectEntity | undefined;
 	},
 
-	// BONUS: eventy i s venue + organiser (když chceš používat relations)
 	async getAllEventsWithRelations() {
 		const events = await db.query.eventTable.findMany({
 			with: {

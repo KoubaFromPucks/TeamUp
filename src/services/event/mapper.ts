@@ -7,69 +7,69 @@ import type {
 export const mapEntityToSelectModel = (
 	entity: EventSelectEntity
 ): EventListModel => ({
-	Id: entity.Id,
-	VenueId: entity.VenueId,
-	OrganisatorId: entity.OrganisatorId,
+	id: entity.id,
+	venueId: entity.venueId,
+	organisatorId: entity.organisatorId,
 
-	Name: entity.Name,
-	StartTime: entity.StartTime,
-	EndTime: entity.EndTime,
+	name: entity.name,
+	startTime: entity.startTime,
+	endTime: entity.endTime,
 
-	DayOfWeek: entity.DayOfWeek,
-	InviteType: entity.InviteType,
-	PricingType: entity.PricingType,
+	dayOfWeek: entity.dayOfWeek,
+	inviteType: entity.inviteType,
+	pricingType: entity.pricingType,
 
-	TotalPrice: entity.TotalPrice ?? 0
+	totalPrice: entity.totalPrice ?? 0
 });
 
 export const mapSelectModelToEntity = (
 	model: EventListModel
 ): EventSelectEntity => ({
-	Id: model.Id,
-	VenueId: model.VenueId,
-	OrganisatorId: model.OrganisatorId,
+	id: model.id,
+	venueId: model.venueId,
+	organisatorId: model.organisatorId,
 
-	Name: model.Name,
-	StartTime: model.StartTime,
-	EndTime: model.EndTime,
+	name: model.name,
+	startTime: model.startTime,
+	endTime: model.endTime,
 
-	DayOfWeek: model.DayOfWeek,
-	InviteType: model.InviteType,
-	PricingType: model.PricingType,
+	dayOfWeek: model.dayOfWeek,
+	inviteType: model.inviteType,
+	pricingType: model.pricingType,
 
-	TotalPrice: model.TotalPrice
+	totalPrice: model.totalPrice
 });
 
 export const mapInsertModelToEntity = (
 	model: EventInsertModel
 ): EventInsertEntity => ({
-	VenueId: model.VenueId,
-	OrganisatorId: model.OrganisatorId,
+	venueId: model.venueId,
+	organisatorId: model.organisatorId,
 
-	Name: model.Name,
-	StartTime: model.StartTime,
-	EndTime: model.EndTime,
+	name: model.name,
+	startTime: model.startTime,
+	endTime: model.endTime,
 
-	DayOfWeek: model.DayOfWeek,
-	InviteType: model.InviteType,
-	PricingType: model.PricingType,
+	dayOfWeek: model.dayOfWeek,
+	inviteType: model.inviteType,
+	pricingType: model.pricingType,
 
-	TotalPrice: model.TotalPrice
+	totalPrice: model.totalPrice
 });
 
 export const mapEntityToInsertModel = (
 	entity: EventInsertEntity
 ): EventInsertModel => ({
-	VenueId: entity.VenueId,
-	OrganisatorId: entity.OrganisatorId,
+	venueId: entity.venueId,
+	organisatorId: entity.organisatorId,
 
-	Name: entity.Name,
-	StartTime: entity.StartTime,
-	EndTime: entity.EndTime,
+	name: entity.name,
+	startTime: entity.startTime,
+	endTime: entity.endTime,
 
-	DayOfWeek: entity.DayOfWeek,
-	InviteType: entity.InviteType,
-	PricingType: entity.PricingType,
+	dayOfWeek: entity.dayOfWeek,
+	inviteType: entity.inviteType,
+	pricingType: entity.pricingType,
 
-	TotalPrice: entity.TotalPrice ?? 0
+	totalPrice: entity.totalPrice ?? 0
 });

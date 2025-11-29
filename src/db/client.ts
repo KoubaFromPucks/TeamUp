@@ -7,6 +7,7 @@ import { teamMemberTable } from './schema/team-member';
 import { venueTable } from './schema/venue';
 import { eventTable } from './schema/event';
 import * as relations from './schema/relations';
+import { eventCoorganiserTable } from './schema/event-coorganisers';
 
 const client = createClient({
 	url: process.env.DATABASE_URL!,
@@ -20,6 +21,7 @@ export const db = drizzle(client, {
 		teamMemberTable,
 		venueTable,
 		eventTable,
+		eventCoorganiserTable,
 		...relations
 	}
 });

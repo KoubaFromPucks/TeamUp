@@ -1,19 +1,19 @@
 export type EventDetailModel = {
-	Id: string;
-	VenueId: string;
-	OrganisatorId: string;
+	id: string;
+	venueId: string;
+	organisatorId: string;
 
-	Name: string;
-	StartTime: string;
-	EndTime: string;
+	name: string;
+	startTime: string;
+	endTime: string;
 
-	DayOfWeek: 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
-	InviteType: 'public' | 'private' | 'invite_only';
-	PricingType: 'pre_paid' | 'pay_as_you_go' | 'pay_later';
+	dayOfWeek: 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat' | 'Sun';
+	inviteType: 'public' | 'private' | 'invite_only';
+	pricingType: 'pre_paid' | 'pay_as_you_go' | 'pay_later';
 
-	TotalPrice: number;
+	totalPrice: number;
 };
 
 export type EventListModel = EventDetailModel;
 
-export type EventInsertModel = Omit<EventListModel, 'Id'>;
+export type EventInsertModel = Omit<EventListModel, 'id'>;

@@ -1,12 +1,12 @@
 import { sqliteTable, text, real } from 'drizzle-orm/sqlite-core';
 
 export const venueTable = sqliteTable('venues', {
-	Id: text('id')
+	id: text('id')
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
-	Name: text('name').notNull(),
-	Address: text('address').notNull(),
-	GPS: text('gps'),
-	Description: text('description'),
-	PricePerHour: real('price_per_hour').notNull().default(0)
+	name: text('name').notNull(),
+	address: text('address').notNull(),
+	gps: text('gps'),
+	description: text('description'),
+	pricePerHour: real('price_per_hour').notNull().default(0)
 });

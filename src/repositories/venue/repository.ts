@@ -16,7 +16,7 @@ export const venueRepository = {
 		const venue = await db
 			.select()
 			.from(venueTable)
-			.where(eq(venueTable.Id, venueId))
+			.where(eq(venueTable.id, venueId))
 			.limit(1);
 
 		return venue[0] as VenueSelectEntity | undefined;
@@ -34,7 +34,7 @@ export const venueRepository = {
 		const updated = await db
 			.update(venueTable)
 			.set(venueEntity)
-			.where(eq(venueTable.Id, venueId))
+			.where(eq(venueTable.id, venueId))
 			.returning();
 
 		return updated[0] as VenueSelectEntity | undefined;
@@ -43,7 +43,7 @@ export const venueRepository = {
 	async deleteVenueById(venueId: string) {
 		const deleted = await db
 			.delete(venueTable)
-			.where(eq(venueTable.Id, venueId))
+			.where(eq(venueTable.id, venueId))
 			.returning();
 
 		return deleted[0] as VenueSelectEntity | undefined;

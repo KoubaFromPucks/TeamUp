@@ -1,12 +1,12 @@
 export type VenueDetailModel = {
-	Id: string;
-	Name: string;
-	Address: string;
-	GPS: string | null;
-	Description: string | null;
-	PricePerHour: number;
+	id: string;
+	name: string;
+	address: string;
+	gps: string | null;
+	description: string | null;
+	pricePerHour: number;
 };
 
 export type VenueListModel = VenueDetailModel;
 
-export type VenueInsertModel = Omit<VenueListModel, 'Id'>;
+export type VenueInsertModel = Omit<VenueListModel, 'id'>;
