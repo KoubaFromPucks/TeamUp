@@ -100,5 +100,14 @@ export const teamRepository = {
 			.limit(1);
 
 		return membership.length > 0;
+	},
+
+	async deleteTeamById(teamId: string) {
+		const deletedTeam = await db
+			.delete(teamTable)
+			.where(eq(teamTable.id, teamId))
+			.returning();
+
+		return deletedTeam[0] as TeamSelectEntity | undefined;
 	}
 };

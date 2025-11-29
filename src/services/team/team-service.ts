@@ -85,5 +85,18 @@ export const teamService = {
 		if (!result) {
 			throw new Error('Removing user from team failed');
 		}
+	},
+
+	async deleteTeamById(teamId: string) {
+		if (!(await this.doesTeamExist(teamId))) {
+			throw new Error('Team does not exist');
+		}
+
+		const result = await teamRepository.deleteTeamById(teamId);
+		if (!result) {
+			throw new Error('Deleting team failed');
+		}
+
+		return true;
 	}
 };
