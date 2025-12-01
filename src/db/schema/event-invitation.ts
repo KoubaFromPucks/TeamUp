@@ -1,5 +1,7 @@
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { concreteEventTable } from "./concrete-event";
+import { userTable } from "..";
+import { inviteStateEnum } from "./enums/inviteState";
 
 export const eventInvitationTable = sqliteTable(
     'event_invitation',
@@ -7,12 +9,14 @@ export const eventInvitationTable = sqliteTable(
         id: text('id')
             .primaryKey()
             .$defaultFn(() => crypto.randomUUID()),
-        state: text('state')
+        state: text('state', {enum: inviteStateEnum})
             .notNull(),
         concreteEventId: text('concrete_event_id')
             .notNull()
             .references(() => concreteEventTable.id),
-            /*TODO userId */
+        userId: text('user_id')
+            .notNull()
+            .references(() => userTable.id)
     }
 );
 

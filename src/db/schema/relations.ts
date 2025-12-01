@@ -5,12 +5,15 @@ import { userTable } from './user';
 import { teamTable } from './team';
 import { teamMemberTable } from './team-member';
 import { eventCoorganiserTable } from './event-coorganisers';
+import { eventInvitationTable } from './event-invitation';
+import { concreteEventTable } from './concrete-event';
 
 export const userRelations = relations(userTable, ({ many }) => ({
 	ownedTeams: many(teamTable),
 	teamMembers: many(teamMemberTable),
 	organizedEvents: many(eventTable),
-  	coorganizedEvents: many(eventCoorganiserTable)
+  	coorganizedEvents: many(eventCoorganiserTable),
+	eventsInvitedOn: many(eventInvitationTable)
 }));
 
 export const venueRelations = relations(venueTable, ({ many }) => ({
@@ -26,7 +29,8 @@ export const eventRelations = relations(eventTable, ({ one, many }) => ({
 		fields: [eventTable.organisatorId],
 		references: [userTable.id]
 	}),
-	coorganisers: many(eventCoorganiserTable)
+	coorganisers: many(eventCoorganiserTable),
+	concreteEvents: many(concreteEventTable)
 }));
 
 export const teamRelations = relations(teamTable, ({ many, one }) => ({
@@ -59,3 +63,22 @@ export const eventCoorganiserRelations = relations(eventCoorganiserTable, ({ one
     }),
   })
 );
+
+export const eventInvitationRelations = relations(eventInvitationTable, ({ one }) => ({
+	user: one(userTable, {
+		fields: [eventInvitationTable.userId],
+		references: [userTable.id]
+	}),
+	concreteEventTable: one(concreteEventTable,{
+		fields: [eventInvitationTable.concreteEventId],
+		references: [concreteEventTable.id]
+	})
+}));
+
+export const concreteEventRelations = relations(concreteEventTable, ({ one, many }) => ({
+	event: one(eventTable, {
+		fields: [concreteEventTable.eventId],
+		references: [eventTable.id]
+	}),
+	invitations: many(eventInvitationTable)
+}));
