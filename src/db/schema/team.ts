@@ -6,7 +6,7 @@ export const teamTable = sqliteTable('teams', {
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
 	name: text('name').notNull(),
-	desc: text('desc').notNull(),
+	desc: text('desc'),
 	imageUrl: text('image_url'),
 	organizerId: text('organizer_id')
 		.notNull()

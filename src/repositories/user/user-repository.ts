@@ -24,6 +24,16 @@ export const userRepository = {
 		return user[0] as UserSelectEntity | undefined;
 	},
 
+	async getUserByMail(email: string) {
+		const user = await db
+			.select()
+			.from(userTable)
+			.where(eq(userTable.email, email))
+			.limit(1);
+
+		return user[0] as UserSelectEntity | undefined;
+	},
+
 	async getAllUsers() {
 		const users = await db.select().from(userTable);
 		return users as UserSelectEntity[];
@@ -39,6 +49,15 @@ export const userRepository = {
 	},
 
 	async getUserWithTeamsById(userId: string) {
+		const user = await db
+			.select()
+			.from(userTable)
+			.where(eq(userTable.id, userId));
+
+		if (user.length === 0) {
+			return undefined;
+		}
+
 		const adminedTeams = await db
 			.select()
 			.from(teamTable)
@@ -52,11 +71,6 @@ export const userRepository = {
 			.leftJoin(userTable, eq(teamMemberTable.userId, userTable.id))
 			.where(eq(teamMemberTable.userId, userId))
 			.all();
-
-		const user = await db
-			.select()
-			.from(userTable)
-			.where(eq(userTable.id, userId));
 
 		const userWithTeamsEntity = {
 			...user[0],

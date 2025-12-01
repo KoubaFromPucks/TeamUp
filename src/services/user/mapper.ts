@@ -7,7 +7,7 @@ import {
 import { teamMapper } from '../team/mapper';
 
 export const userMapper = {
-	mapEntityToSelectModel(entity: UserSelectEntity): UserListModel {
+	mapEntityToListModel(entity: UserSelectEntity): UserListModel {
 		return {
 			id: entity.id,
 			name: entity.name,
@@ -19,7 +19,7 @@ export const userMapper = {
 		};
 	},
 
-	mapSelectModelToEntity(model: UserListModel): UserSelectEntity {
+	mapListModelToEntity(model: UserListModel): UserSelectEntity {
 		return {
 			id: model.id,
 			name: model.name,

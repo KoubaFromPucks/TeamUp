@@ -1,5 +1,10 @@
-import { TeamListModel, TeamInsertModel } from './schema';
-import { TeamSelectEntity, TeamInsertEntity } from '@/repositories/team/schema';
+import { TeamListModel, TeamInsertModel, TeamDetailModel } from './schema';
+import {
+	TeamSelectEntity,
+	TeamInsertEntity,
+	TeamWithMembersEntity
+} from '@/repositories/team/schema';
+import { userMapper } from '../user/mapper';
 
 export const teamMapper = {
 	mapEntityToListModel(entity: TeamSelectEntity): TeamListModel {
@@ -39,6 +44,18 @@ export const teamMapper = {
 			description: entity.desc,
 			imageUrl: entity.imageUrl ?? null,
 			organizerId: entity.organizerId
+		};
+	},
+
+	mapEntityToDetailModel(entity: TeamWithMembersEntity): TeamDetailModel {
+		return {
+			id: entity.id,
+			name: entity.name,
+			description: entity.desc,
+			imageUrl: entity.imageUrl,
+			organizerId: entity.organizerId,
+			members: entity.members.map(userMapper.mapEntityToListModel),
+			organizer: userMapper.mapEntityToListModel(entity.organizer)
 		};
 	}
 };
