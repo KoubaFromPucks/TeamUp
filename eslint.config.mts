@@ -10,4 +10,11 @@ export default defineConfig([
     pluginReact.configs.flat.recommended,
     // Disable `react/prop-types` in TypeScript files because TS provides typings
     { files: ["src/**/*.{ts,tsx,mts,cts}"], rules: { "react/prop-types": "off" } },
+    {
+        settings: {
+            react: {
+                version: "detect",
+            },
+        },
+    },
 ]);
