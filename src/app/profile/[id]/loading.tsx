@@ -1,10 +1,11 @@
 'use client';
 import { LoaderCircle } from 'lucide-react';
+import React from 'react';
 
 const Loading = () => (
-	<h1 className="text-3xl font-semibold text-gray-800">
+	<h1 className="flex flex-row text-3xl font-semibold text-gray-800">
 		Loading user profile
-		<LoaderCircle className="animate-spin text-blue-500 w-8 h-8 ml-2" />
+		<LoaderCircle className="ml-2 h-8 w-8 animate-spin" />
 	</h1>
 );
 

@@ -4,102 +4,103 @@ import { teamService } from '@/services/team/team-service';
 import { TeamUpdateCreateDto, teamUpdateCreateSchema } from './schema';
 import { teamMapper } from './mapper';
 
-export const teamFacade = {
-	async createUpdateTeam(teamId: string | null, team: TeamUpdateCreateDto) {
-		const validationResult = teamUpdateCreateSchema.safeParse(team);
+export const createUpdateTeam = async (
+	teamId: string | null,
+	team: TeamUpdateCreateDto
+) => {
+	const validationResult = teamUpdateCreateSchema.safeParse(team);
 
-		if (!validationResult.success) {
-			const errors = validationResult.error.flatten().fieldErrors;
-			return { error: errors, team: null };
+	if (!validationResult.success) {
+		const errors = validationResult.error.flatten().fieldErrors;
+		return { error: errors, team: null };
+	}
+
+	let result;
+	const insertTeamDto = teamMapper.mapDtoToTeamInsertModel(
+		validationResult.data
+	);
+
+	try {
+		if (teamId) {
+			result = await teamService.updateTeamById(teamId, insertTeamDto);
+		} else {
+			result = await teamService.createTeam(insertTeamDto);
 		}
+	} catch (error) {
+		return { error: (error as Error).message, team: null };
+	}
 
-		let result;
-		const insertTeamDto = teamMapper.mapDtoToTeamInsertModel(
-			validationResult.data
-		);
+	return { error: null, team: teamMapper.mapTeamListModelToDto(result) };
+};
 
-		try {
-			if (teamId) {
-				result = await teamService.updateTeamById(teamId, insertTeamDto);
-			} else {
-				result = await teamService.createTeam(insertTeamDto);
-			}
-		} catch (error) {
-			return { error: (error as Error).message, team: null };
-		}
+export const createTeam = async (team: TeamUpdateCreateDto) => {
+	await createUpdateTeam(null, team);
+};
 
-		return { error: null, team: teamMapper.mapTeamListModelToDto(result) };
-	},
+export const updateTeam = async (teamId: string, team: TeamUpdateCreateDto) => {
+	await createUpdateTeam(teamId, team);
+};
 
-	async createTeam(team: TeamUpdateCreateDto) {
-		await this.createUpdateTeam(null, team);
-	},
+export const deleteTeam = async (teamId: string) => {
+	let result;
 
-	async updateTeam(teamId: string, team: TeamUpdateCreateDto) {
-		await this.createUpdateTeam(teamId, team);
-	},
+	try {
+		result = await teamService.deleteTeamById(teamId);
+	} catch (error) {
+		return { error: (error as Error).message, ok: false };
+	}
 
-	async deleteTeam(teamId: string) {
-		let result;
+	if (!result) {
+		return { error: 'Team could not be deleted', ok: false };
+	}
 
-		try {
-			result = await teamService.deleteTeamById(teamId);
-		} catch (error) {
-			return { error: (error as Error).message, ok: false };
-		}
+	return { error: null, ok: true };
+};
 
-		if (!result) {
-			return { error: 'Team could not be deleted', ok: false };
-		}
+export const getTeamById = async (teamId: string) => {
+	try {
+		const team = await teamService.getTeamById(teamId);
+		return { error: null, team: teamMapper.mapTeamListModelToDto(team) };
+	} catch (error) {
+		return { error: (error as Error).message, team: null };
+	}
+};
 
+export const getAllTeams = async () => {
+	try {
+		const teams = await teamService.getAllTeams();
+		return {
+			error: null,
+			teams: teams.map(teamMapper.mapTeamListModelToDto)
+		};
+	} catch (error) {
+		return { error: (error as Error).message, teams: [] };
+	}
+};
+
+export const getTeamWithMembersById = async (teamId: string) => {
+	try {
+		const team = await teamService.getTeamWithMembersById(teamId);
+		return { error: null, team: teamMapper.mapTeamDetailModelToDto(team) };
+	} catch (error) {
+		return { error: (error as Error).message, team: null };
+	}
+};
+
+export const addUserToTeam = async (teamId: string, userId: string) => {
+	try {
+		await teamService.addUserToTeam(teamId, userId);
 		return { error: null, ok: true };
-	},
+	} catch (error) {
+		return { error: (error as Error).message, ok: false };
+	}
+};
 
-	async getTeamById(teamId: string) {
-		try {
-			const team = await teamService.getTeamById(teamId);
-			return { error: null, team: teamMapper.mapTeamListModelToDto(team) };
-		} catch (error) {
-			return { error: (error as Error).message, team: null };
-		}
-	},
-
-	async getAllTeams() {
-		try {
-			const teams = await teamService.getAllTeams();
-			return {
-				error: null,
-				teams: teams.map(teamMapper.mapTeamListModelToDto)
-			};
-		} catch (error) {
-			return { error: (error as Error).message, teams: [] };
-		}
-	},
-
-	async getTeamWithMembersById(teamId: string) {
-		try {
-			const team = await teamService.getTeamWithMembersById(teamId);
-			return { error: null, team: teamMapper.mapTeamDetailModelToDto(team) };
-		} catch (error) {
-			return { error: (error as Error).message, team: null };
-		}
-	},
-
-	async addUserToTeam(teamId: string, userId: string) {
-		try {
-			await teamService.addUserToTeam(teamId, userId);
-			return { error: null, ok: true };
-		} catch (error) {
-			return { error: (error as Error).message, ok: false };
-		}
-	},
-
-	async removeUserFromTeam(teamId: string, userId: string) {
-		try {
-			await teamService.removeUserFromTeam(teamId, userId);
-			return { error: null, ok: true };
-		} catch (error) {
-			return { error: (error as Error).message, ok: false };
-		}
+export const removeUserFromTeam = async (teamId: string, userId: string) => {
+	try {
+		await teamService.removeUserFromTeam(teamId, userId);
+		return { error: null, ok: true };
+	} catch (error) {
+		return { error: (error as Error).message, ok: false };
 	}
 };

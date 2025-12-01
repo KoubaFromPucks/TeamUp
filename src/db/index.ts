@@ -6,4 +6,12 @@ import { teamMemberTable } from './schema/team-member';
 import { userTable } from './schema/user';
 import { venueTable } from './schema/venue';
 
-export { db, userTable, teamTable, teamMemberTable, venueTable, eventTable, eventCoorganiserTable };
+export {
+	db,
+	userTable,
+	teamTable,
+	teamMemberTable,
+	venueTable,
+	eventTable,
+	eventCoorganiserTable
+};

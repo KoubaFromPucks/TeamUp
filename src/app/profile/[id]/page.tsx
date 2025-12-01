@@ -1,16 +1,22 @@
-import { userService } from "@/services/user/user-service"; 
-
+import { UserCard } from '@/modules/user/components/user-card';
+import React from 'react';
+import { getUserWithTeamsById } from '@/facades/user/user-facade';
 type PageProps = { params: { id: string } };
 
 const Page = async ({ params }: PageProps) => {
-    const { id } = await params;
-    const user = await userService.getUserById(id);
-    
-    if (!user) {
-        return <div>Error: User not found</div>;
-    }
+	const { id } = await params;
+	const { error, user } = await getUserWithTeamsById(id);
 
-    return (<div className="text-green-600">Profile Page for {id}, {user.name}, {user.email}, {user.surname}, {user.nickname}, {user.phoneNumber} </div>);
+	if (!user || error) {
+		return <div>Error: User not found</div>;
+	}
+
+	return (
+		<>
+			<h1 className="mb-6 text-3xl font-semibold">User Profile</h1>
+			<UserCard {...user} />
+		</>
+	);
 };
 
 export default Page;
