@@ -19,7 +19,7 @@ const Page = async ({ params }: PageProps) => {
 	return (
 		<>
 			<h1 className="mb-6 text-3xl font-semibold">Team Detail</h1>
-			<TeamDetailCard team={team} amIAdmin={myProfile} />
+			<TeamDetailCard team={team} isUserAdmin={myProfile} />
 		</>
 	);
 };

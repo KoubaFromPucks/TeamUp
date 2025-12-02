@@ -15,16 +15,16 @@ import { useRouter } from 'next/navigation';
 
 export const TeamDetailCard = ({
 	team,
-	amIAdmin
+	isUserAdmin
 }: {
 	team: TeamDetailDto;
-	amIAdmin: boolean;
+	isUserAdmin: boolean;
 }) => {
 	const defaultImageUrl =
 		'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
 	const imageUrl =
 		team.imageUrl && team.imageUrl.length > 0 ? team.imageUrl : defaultImageUrl;
-	const [amIMember, setAmIMember] = React.useState(true); // TODO: check properly
+	const [isUserMember, setIsUserMember] = React.useState(true); // TODO: check properly
 	const currentUserId = '4475cadc-4a81-4f50-8560-d1c8f3ea7bab'; // TODO: replace with actual current user ID
 	const mutation = useLeaveTeam();
 	const router = useRouter();
@@ -35,7 +35,7 @@ export const TeamDetailCard = ({
 			{
 				onSuccess: () => {
 					toast.success('You have left the team successfully');
-					setAmIMember(false);
+					setIsUserMember(false);
 					router.push(`/team/${team.id}`);
 				},
 				onError: error => {
@@ -48,11 +48,11 @@ export const TeamDetailCard = ({
 	return (
 		<>
 			<Card
-				showLinkFlag={amIAdmin}
+				showLinkFlag={isUserAdmin}
 				linkText="Edit Team"
 				linkHref={`/team/${team.id}/edit`}
 			>
-				{amIMember && (
+				{isUserMember && (
 					<Button
 						variant={'destructive'}
 						className="absolute right-4 bottom-4"
