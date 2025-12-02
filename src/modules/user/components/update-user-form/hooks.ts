@@ -1,7 +1,6 @@
 import { UserUpdateCreateDto } from '@/facades/user/schema';
 import { useMutation } from '@tanstack/react-query';
 import { createUpdateUser } from '@/facades/user/user-facade';
-import { toast } from 'sonner';
 
 export const useUpdateUserMutation = () =>
 	useMutation({

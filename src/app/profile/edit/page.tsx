@@ -16,7 +16,7 @@ const Page = async () => {
 	return (
 		<>
 			<h1 className="mb-6 text-3xl font-semibold">User Profile</h1>
-			<UpdateUserForm user={{ ...user }} />
+			<UpdateUserForm user={{ ...user }} navPath={`/profile/${user.id}`} />
 		</>
 	);
 };

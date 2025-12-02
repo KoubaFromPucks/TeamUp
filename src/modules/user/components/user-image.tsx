@@ -1,3 +1,5 @@
+import React from "react";
+
 export const UserImage = ({ imageUrl }: { imageUrl?: string }) => (
 	<img
 		src={imageUrl}

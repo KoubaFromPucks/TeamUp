@@ -13,8 +13,15 @@ import { useUpdateUserMutation } from './hooks';
 import { FormInput } from '@/components/form/form-input';
 import { SubmitButton } from '@/components/form/submit-button';
 import { UserImage } from '../user-image';
+import { useRouter } from 'next/navigation';
 
-export const UpdateUserForm = ({ user }: { user: UserListDto }) => {
+export const UpdateUserForm = ({
+	user,
+	navPath
+}: {
+	user: UserListDto;
+	navPath: string;
+}) => {
 	const form = useForm<UserUpdateCreateDto>({
 		resolver: zodResolver(userUpdateCreateSchema),
 		defaultValues: {
@@ -28,6 +35,7 @@ export const UpdateUserForm = ({ user }: { user: UserListDto }) => {
 	});
 
 	const mutation = useUpdateUserMutation();
+	const router = useRouter();
 
 	const onSubmit = (values: UserUpdateCreateDto) => {
 		mutation.mutate(
@@ -37,6 +45,8 @@ export const UpdateUserForm = ({ user }: { user: UserListDto }) => {
 					toast.success(
 						`User '${data.name} ${data.surname}' updated successfully`
 					);
+
+					router.push(navPath);
 				},
 				onError: error => {
 					toast.error(`User update failed: ${error.message}`);
