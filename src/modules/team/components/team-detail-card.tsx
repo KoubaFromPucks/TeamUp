@@ -50,7 +50,7 @@ export const TeamDetailCard = ({
 			<Card
 				showLinkFlag={amIAdmin}
 				linkText="Edit Team"
-				linkHref={`/team/edit/${team.id}`}
+				linkHref={`/team/${team.id}/edit`}
 			>
 				{amIMember && (
 					<Button
@@ -63,8 +63,9 @@ export const TeamDetailCard = ({
 				)}
 				<CardImage imageUrl={imageUrl} />
 
-				<CardLabeledItem label="Team Name">
+				<CardLabeledItem label="Team Information">
 					<p className="font-bold text-gray-600">{team.name}</p>
+					<p className="text-gray-500">{team.desc}</p>
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Organiser">

@@ -1,6 +1,6 @@
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { concreteEventTable } from './concrete-event';
-import { userTable } from '..';
+import { userTable } from './user';
 import { inviteStateEnum } from './enums/inviteState';
 
 export const eventInvitationTable = sqliteTable('event_invitation', {

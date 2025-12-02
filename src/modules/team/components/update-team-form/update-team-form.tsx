@@ -1,0 +1,76 @@
+'use client';
+
+import React from 'react';
+import {
+	TeamDetailDto,
+	TeamUpdateCreateDto,
+	teamUpdateCreateSchema
+} from '@/facades/team/schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, FormProvider } from 'react-hook-form';
+import { FormInput } from '@/components/form/form-input';
+import { useUpdateTeamMutation } from './hooks';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { CardImage } from '@/components/card';
+import { SubmitButton } from '@/components/form/submit-button';
+
+export const UpdateTeamForm = ({
+	team,
+	navPath,
+	update
+}: {
+	team: TeamDetailDto | null;
+	navPath: string;
+	update: boolean;
+}) => {
+	const form = useForm<TeamUpdateCreateDto>({
+		resolver: zodResolver(teamUpdateCreateSchema),
+		defaultValues: {
+			name: team?.name ?? '',
+			desc: team?.desc ?? '',
+			imageUrl: team?.imageUrl ?? '',
+			organizerId: team?.organizerId ?? ''
+		}
+	});
+
+	const mutation = useUpdateTeamMutation();
+	const router = useRouter();
+
+	const onSubmit = (values: TeamUpdateCreateDto) => {
+		mutation.mutate(
+			{ data: values, id: team?.id ?? '' },
+			{
+				onSuccess: () => {
+					toast.success('Team updated successfully');
+					router.push(navPath);
+				},
+				onError: error => {
+					toast.error(`Team update failed: ${error.message}`);
+				}
+			}
+		);
+	};
+
+	const imageUrl = form.watch('imageUrl');
+
+	return (
+		<FormProvider {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+				<div className="flex flex-col gap-10 lg:flex-row">
+					<div className="lg:w-1/2">
+						<FormInput name="name" label="Name" />
+						<FormInput name="desc" label="Description" />
+						<FormInput name="imageUrl" label="Image URL" />
+					</div>
+					<div className="flex items-center justify-center lg:w-1/2">
+						<CardImage imageUrl={imageUrl} size="large" />
+					</div>
+				</div>
+				<div className="mt-3 w-full">
+					<SubmitButton text="Update profile" isLoading={mutation.isPending} />
+				</div>
+			</form>
+		</FormProvider>
+	);
+};
