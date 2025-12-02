@@ -14,6 +14,7 @@ type CardListProps = {
 
 export const CardList = ({ items, additionalContent, href }: CardListProps) => (
 	<>
+		{additionalContent}
 		{items?.length === 0 ? (
 			<p className="text-gray-600">No items</p>
 		) : (
@@ -32,6 +33,5 @@ export const CardList = ({ items, additionalContent, href }: CardListProps) => (
 				</ul>
 			</>
 		)}
-		{additionalContent}
 	</>
 );
