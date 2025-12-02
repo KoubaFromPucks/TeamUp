@@ -9,9 +9,10 @@ import {
 	CardLinkList
 } from '@/components/card';
 import { Button } from '@/components/basic-components/button';
-import { useLeaveTeam } from './hooks';
+import { useRemoveUserFromTeam } from './hooks';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { StandardLink } from '@/components/standard-link';
 
 export const TeamDetailCard = ({
 	team,
@@ -26,7 +27,7 @@ export const TeamDetailCard = ({
 		team.imageUrl && team.imageUrl.length > 0 ? team.imageUrl : defaultImageUrl;
 	const [isUserMember, setIsUserMember] = React.useState(true); // TODO: check properly
 	const currentUserId = '4475cadc-4a81-4f50-8560-d1c8f3ea7bab'; // TODO: replace with actual current user ID
-	const mutation = useLeaveTeam();
+	const mutation = useRemoveUserFromTeam();
 	const router = useRouter();
 
 	const onLeaveTeam = () => {
@@ -40,6 +41,21 @@ export const TeamDetailCard = ({
 				},
 				onError: error => {
 					toast.error(`Failed to leave team: ${error.message}`);
+				}
+			}
+		);
+	};
+
+	const onRemoveMember = (userId: string) => {
+		mutation.mutate(
+			{ teamId: team.id, userId: userId },
+			{
+				onSuccess: () => {
+					toast.success('Member has been removed from the team successfully');
+					router.push(`/team/${team.id}`);
+				},
+				onError: error => {
+					toast.error(`Failed to remove member: ${error.message}`);
 				}
 			}
 		);
@@ -81,13 +97,27 @@ export const TeamDetailCard = ({
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Members">
-					<CardLinkList
-						items={team.members.map(member => ({
-							id: member.id,
-							label: `${member.name} ${member.surname} (${member.nickname})`
-						}))}
-						href="/profile"
-					/>
+					<CardLinkList href="/profile">
+						{team.members.map(member => (
+							<li key={member.id} className="flex w-full text-black">
+								<StandardLink
+									href={`/profile/${member.id}`}
+									className="mx-0 block w-full"
+								>
+									{`${member.name} ${member.surname} (${member.nickname})`}
+								</StandardLink>
+								{isUserAdmin && (
+									<Button
+										variant="destructive"
+										className="ml-2"
+										onClick={() => onRemoveMember(member.id)}
+									>
+										X
+									</Button>
+								)}
+							</li>
+						))}
+					</CardLinkList>
 				</CardLabeledItem>
 			</Card>
 		</>

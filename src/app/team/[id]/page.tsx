@@ -6,7 +6,7 @@ type PageProps = { params: { id: string } };
 const Page = async ({ params }: PageProps) => {
 	const { id } = await params;
 	const { error, team } = await getTeamWithMembersById(id);
-	const myProfile = true; // TODO replace with actual logic
+	const isUserAdmin = true; // TODO replace with actual logic
 
 	if (!team || error) {
 		return (
@@ -19,7 +19,7 @@ const Page = async ({ params }: PageProps) => {
 	return (
 		<>
 			<h1 className="mb-6 text-3xl font-semibold">Team Detail</h1>
-			<TeamDetailCard team={team} isUserAdmin={myProfile} />
+			<TeamDetailCard team={team} isUserAdmin={isUserAdmin} />
 		</>
 	);
 };

@@ -7,15 +7,17 @@ type CardListItemType = {
 };
 
 type CardListProps = {
-	items: CardListItemType[];
+	items?: CardListItemType[];
 	additionalContent?: React.ReactNode;
 	href?: string;
+	children?: React.ReactNode;
 };
 
 export const CardLinkList = ({
 	items,
 	additionalContent,
-	href
+	href,
+	children
 }: CardListProps) => (
 	<>
 		{additionalContent}
@@ -34,6 +36,7 @@ export const CardLinkList = ({
 								href={href ?? ''}
 							/>
 						))}
+					{children}
 				</ul>
 			</>
 		)}

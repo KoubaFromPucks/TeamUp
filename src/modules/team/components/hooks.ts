@@ -1,7 +1,7 @@
 import { removeUserFromTeam } from '@/facades/team/team-facade';
 import { useMutation } from '@tanstack/react-query';
 
-export const useLeaveTeam = () =>
+export const useRemoveUserFromTeam = () =>
 	useMutation({
 		mutationFn: async ({
 			teamId,
