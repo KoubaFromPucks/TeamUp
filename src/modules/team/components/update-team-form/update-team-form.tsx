@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { CardImage } from '@/components/card';
 import { SubmitButton } from '@/components/form/submit-button';
+import { FormSelect } from '@/components/form/form-select';
 
 export const UpdateTeamForm = ({
 	team,
@@ -62,13 +63,23 @@ export const UpdateTeamForm = ({
 						<FormInput name="name" label="Name" />
 						<FormInput name="desc" label="Description" />
 						<FormInput name="imageUrl" label="Image URL" />
+						<FormSelect name="organizerId" label="Organizer ID">
+							{team?.members.map(member => (
+								<option key={member.id} value={member.id}>
+									{member.name} {member.surname} ({member.email})
+								</option>
+							))}
+						</FormSelect>
 					</div>
 					<div className="flex items-center justify-center lg:w-1/2">
 						<CardImage imageUrl={imageUrl} size="large" />
 					</div>
 				</div>
 				<div className="mt-3 w-full">
-					<SubmitButton text="Update profile" isLoading={mutation.isPending} />
+					<SubmitButton
+						text={update ? 'Update team' : 'Create team'}
+						isLoading={mutation.isPending}
+					/>
 				</div>
 			</form>
 		</FormProvider>

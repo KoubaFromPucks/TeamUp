@@ -36,6 +36,20 @@ export const teamService = {
 	},
 
 	async updateTeamById(teamId: string, teamEntity: Partial<TeamInsertModel>) {
+		const currentTeam = await teamRepository.getTeamWithMembersById(teamId);
+		if (!currentTeam) {
+			throw new Error('Team not found');
+		}
+
+		if (
+			teamEntity.organizerId &&
+			currentTeam.members.some(
+				member => member.id === teamEntity.organizerId
+			) === false
+		) {
+			throw new Error('Organizer must be a member of the team');
+		}
+
 		const updatedTeam = await teamRepository.updateTeamById(teamId, teamEntity);
 		if (!updatedTeam) {
 			throw new Error('Team update failed');
