@@ -50,7 +50,7 @@ const teamList = (teams: { id: string; name: string }[], title: string) => (
 		) : (
 			<>
 				<hr className="mb-2 border-black" />
-				<ul>{teams?.map(teamItem)}</ul>
+				<ul>{teams?.toSorted((a, b) => a.name.localeCompare(b.name)).map(teamItem)}</ul>
 			</>
 		)}
 	</>
