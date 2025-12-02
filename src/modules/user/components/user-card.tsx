@@ -74,11 +74,8 @@ const TeamList = ({
 
 const TeamItem = (team: { id: string; name: string }) => (
 	<li key={team.id} className="w-full text-black">
-		<StandardLink href="#" className="mx-0 block w-full">
+		<StandardLink href={`/team/${team.id}`} className="mx-0 block w-full">
 			{team.name}
 		</StandardLink>
-		{
-			// TODO link to team page
-		}
 	</li>
 );
