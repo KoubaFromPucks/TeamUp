@@ -1,16 +1,21 @@
+import { StandardLink } from '@/components/standard-link';
 import { UserDetailDto } from '@/facades/user/schema';
-import Link from 'next/link';
 import React from 'react';
 
-export const UserCard = (user: UserDetailDto) => {
+export const UserCard = (user: UserDetailDto, myProfile: boolean) => {
 	const defaultImageUrl =
 		'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
 	const imageUrl =
 		user.imageUrl && user.imageUrl.length > 0 ? user.imageUrl : defaultImageUrl;
-	console.log(user);
+
 	return (
 		<>
-			<div className="flex flex-col items-center rounded-lg border p-4 shadow lg:flex-row lg:items-center lg:justify-evenly">
+			<div className="relative flex flex-col items-center rounded-lg border p-4 shadow lg:flex-row lg:items-center lg:justify-evenly">
+				{myProfile && (
+					<StandardLink className="absolute top-4 right-4" href={`/profile/edit`}>
+						Edit Profile
+					</StandardLink>
+				)}
 				<img
 					src={imageUrl}
 					alt={`${user.name} ${user.surname}`}
@@ -46,13 +51,10 @@ const teamList = (teams: { id: string; name: string }[], title: string) => (
 );
 
 const teamItem = (team: { id: string; name: string }) => (
-	<li
-		key={team.id}
-		className="m-1 w-full rounded-lg border border-black p-1 text-black hover:bg-gray-200"
-	>
-		<Link href="#" className="block w-full">
+	<li key={team.id} className="w-full text-black">
+		<StandardLink href="#" className="mx-0 block w-full">
 			{team.name}
-		</Link>{' '}
+		</StandardLink>
 		{
 			// TODO link to team page
 		}

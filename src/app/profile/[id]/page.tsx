@@ -6,9 +6,14 @@ type PageProps = { params: { id: string } };
 const Page = async ({ params }: PageProps) => {
 	const { id } = await params;
 	const { error, user } = await getUserWithTeamsById(id);
+	const myProfile = true; // TODO replace with actual logic
 
 	if (!user || error) {
-		return <div>Error: User not found</div>;
+		return (
+			<h1 className="text-destructive text-3xl font-bold">
+				Error: User not found
+			</h1>
+		);
 	}
 
 	return (
