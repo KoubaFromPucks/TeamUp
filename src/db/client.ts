@@ -6,6 +6,8 @@ import { teamTable } from './schema/team';
 import { teamMemberTable } from './schema/team-member';
 import { venueTable } from './schema/venue';
 import { eventTable } from './schema/event';
+import { concreteEventTable } from './schema/concrete-event';
+import { eventInvitationTable } from './schema/event-invitation';
 import * as relations from './schema/relations';
 import { eventCoorganiserTable } from './schema/event-coorganisers';
 
@@ -22,6 +24,8 @@ export const db = drizzle(client, {
 		venueTable,
 		eventTable,
 		eventCoorganiserTable,
+		concreteEventTable,
+		eventInvitationTable,
 		...relations
 	}
 });
