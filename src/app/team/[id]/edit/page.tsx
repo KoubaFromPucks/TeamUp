@@ -3,7 +3,7 @@ import React from 'react';
 import { ChevronLeft } from 'lucide-react';
 import { CircleOff } from 'lucide-react';
 import { getTeamWithMembersById } from '@/facades/team/team-facade';
-import { UpdateTeamForm } from '@/modules/team/components/update-team-form';
+import { UpdateTeamForm } from '@/modules/team/components';
 
 type PageProps = { params: { id: string } };
 
