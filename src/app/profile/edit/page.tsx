@@ -5,7 +5,9 @@ import { ChevronLeft } from 'lucide-react';
 import { CircleOff } from 'lucide-react';
 
 const Page = async () => {
-	const { error, user } = await getUserById('user_1_uuid'); // TODO: replace with actual user ID
+	const { error, user } = await getUserById(
+		'fc06e91f-d36b-41ff-a42f-be1be694ec83'
+	); // TODO: replace with actual user ID
 	const returnPath = `/profile/${user?.id}`;
 
 	if (!user || error) {

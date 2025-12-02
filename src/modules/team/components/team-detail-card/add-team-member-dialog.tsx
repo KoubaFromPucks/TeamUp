@@ -6,7 +6,7 @@ import {
 	DialogTrigger,
 	DialogContent,
 	DialogTitle
-} from '@/components/basic-components/dialog';
+} from '@/components/dialog/dialog';
 import { Button } from '@/components/basic-components/button';
 import { useState } from 'react';
 import { BasicInput } from '@/components/basic-components/basic-input';

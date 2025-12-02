@@ -15,7 +15,7 @@ type CardImageProps = {
 
 export const CardImage = ({ imageUrl, size = 'large' }: CardImageProps) => (
 	<img
-		src={imageUrl}
+		src={imageUrl ?? undefined}
 		alt="User image"
 		className={`mb-4 rounded-full object-cover ${sizeClasses[size]}`}
 	/>

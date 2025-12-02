@@ -28,7 +28,7 @@ export const UserCard = ({
 			<Card>
 				{myProfile && (
 					<CardHeader>
-						<StandardLink href="/profile/edit">Edit Profile</StandardLink>
+						<StandardLink href={`/profile/edit`}>Edit Profile</StandardLink>
 					</CardHeader>
 				)}
 				<CardContent>

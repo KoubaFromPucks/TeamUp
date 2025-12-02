@@ -30,7 +30,7 @@ export const UpdateUserForm = ({
 			nickname: user?.nickname ?? '',
 			email: user?.email ?? '',
 			phoneNumber: user?.phoneNumber ?? '',
-			imageUrl: user?.imageUrl ?? ''
+			imageUrl: user?.imageUrl ?? null
 		}
 	});
 
@@ -70,7 +70,7 @@ export const UpdateUserForm = ({
 						<FormInput name="imageUrl" label="Image URL" />
 					</div>
 					<div className="flex items-center justify-center lg:w-1/2">
-						<CardImage imageUrl={imageUrl} size="large" />
+						<CardImage imageUrl={imageUrl ?? undefined} size="large" />
 					</div>
 				</div>
 				<div className="mt-3 w-full">

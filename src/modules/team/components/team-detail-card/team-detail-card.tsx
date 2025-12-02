@@ -8,13 +8,14 @@ import {
 	CardLabeledItem,
 	CardLinkList
 } from '@/components/card';
-import { Button } from '@/components/basic-components/button';
+import { X } from 'lucide-react';
 import { useRemoveUserFromTeamMutation } from './hooks';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { StandardLink } from '@/components/standard-link';
 import { AddTeamMemberDialog } from './add-team-member-dialog';
 import { CardContent, CardFooter, CardHeader } from '@/components/card/card';
+import { ConfirmDialog } from '@/components/dialog/confirm-dialog';
 
 export const TeamDetailCard = ({
 	team,
@@ -28,7 +29,7 @@ export const TeamDetailCard = ({
 	const imageUrl =
 		team.imageUrl && team.imageUrl.length > 0 ? team.imageUrl : defaultImageUrl;
 	const [isUserMember, setIsUserMember] = React.useState(true); // TODO: check properly
-	const currentUserId = '4475cadc-4a81-4f50-8560-d1c8f3ea7bab'; // TODO: replace with actual current user ID
+	const currentUserId = 'fc06e91f-d36b-41ff-a42f-be1be694ec83'; // TODO: replace with actual current user ID
 	const mutation = useRemoveUserFromTeamMutation();
 	const router = useRouter();
 
@@ -113,13 +114,11 @@ export const TeamDetailCard = ({
 										{`${member.name} ${member.surname} (${member.nickname})`}
 									</StandardLink>
 									{isUserAdmin && (
-										<Button
-											variant="destructive"
-											className="ml-2"
-											onClick={() => onRemoveMember(member.id)}
-										>
-											X
-										</Button>
+										<ConfirmDialog
+											onConfirm={() => onRemoveMember(member.id)}
+											question={`Are you sure you want to remove ${member.name} ${member.surname}?`}
+											triggerContent={<X />}
+										/>
 									)}
 								</li>
 							))}
@@ -129,9 +128,11 @@ export const TeamDetailCard = ({
 
 				{isUserMember && (
 					<CardFooter>
-						<Button variant={'destructive'} onClick={() => onLeaveTeam()}>
-							Leave Team
-						</Button>
+						<ConfirmDialog
+							onConfirm={onLeaveTeam}
+							question="Are you sure you want to leave the team?"
+							triggerContent="Leave Team"
+						/>
 					</CardFooter>
 				)}
 			</Card>
