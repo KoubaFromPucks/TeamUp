@@ -16,5 +16,3 @@ export const teamMemberTable = sqliteTable(
 	},
 	table => [primaryKey({ columns: [table.userId, table.teamId] })]
 );
-
-export type DrizzleTeamMember = typeof teamMemberTable.$inferSelect;
