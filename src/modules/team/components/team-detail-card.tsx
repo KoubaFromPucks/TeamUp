@@ -9,10 +9,11 @@ import {
 	CardLinkList
 } from '@/components/card';
 import { Button } from '@/components/basic-components/button';
-import { useRemoveUserFromTeam } from './hooks';
+import { useRemoveUserFromTeamMutation } from './hooks';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { StandardLink } from '@/components/standard-link';
+import { AddTeamMemberDialog } from './add-team-member-dialog';
 
 export const TeamDetailCard = ({
 	team,
@@ -27,7 +28,7 @@ export const TeamDetailCard = ({
 		team.imageUrl && team.imageUrl.length > 0 ? team.imageUrl : defaultImageUrl;
 	const [isUserMember, setIsUserMember] = React.useState(true); // TODO: check properly
 	const currentUserId = '4475cadc-4a81-4f50-8560-d1c8f3ea7bab'; // TODO: replace with actual current user ID
-	const mutation = useRemoveUserFromTeam();
+	const mutation = useRemoveUserFromTeamMutation();
 	const router = useRouter();
 
 	const onLeaveTeam = () => {
@@ -46,6 +47,7 @@ export const TeamDetailCard = ({
 		);
 	};
 
+	// TODO refaktorovat
 	const onRemoveMember = (userId: string) => {
 		mutation.mutate(
 			{ teamId: team.id, userId: userId },
@@ -63,6 +65,7 @@ export const TeamDetailCard = ({
 
 	return (
 		<>
+			{/* TODO predelat z absolute - takhle se pod nej dostanou membrove */}
 			<Card
 				showLinkFlag={isUserAdmin}
 				linkText="Edit team informations"
@@ -75,6 +78,7 @@ export const TeamDetailCard = ({
 						onClick={() => onLeaveTeam()}
 					>
 						Leave Team
+						{/* TODO predelat z absolute - takhle se pod nej dostanou membrove */}
 					</Button>
 				)}
 				<CardImage imageUrl={imageUrl} />
@@ -97,7 +101,15 @@ export const TeamDetailCard = ({
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Members">
-					<CardLinkList href="/profile">
+					<CardLinkList
+						href="/profile"
+						additionalContent={
+							<AddTeamMemberDialog
+								teamId={team.id}
+								onSuccess={() => router.push(`/team/${team.id}`)}
+							/>
+						}
+					>
 						{team.members.map(member => (
 							<li key={member.id} className="flex w-full text-black">
 								<StandardLink

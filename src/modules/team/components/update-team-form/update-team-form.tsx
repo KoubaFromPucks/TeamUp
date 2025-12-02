@@ -63,7 +63,7 @@ export const UpdateTeamForm = ({
 						<FormInput name="name" label="Name" />
 						<FormInput name="desc" label="Description" />
 						<FormInput name="imageUrl" label="Image URL" />
-						<FormSelect name="organizerId" label="Organizer ID">
+						<FormSelect name="organizerId" label="Organizer">
 							{team?.members.map(member => (
 								<option key={member.id} value={member.id}>
 									{member.name} {member.surname} ({member.email})

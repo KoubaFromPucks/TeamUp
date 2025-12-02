@@ -76,6 +76,10 @@ export const teamService = {
 			throw new Error('User does not exist');
 		}
 
+		if (await teamRepository.isUserInTeam(teamId, userId)) {
+			throw new Error('User is already in the team');
+		}
+
 		const result = await teamRepository.addUserToTeam(teamId, userId);
 		if (!result) {
 			throw new Error('Adding user to team failed');

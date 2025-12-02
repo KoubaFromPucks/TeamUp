@@ -55,6 +55,19 @@ export const getUserById = async (userId: string) => {
 	}
 };
 
+export const getUserByMail = async (email: string) => {
+	try {
+		const user = await userService.getUserByMail(email);
+		if (!user) {
+			return { error: 'User not found', user: null };
+		}
+
+		return { error: null, user: userMapper.mapUserListModelToDto(user) };
+	} catch (error) {
+		return { error: (error as Error).message, user: null };
+	}
+};
+
 export const getAllUsers = async () => {
 	try {
 		const users = await userService.getAllUsers();
