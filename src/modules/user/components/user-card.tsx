@@ -2,6 +2,7 @@ import { StandardLink } from '@/components/standard-link';
 import { UserDetailDto } from '@/facades/user/schema';
 import React from 'react';
 import { CardImage } from '@/components/card-image';
+import { Button } from '@/components/basic-components/button';
 
 export const UserCard = ({
 	user,
@@ -15,6 +16,7 @@ export const UserCard = ({
 	const imageUrl =
 		user.imageUrl && user.imageUrl.length > 0 ? user.imageUrl : defaultImageUrl;
 
+	// TODO Create team button should redirect to team creation page
 	return (
 		<>
 			<div className="relative flex flex-col items-center rounded-lg border p-4 shadow lg:flex-row lg:items-center lg:justify-evenly">
@@ -35,14 +37,30 @@ export const UserCard = ({
 					<p className="text-gray-600">{user.email}</p>
 					<p className="text-gray-600">{user.phoneNumber}</p>
 				</div>
-				<div>{teamList(user.adminedTeams, 'Admined Teams')}</div>
-				<div>{teamList(user.memberTeams, 'Membered Teams')}</div>
+				<div>
+					<TeamList
+						teams={user.adminedTeams}
+						title="Admined Teams"
+						additionalContent={<Button className="w-full">Create team</Button>}
+					/>
+				</div>
+				<div>
+					<TeamList teams={user.memberTeams} title="Membered Teams" />
+				</div>
 			</div>
 		</>
 	);
 };
 
-const teamList = (teams: { id: string; name: string }[], title: string) => (
+const TeamList = ({
+	teams,
+	title,
+	additionalContent
+}: {
+	teams: { id: string; name: string }[];
+	title: string;
+	additionalContent?: React.ReactNode;
+}) => (
 	<>
 		<h2 className="mb-2 text-xl font-bold">{title}</h2>
 		{teams?.length === 0 ? (
@@ -50,13 +68,18 @@ const teamList = (teams: { id: string; name: string }[], title: string) => (
 		) : (
 			<>
 				<hr className="mb-2 border-black" />
-				<ul>{teams?.toSorted((a, b) => a.name.localeCompare(b.name)).map(teamItem)}</ul>
+				<ul>
+					{teams
+						?.toSorted((a, b) => a.name.localeCompare(b.name))
+						.map(TeamItem)}
+				</ul>
 			</>
 		)}
+		{additionalContent}
 	</>
 );
 
-const teamItem = (team: { id: string; name: string }) => (
+const TeamItem = (team: { id: string; name: string }) => (
 	<li key={team.id} className="w-full text-black">
 		<StandardLink href="#" className="mx-0 block w-full">
 			{team.name}

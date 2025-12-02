@@ -1,8 +1,8 @@
 import React from 'react';
 
-const sizeVariants = ['small', 'medium', 'large'] as const;
+type SizeVariant = 'small' | 'medium' | 'large';
 
-const sizeClasses: Record<typeof sizeVariants[number], string> = {
+const sizeClasses: Record<SizeVariant, string> = {
 	small: 'h-20 w-20',
 	medium: 'h-40 w-40',
 	large: 'h-80 w-80'
@@ -10,7 +10,7 @@ const sizeClasses: Record<typeof sizeVariants[number], string> = {
 
 type CardImageProps = {
 	imageUrl?: string;
-	size?: typeof sizeVariants[number];
+	size?: SizeVariant;
 };
 
 export const CardImage = ({ imageUrl, size = 'large' }: CardImageProps) => (
