@@ -1,8 +1,7 @@
 import React from 'react';
-import { StandardLink } from '@/components/standard-link';
 import { UserDetailDto } from '@/facades/user/schema';
 import { Button } from '@/components/basic-components/button';
-import { Card, CardImage, CardLabeledItem } from '@/components/card';
+import { Card, CardImage, CardLabeledItem, CardList } from '@/components/card';
 
 export const UserCard = ({
 	user,
@@ -35,47 +34,26 @@ export const UserCard = ({
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Admined Teams">
-					<TeamList
-						teams={user.adminedTeams}
+					<CardList
+						items={user.adminedTeams.map(team => ({
+							id: team.id,
+							label: team.name
+						}))}
+						href="/team"
 						additionalContent={<Button className="w-full">Create team</Button>}
 					/>
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Membered Teams">
-					<TeamList teams={user.memberTeams} />
+					<CardList
+						href="/team"
+						items={user.memberTeams.map(team => ({
+							id: team.id,
+							label: team.name
+						}))}
+					/>
 				</CardLabeledItem>
 			</Card>
 		</>
 	);
 };
-
-const TeamList = ({
-	teams,
-	additionalContent
-}: {
-	teams: { id: string; name: string }[];
-	additionalContent?: React.ReactNode;
-}) => (
-	<>
-		{teams?.length === 0 ? (
-			<p className="text-gray-600">No teams</p>
-		) : (
-			<>
-				<ul>
-					{teams
-						?.toSorted((a, b) => a.name.localeCompare(b.name))
-						.map(TeamItem)}
-				</ul>
-			</>
-		)}
-		{additionalContent}
-	</>
-);
-
-const TeamItem = (team: { id: string; name: string }) => (
-	<li key={team.id} className="w-full text-black">
-		<StandardLink href={`/team/${team.id}`} className="mx-0 block w-full">
-			{team.name}
-		</StandardLink>
-	</li>
-);

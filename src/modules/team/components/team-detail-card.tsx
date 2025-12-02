@@ -1,8 +1,6 @@
 import React from 'react';
-import { StandardLink } from '@/components/standard-link';
 import { TeamDetailDto } from '@/facades/team/schema';
-import { UserListDto } from '@/facades/user/schema';
-import { Card, CardImage, CardLabeledItem } from '@/components/card';
+import { Card, CardImage, CardLabeledItem, CardList } from '@/components/card';
 
 export const TeamDetailCard = ({
 	team,
@@ -30,50 +28,27 @@ export const TeamDetailCard = ({
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Organiser">
-					<MemberLink member={team.organizer} />
+					<CardList
+						items={[
+							{
+								id: team.organizer.id,
+								label: `${team.organizer.name} ${team.organizer.surname} (${team.organizer.nickname})`
+							}
+						]}
+						href="/profile"
+					/>
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Members">
-					<MemberList members={team.members} />
+					<CardList
+						items={team.members.map(member => ({
+							id: member.id,
+							label: `${member.name} ${member.surname} (${member.nickname})`
+						}))}
+						href="/profile"
+					/>
 				</CardLabeledItem>
 			</Card>
 		</>
 	);
 };
-
-const MemberList = ({
-	members,
-	additionalContent
-}: {
-	members: UserListDto[];
-	additionalContent?: React.ReactNode;
-}) => (
-	<>
-		{members?.length === 0 ? (
-			<p className="text-gray-600">No members</p>
-		) : (
-			<>
-				<ul>
-					{members
-						?.toSorted((a, b) => a.name.localeCompare(b.name))
-						.map(member => (
-							<MemberItem key={member.id} member={member} />
-						))}
-				</ul>
-			</>
-		)}
-		{additionalContent}
-	</>
-);
-
-const MemberItem = ({ member }: { member: UserListDto }) => (
-	<li key={member.id} className="w-full text-black">
-		<MemberLink member={member} />
-	</li>
-);
-
-const MemberLink = ({ member }: { member: UserListDto }) => (
-	<StandardLink href={`/profile/${member.id}`} className="block">
-		{member.name} {member.surname} ({member.nickname})
-	</StandardLink>
-);
