@@ -49,7 +49,7 @@ export const TeamDetailCard = ({
 		<>
 			<Card
 				showLinkFlag={isUserAdmin}
-				linkText="Edit Team"
+				linkText="Edit team informations"
 				linkHref={`/team/${team.id}/edit`}
 			>
 				{isUserMember && (
