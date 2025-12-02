@@ -1,8 +1,15 @@
 import { StandardLink } from '@/components/standard-link';
 import { UserDetailDto } from '@/facades/user/schema';
 import React from 'react';
+import { UserImage } from './user-image';
 
-export const UserCard = (user: UserDetailDto, myProfile: boolean) => {
+export const UserCard = ({
+	user,
+	myProfile
+}: {
+	user: UserDetailDto;
+	myProfile: boolean;
+}) => {
 	const defaultImageUrl =
 		'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
 	const imageUrl =
@@ -12,15 +19,14 @@ export const UserCard = (user: UserDetailDto, myProfile: boolean) => {
 		<>
 			<div className="relative flex flex-col items-center rounded-lg border p-4 shadow lg:flex-row lg:items-center lg:justify-evenly">
 				{myProfile && (
-					<StandardLink className="absolute top-4 right-4" href={`/profile/edit`}>
+					<StandardLink
+						className="absolute top-4 right-4"
+						href={`/profile/edit`}
+					>
 						Edit Profile
 					</StandardLink>
 				)}
-				<img
-					src={imageUrl}
-					alt={`${user.name} ${user.surname}`}
-					className="mb-4 h-80 w-80 rounded-full object-cover"
-				/>
+				<UserImage imageUrl={imageUrl} />
 				<div className="text-center lg:text-left">
 					<h2 className="text-xl font-bold">
 						{user.name} {user.surname}

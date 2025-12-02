@@ -7,7 +7,7 @@ export type UserDetailModel = {
 	nickname: string;
 	email: string;
 	phoneNumber: string | null;
-	avatarUrl: string | null;
+	imageUrl: string | null;
 	adminedTeams: TeamListModel[];
 	memberTeams: TeamListModel[];
 };

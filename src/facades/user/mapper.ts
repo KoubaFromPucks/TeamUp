@@ -15,7 +15,7 @@ export const userMapper = {
 			nickname: model.nickname,
 			email: model.email,
 			phoneNumber: model.phoneNumber ?? undefined,
-			imageUrl: model.avatarUrl ?? undefined,
+			imageUrl: model.imageUrl ?? undefined,
 			adminedTeams: model.adminedTeams.map(teamMapper.mapTeamListModelToDto),
 			memberTeams: model.memberTeams.map(teamMapper.mapTeamListModelToDto)
 		};
@@ -29,7 +29,7 @@ export const userMapper = {
 			nickname: model.nickname,
 			email: model.email,
 			phoneNumber: model.phoneNumber ?? undefined,
-			imageUrl: model.avatarUrl ?? undefined
+			imageUrl: model.imageUrl ?? undefined
 		};
 	},
 
@@ -41,7 +41,7 @@ export const userMapper = {
 			nickname: dto.nickname,
 			email: dto.email,
 			phoneNumber: dto.phoneNumber ?? null,
-			avatarUrl: dto.imageUrl ?? null
+			imageUrl: dto.imageUrl ?? null
 		};
 	},
 
@@ -52,7 +52,7 @@ export const userMapper = {
 			nickname: dto.nickname,
 			email: dto.email,
 			phoneNumber: dto.phoneNumber ?? null,
-			avatarUrl: dto.imageUrl ?? null
+			imageUrl: dto.imageUrl ?? null
 		};
 	}
 };

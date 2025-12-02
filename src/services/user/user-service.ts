@@ -39,7 +39,7 @@ export const userService = {
 	},
 
 	async updateUserById(userId: string, user: Partial<UserInsertModel>) {
-		if (!(await this.doesUserExist(userId))) {
+		if (!(await this.getUserById(userId))) {
 			throw new Error('User does not exist');
 		}
 
