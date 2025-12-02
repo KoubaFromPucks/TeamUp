@@ -7,6 +7,8 @@ import {
 	CardLabeledItem,
 	CardLinkList
 } from '@/components/card';
+import { CardContent, CardHeader } from '@/components/card/card';
+import { StandardLink } from '@/components/standard-link';
 
 export const UserCard = ({
 	user,
@@ -23,41 +25,46 @@ export const UserCard = ({
 	// TODO Create team button should redirect to team creation page
 	return (
 		<>
-			<Card
-				showLinkFlag={myProfile}
-				linkText="Edit Profile"
-				linkHref="/profile/edit"
-			>
-				<CardImage imageUrl={imageUrl} />
-				<CardLabeledItem label="User informations">
-					<h2 className="text-xl font-bold">
-						{user.name} {user.surname}
-					</h2>
-					<p className="text-gray-600">@{user.nickname}</p>
-					<p className="text-gray-600">{user.email}</p>
-					<p className="text-gray-600">{user.phoneNumber}</p>
-				</CardLabeledItem>
+			<Card>
+				{myProfile && (
+					<CardHeader>
+						<StandardLink href="/profile/edit">Edit Profile</StandardLink>
+					</CardHeader>
+				)}
+				<CardContent>
+					<CardImage imageUrl={imageUrl} />
+					<CardLabeledItem label="User informations">
+						<h2 className="text-xl font-bold">
+							{user.name} {user.surname}
+						</h2>
+						<p className="text-gray-600">@{user.nickname}</p>
+						<p className="text-gray-600">{user.email}</p>
+						<p className="text-gray-600">{user.phoneNumber}</p>
+					</CardLabeledItem>
 
-				<CardLabeledItem label="Admined Teams">
-					<CardLinkList
-						items={user.adminedTeams.map(team => ({
-							id: team.id,
-							label: team.name
-						}))}
-						href="/team"
-						additionalContent={<Button className="w-full">Create team</Button>}
-					/>
-				</CardLabeledItem>
+					<CardLabeledItem label="Admined Teams">
+						<CardLinkList
+							items={user.adminedTeams.map(team => ({
+								id: team.id,
+								label: team.name
+							}))}
+							href="/team"
+							additionalContent={
+								<Button className="w-full">Create team</Button>
+							}
+						/>
+					</CardLabeledItem>
 
-				<CardLabeledItem label="Membered Teams">
-					<CardLinkList
-						href="/team"
-						items={user.memberTeams.map(team => ({
-							id: team.id,
-							label: team.name
-						}))}
-					/>
-				</CardLabeledItem>
+					<CardLabeledItem label="Membered Teams">
+						<CardLinkList
+							href="/team"
+							items={user.memberTeams.map(team => ({
+								id: team.id,
+								label: team.name
+							}))}
+						/>
+					</CardLabeledItem>
+				</CardContent>
 			</Card>
 		</>
 	);

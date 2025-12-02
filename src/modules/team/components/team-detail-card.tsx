@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { StandardLink } from '@/components/standard-link';
 import { AddTeamMemberDialog } from './add-team-member-dialog';
+import { CardContent, CardFooter, CardHeader } from '@/components/card/card';
 
 export const TeamDetailCard = ({
 	team,
@@ -65,72 +66,74 @@ export const TeamDetailCard = ({
 
 	return (
 		<>
-			{/* TODO predelat z absolute - takhle se pod nej dostanou membrove */}
-			<Card
-				showLinkFlag={isUserAdmin}
-				linkText="Edit team informations"
-				linkHref={`/team/${team.id}/edit`}
-			>
-				{isUserMember && (
-					<Button
-						variant={'destructive'}
-						className="absolute right-4 bottom-4"
-						onClick={() => onLeaveTeam()}
-					>
-						Leave Team
-						{/* TODO predelat z absolute - takhle se pod nej dostanou membrove */}
-					</Button>
+			<Card>
+				{isUserAdmin && (
+					<CardHeader>
+						<StandardLink href={`/team/${team.id}/edit`}>
+							Update Team Info
+						</StandardLink>
+					</CardHeader>
 				)}
-				<CardImage imageUrl={imageUrl} />
+				<CardContent>
+					<CardImage imageUrl={imageUrl} />
 
-				<CardLabeledItem label="Team Information">
-					<p className="font-bold text-gray-600">{team.name}</p>
-					<p className="text-gray-500">{team.desc}</p>
-				</CardLabeledItem>
+					<CardLabeledItem label="Team Information">
+						<p className="font-bold text-gray-600">{team.name}</p>
+						<p className="text-gray-500">{team.desc}</p>
+					</CardLabeledItem>
 
-				<CardLabeledItem label="Organiser">
-					<CardLinkList
-						items={[
-							{
-								id: team.organizer.id,
-								label: `${team.organizer.name} ${team.organizer.surname} (${team.organizer.nickname})`
+					<CardLabeledItem label="Organiser">
+						<CardLinkList
+							items={[
+								{
+									id: team.organizer.id,
+									label: `${team.organizer.name} ${team.organizer.surname} (${team.organizer.nickname})`
+								}
+							]}
+							href="/profile"
+						/>
+					</CardLabeledItem>
+
+					<CardLabeledItem label="Members">
+						<CardLinkList
+							href="/profile"
+							additionalContent={
+								<AddTeamMemberDialog
+									teamId={team.id}
+									onSuccess={() => router.push(`/team/${team.id}`)}
+								/>
 							}
-						]}
-						href="/profile"
-					/>
-				</CardLabeledItem>
-
-				<CardLabeledItem label="Members">
-					<CardLinkList
-						href="/profile"
-						additionalContent={
-							<AddTeamMemberDialog
-								teamId={team.id}
-								onSuccess={() => router.push(`/team/${team.id}`)}
-							/>
-						}
-					>
-						{team.members.map(member => (
-							<li key={member.id} className="flex w-full text-black">
-								<StandardLink
-									href={`/profile/${member.id}`}
-									className="mx-0 block w-full"
-								>
-									{`${member.name} ${member.surname} (${member.nickname})`}
-								</StandardLink>
-								{isUserAdmin && (
-									<Button
-										variant="destructive"
-										className="ml-2"
-										onClick={() => onRemoveMember(member.id)}
+						>
+							{team.members.map(member => (
+								<li key={member.id} className="flex w-full text-black">
+									<StandardLink
+										href={`/profile/${member.id}`}
+										className="mx-0 block w-full"
 									>
-										X
-									</Button>
-								)}
-							</li>
-						))}
-					</CardLinkList>
-				</CardLabeledItem>
+										{`${member.name} ${member.surname} (${member.nickname})`}
+									</StandardLink>
+									{isUserAdmin && (
+										<Button
+											variant="destructive"
+											className="ml-2"
+											onClick={() => onRemoveMember(member.id)}
+										>
+											X
+										</Button>
+									)}
+								</li>
+							))}
+						</CardLinkList>
+					</CardLabeledItem>
+				</CardContent>
+
+				{isUserMember && (
+					<CardFooter>
+						<Button variant={'destructive'} onClick={() => onLeaveTeam()}>
+							Leave Team
+						</Button>
+					</CardFooter>
+				)}
 			</Card>
 		</>
 	);

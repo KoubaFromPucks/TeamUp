@@ -11,6 +11,3 @@ export const userTable = sqliteTable('users', {
 	phoneNumber: text('phone_number'),
 	imageUrl: text('image_url')
 });
-
-// TODO vazby (co)organizator
-// TODO vazby eventInvitation
