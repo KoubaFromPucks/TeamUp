@@ -3,6 +3,7 @@ import { UserDetailDto } from '@/facades/user/schema';
 import React from 'react';
 import { CardImage } from '@/components/card-image';
 import { Button } from '@/components/basic-components/button';
+import { CardLabeledItem } from '@/components/card-labeled-Item';
 
 export const UserCard = ({
 	user,
@@ -19,7 +20,7 @@ export const UserCard = ({
 	// TODO Create team button should redirect to team creation page
 	return (
 		<>
-			<div className="relative flex flex-col items-center rounded-lg border p-4 shadow lg:flex-row lg:items-center lg:justify-evenly">
+			<div className="relative flex flex-col items-center rounded-lg border p-4 shadow lg:flex-row lg:justify-evenly">
 				{myProfile && (
 					<StandardLink
 						className="absolute top-4 right-4"
@@ -29,24 +30,25 @@ export const UserCard = ({
 					</StandardLink>
 				)}
 				<CardImage imageUrl={imageUrl} />
-				<div className="text-center lg:text-left">
+				<CardLabeledItem label="User informations">
 					<h2 className="text-xl font-bold">
 						{user.name} {user.surname}
 					</h2>
 					<p className="text-gray-600">@{user.nickname}</p>
 					<p className="text-gray-600">{user.email}</p>
 					<p className="text-gray-600">{user.phoneNumber}</p>
-				</div>
-				<div>
+				</CardLabeledItem>
+
+				<CardLabeledItem label="Admined Teams">
 					<TeamList
 						teams={user.adminedTeams}
-						title="Admined Teams"
 						additionalContent={<Button className="w-full">Create team</Button>}
 					/>
-				</div>
-				<div>
-					<TeamList teams={user.memberTeams} title="Membered Teams" />
-				</div>
+				</CardLabeledItem>
+
+				<CardLabeledItem label="Membered Teams">
+					<TeamList teams={user.memberTeams} />
+				</CardLabeledItem>
 			</div>
 		</>
 	);
@@ -54,20 +56,16 @@ export const UserCard = ({
 
 const TeamList = ({
 	teams,
-	title,
 	additionalContent
 }: {
 	teams: { id: string; name: string }[];
-	title: string;
 	additionalContent?: React.ReactNode;
 }) => (
 	<>
-		<h2 className="mb-2 text-xl font-bold">{title}</h2>
 		{teams?.length === 0 ? (
 			<p className="text-gray-600">No teams</p>
 		) : (
 			<>
-				<hr className="mb-2 border-black" />
 				<ul>
 					{teams
 						?.toSorted((a, b) => a.name.localeCompare(b.name))
