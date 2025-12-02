@@ -25,7 +25,7 @@ export const TeamDetailCard = ({
 	const imageUrl =
 		team.imageUrl && team.imageUrl.length > 0 ? team.imageUrl : defaultImageUrl;
 	const [amIMember, setAmIMember] = React.useState(true); // TODO: check properly
-	const currentUserId = 'user_1_uuid'; // TODO: replace with actual current user ID
+	const currentUserId = '4475cadc-4a81-4f50-8560-d1c8f3ea7bab'; // TODO: replace with actual current user ID
 	const mutation = useLeaveTeam();
 	const router = useRouter();
 
