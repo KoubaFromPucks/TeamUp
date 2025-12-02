@@ -1,7 +1,7 @@
 import { StandardLink } from '@/components/standard-link';
 import { UserDetailDto } from '@/facades/user/schema';
 import React from 'react';
-import { UserImage } from './user-image';
+import { CardImage } from '@/components/card-image';
 
 export const UserCard = ({
 	user,
@@ -26,7 +26,7 @@ export const UserCard = ({
 						Edit Profile
 					</StandardLink>
 				)}
-				<UserImage imageUrl={imageUrl} />
+				<CardImage imageUrl={imageUrl} />
 				<div className="text-center lg:text-left">
 					<h2 className="text-xl font-bold">
 						{user.name} {user.surname}

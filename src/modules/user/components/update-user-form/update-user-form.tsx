@@ -12,8 +12,8 @@ import {
 import { useUpdateUserMutation } from './hooks';
 import { FormInput } from '@/components/form/form-input';
 import { SubmitButton } from '@/components/form/submit-button';
-import { UserImage } from '../user-image';
 import { useRouter } from 'next/navigation';
+import { CardImage } from '@/components/card-image';
 
 export const UpdateUserForm = ({
 	user,
@@ -70,7 +70,7 @@ export const UpdateUserForm = ({
 						<FormInput name="imageUrl" label="Image URL" />
 					</div>
 					<div className="flex items-center justify-center lg:w-1/2">
-						<UserImage imageUrl={imageUrl} />
+						<CardImage imageUrl={imageUrl} size="large" />
 					</div>
 				</div>
 				<div className="mt-3 w-full">
