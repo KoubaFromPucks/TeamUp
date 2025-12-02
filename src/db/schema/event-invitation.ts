@@ -19,5 +19,3 @@ export const eventInvitationTable = sqliteTable(
             .references(() => userTable.id)
     }
 );
-
-export type DrizzleEventInvitation = typeof eventInvitationTable.$inferSelect;

@@ -16,5 +16,3 @@ export const concreteEventTable = sqliteTable(
         endDate: text('end_date').notNull().default(sql`CURRENT_TIMESTAMP`)
     }
 );
-
-export type DrizzleConcreteEvent = typeof concreteEventTable.$inferSelect;

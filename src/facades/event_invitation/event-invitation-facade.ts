@@ -76,10 +76,8 @@ export const getAllEventInvitation = async() => {
 }
 
 export const deleteEventInvitation = async(eventInvitationId: string) => {
-    let result;
-
     try{
-        result = await eventInvitationService.deleteEventInvitation(eventInvitationId);
+        const result = await eventInvitationService.deleteEventInvitation(eventInvitationId);
         if(!result){
             return {error: 'Event invitation could not be deleted', ok: false}
         }
