@@ -1,9 +1,8 @@
+import React from 'react';
 import { StandardLink } from '@/components/standard-link';
 import { UserDetailDto } from '@/facades/user/schema';
-import React from 'react';
-import { CardImage } from '@/components/card-image';
 import { Button } from '@/components/basic-components/button';
-import { CardLabeledItem } from '@/components/card-labeled-Item';
+import { Card, CardImage, CardLabeledItem } from '@/components/card';
 
 export const UserCard = ({
 	user,
@@ -20,15 +19,11 @@ export const UserCard = ({
 	// TODO Create team button should redirect to team creation page
 	return (
 		<>
-			<div className="relative flex flex-col items-center rounded-lg border p-4 shadow lg:flex-row lg:justify-evenly">
-				{myProfile && (
-					<StandardLink
-						className="absolute top-4 right-4"
-						href={`/profile/edit`}
-					>
-						Edit Profile
-					</StandardLink>
-				)}
+			<Card
+				showLinkFlag={myProfile}
+				linkText="Edit Profile"
+				linkHref="/profile/edit"
+			>
 				<CardImage imageUrl={imageUrl} />
 				<CardLabeledItem label="User informations">
 					<h2 className="text-xl font-bold">
@@ -49,7 +44,7 @@ export const UserCard = ({
 				<CardLabeledItem label="Membered Teams">
 					<TeamList teams={user.memberTeams} />
 				</CardLabeledItem>
-			</div>
+			</Card>
 		</>
 	);
 };

@@ -13,7 +13,7 @@ import { useUpdateUserMutation } from './hooks';
 import { FormInput } from '@/components/form/form-input';
 import { SubmitButton } from '@/components/form/submit-button';
 import { useRouter } from 'next/navigation';
-import { CardImage } from '@/components/card-image';
+import { CardImage } from '@/components/card/card-image';
 
 export const UpdateUserForm = ({
 	user,

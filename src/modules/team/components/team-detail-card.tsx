@@ -1,9 +1,8 @@
-import { StandardLink } from '@/components/standard-link';
 import React from 'react';
-import { CardImage } from '@/components/card-image';
+import { StandardLink } from '@/components/standard-link';
 import { TeamDetailDto } from '@/facades/team/schema';
 import { UserListDto } from '@/facades/user/schema';
-import { CardLabeledItem } from '@/components/card-labeled-Item';
+import { Card, CardImage, CardLabeledItem } from '@/components/card';
 
 export const TeamDetailCard = ({
 	team,
@@ -19,16 +18,11 @@ export const TeamDetailCard = ({
 
 	return (
 		<>
-			<div className="relative flex flex-col items-center rounded-lg border p-4 shadow lg:flex-row lg:justify-evenly">
-				{amIAdmin && (
-					<StandardLink
-						className="absolute top-4 right-4"
-						href={`/team/edit/${team.id}`}
-					>
-						Edit Team
-					</StandardLink>
-				)}
-
+			<Card
+				showLinkFlag={amIAdmin}
+				linkText="Edit Team"
+				linkHref={`/team/edit/${team.id}`}
+			>
 				<CardImage imageUrl={imageUrl} />
 
 				<CardLabeledItem label="Team Name">
@@ -42,7 +36,7 @@ export const TeamDetailCard = ({
 				<CardLabeledItem label="Members">
 					<MemberList members={team.members} />
 				</CardLabeledItem>
-			</div>
+			</Card>
 		</>
 	);
 };
