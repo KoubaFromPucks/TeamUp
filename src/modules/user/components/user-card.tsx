@@ -1,7 +1,7 @@
 import React from 'react';
 import { UserDetailDto } from '@/facades/user/schema';
 import { Button } from '@/components/basic-components/button';
-import { Card, CardImage, CardLabeledItem, CardList } from '@/components/card';
+import { Card, CardImage, CardLabeledItem, CardLinkList } from '@/components/card';
 
 export const UserCard = ({
 	user,
@@ -34,7 +34,7 @@ export const UserCard = ({
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Admined Teams">
-					<CardList
+					<CardLinkList
 						items={user.adminedTeams.map(team => ({
 							id: team.id,
 							label: team.name
@@ -45,7 +45,7 @@ export const UserCard = ({
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Membered Teams">
-					<CardList
+					<CardLinkList
 						href="/team"
 						items={user.memberTeams.map(team => ({
 							id: team.id,

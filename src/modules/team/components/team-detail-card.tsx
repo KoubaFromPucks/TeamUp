@@ -1,6 +1,6 @@
 import React from 'react';
 import { TeamDetailDto } from '@/facades/team/schema';
-import { Card, CardImage, CardLabeledItem, CardList } from '@/components/card';
+import { Card, CardImage, CardLabeledItem, CardLinkList } from '@/components/card';
 
 export const TeamDetailCard = ({
 	team,
@@ -28,7 +28,7 @@ export const TeamDetailCard = ({
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Organiser">
-					<CardList
+					<CardLinkList
 						items={[
 							{
 								id: team.organizer.id,
@@ -40,7 +40,7 @@ export const TeamDetailCard = ({
 				</CardLabeledItem>
 
 				<CardLabeledItem label="Members">
-					<CardList
+					<CardLinkList
 						items={team.members.map(member => ({
 							id: member.id,
 							label: `${member.name} ${member.surname} (${member.nickname})`
