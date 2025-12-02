@@ -1,7 +1,12 @@
 import React from 'react';
 import { UserDetailDto } from '@/facades/user/schema';
 import { Button } from '@/components/basic-components/button';
-import { Card, CardImage, CardLabeledItem, CardLinkList } from '@/components/card';
+import {
+	Card,
+	CardImage,
+	CardLabeledItem,
+	CardLinkList
+} from '@/components/card';
 
 export const UserCard = ({
 	user,

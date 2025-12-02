@@ -153,6 +153,25 @@ export const teamRepository = {
 		}
 	},
 
+	async isUserTeamOrganizer(teamId: string, userId: string) {
+		try {
+			const team = await db
+				.select()
+				.from(teamTable)
+				.where(eq(teamTable.id, teamId))
+				.limit(1);
+
+			if (team.length === 0) {
+				return false;
+			}
+
+			return team[0].organizerId === userId;
+		} catch (error) {
+			console.error('Error checking if user is team organizer:', error);
+			throw new Error('Could not check if user is team organizer');
+		}
+	},
+
 	async deleteTeamById(teamId: string) {
 		try {
 			const deletedTeam = await db

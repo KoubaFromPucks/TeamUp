@@ -77,6 +77,10 @@ export const teamService = {
 			throw new Error('User does not exist');
 		}
 
+		if (await teamRepository.isUserTeamOrganizer(teamId, userId)) {
+			throw new Error('Organizer cannot be removed from team');
+		}
+
 		if (!(await teamRepository.isUserInTeam(teamId, userId))) {
 			throw new Error('User is not in the team');
 		}

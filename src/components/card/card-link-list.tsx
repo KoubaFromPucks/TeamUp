@@ -12,7 +12,11 @@ type CardListProps = {
 	href?: string;
 };
 
-export const CardLinkList = ({ items, additionalContent, href }: CardListProps) => (
+export const CardLinkList = ({
+	items,
+	additionalContent,
+	href
+}: CardListProps) => (
 	<>
 		{additionalContent}
 		{items?.length === 0 ? (
