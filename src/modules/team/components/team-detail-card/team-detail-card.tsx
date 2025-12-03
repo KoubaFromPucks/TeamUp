@@ -47,7 +47,6 @@ export const TeamDetailCard = ({
 		);
 	};
 
-	// TODO refaktorovat
 	const onRemoveMember = (userId: string) => {
 		mutation.mutate(
 			{ teamId: team.id, userId: userId },
