@@ -12,7 +12,7 @@ export const teamMemberTable = sqliteTable(
 			.references(() => userTable.id),
 		teamId: text('team_id')
 			.notNull()
-			.references(() => teamTable.id)
+			.references(() => teamTable.id, { onDelete: 'cascade' })
 	},
 	table => [primaryKey({ columns: [table.userId, table.teamId] })]
 );

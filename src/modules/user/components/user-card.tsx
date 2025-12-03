@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import { UserDetailDto } from '@/facades/user/schema';
+import { X } from 'lucide-react';
 import {
 	Card,
 	CardImage,
@@ -8,6 +11,10 @@ import {
 } from '@/components/card';
 import { CardContent, CardHeader } from '@/components/card/card';
 import { StandardLink } from '@/components/standard-link';
+import { ConfirmDialog } from '@/components/dialog/confirm-dialog';
+import { useRemoveTeamMutation } from './hooks';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export const UserCard = ({
 	user,
@@ -20,6 +27,24 @@ export const UserCard = ({
 		'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
 	const imageUrl =
 		user.imageUrl && user.imageUrl.length > 0 ? user.imageUrl : defaultImageUrl;
+
+	const router = useRouter();
+
+	const removeTeamMutation = useRemoveTeamMutation();
+	const onRemoveTeam = (teamId: string) => {
+		removeTeamMutation.mutate(
+			{ teamId: teamId },
+			{
+				onSuccess: () => {
+					toast.success('Team has been deleted successfully');
+					router.push(`/profile/${user.id}`);
+				},
+				onError: error => {
+					toast.error(`Failed to delete team: ${error.message}`);
+				}
+			}
+		);
+	};
 
 	return (
 		<>
@@ -42,10 +67,6 @@ export const UserCard = ({
 
 					<CardLabeledItem label="Admined Teams">
 						<CardLinkList
-							items={user.adminedTeams.map(team => ({
-								id: team.id,
-								label: team.name
-							}))}
 							href="/team"
 							additionalContent={
 								<StandardLink
@@ -56,7 +77,24 @@ export const UserCard = ({
 									Create team
 								</StandardLink>
 							}
-						/>
+						>
+							{user.adminedTeams.map(team => (
+								<li key={team.id} className="flex w-full text-black">
+									<StandardLink
+										href={`/team/${team.id}`}
+										className="mx-0 block w-full"
+									>
+										{team.name}
+									</StandardLink>
+
+									<ConfirmDialog
+										onConfirm={() => onRemoveTeam(team.id)}
+										question={`Are you sure you want to remove the team "${team.name}"?`}
+										triggerContent={<X />}
+									/>
+								</li>
+							))}
+						</CardLinkList>
 					</CardLabeledItem>
 
 					<CardLabeledItem label="Membered Teams">
