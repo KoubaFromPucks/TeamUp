@@ -1,6 +1,5 @@
 import React from 'react';
 import { UserDetailDto } from '@/facades/user/schema';
-import { Button } from '@/components/basic-components/button';
 import {
 	Card,
 	CardImage,
@@ -50,7 +49,13 @@ export const UserCard = ({
 							}))}
 							href="/team"
 							additionalContent={
-								<Button className="w-full">Create team</Button>
+								<StandardLink
+									className="block w-full"
+									variant="dark"
+									href="/team/create"
+								>
+									Create team
+								</StandardLink>
 							}
 						/>
 					</CardLabeledItem>
