@@ -8,6 +8,12 @@ import { venueTable } from './schema/venue';
 import { eventTable } from './schema/event';
 import * as relations from './schema/relations';
 import { eventCoorganiserTable } from './schema/event-coorganisers';
+import {
+  user,
+  session,
+  account,
+  verification,
+} from "./schema/better-auth";
 
 const client = createClient({
 	url: process.env.DATABASE_URL!,
@@ -22,6 +28,10 @@ export const db = drizzle(client, {
 		venueTable,
 		eventTable,
 		eventCoorganiserTable,
-		...relations
+		...relations,
+		user,
+		session,
+		account,
+		verification,
 	}
 });
