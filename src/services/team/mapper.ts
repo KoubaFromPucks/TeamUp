@@ -54,7 +54,9 @@ export const teamMapper = {
 			desc: entity.desc,
 			imageUrl: entity.imageUrl,
 			organizerId: entity.organizerId,
-			members: entity.members.map(userMapper.mapEntityToListModel),
+			members: entity.members
+				.filter(member => member !== null)
+				.map(userMapper.mapEntityToListModel),
 			organizer: userMapper.mapEntityToListModel(entity.organizer)
 		};
 	}

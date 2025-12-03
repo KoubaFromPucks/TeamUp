@@ -14,6 +14,7 @@ export const teamService = {
 		const createdTeam = await teamRepository.createTeam(
 			teamMapper.mapInsertModelToEntity(team)
 		);
+
 		if (!createdTeam) {
 			throw new Error('Team creation failed');
 		}
@@ -60,6 +61,7 @@ export const teamService = {
 
 	async getTeamWithMembersById(teamId: string) {
 		const teamEntity = await teamRepository.getTeamWithMembersById(teamId);
+
 		if (!teamEntity) {
 			throw new Error('Team not found');
 		}

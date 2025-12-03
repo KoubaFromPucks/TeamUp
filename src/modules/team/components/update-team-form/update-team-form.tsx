@@ -19,19 +19,21 @@ import { FormSelect } from '@/components/form/form-select';
 export const UpdateTeamForm = ({
 	team,
 	navPath,
-	update
+	update,
+	organizerId
 }: {
 	team: TeamDetailDto | null;
 	navPath: string;
 	update: boolean;
+	organizerId: string;
 }) => {
 	const form = useForm<TeamUpdateCreateDto>({
 		resolver: zodResolver(teamUpdateCreateSchema),
 		defaultValues: {
 			name: team?.name ?? '',
 			desc: team?.desc ?? '',
-			imageUrl: team?.imageUrl ?? '',
-			organizerId: team?.organizerId ?? ''
+			imageUrl: team?.imageUrl ?? undefined,
+			organizerId: organizerId
 		}
 	});
 
@@ -63,16 +65,21 @@ export const UpdateTeamForm = ({
 						<FormInput name="name" label="Name" />
 						<FormInput name="desc" label="Description" />
 						<FormInput name="imageUrl" label="Image URL" />
-						<FormSelect name="organizerId" label="Organizer">
-							{team?.members.map(member => (
-								<option key={member.id} value={member.id}>
-									{member.name} {member.surname} ({member.email})
-								</option>
-							))}
-						</FormSelect>
+						{update && (
+							<FormSelect name="organizerId" label="Organizer">
+								{team?.members.map(member => (
+									<option key={member.id} value={member.id}>
+										{member.name} {member.surname} ({member.email})
+									</option>
+								))}
+							</FormSelect>
+						)}
 					</div>
 					<div className="flex items-center justify-center lg:w-1/2">
-						<CardImage imageUrl={imageUrl} size="large" />
+						<CardImage
+							imageUrl={imageUrl && imageUrl.length > 0 ? imageUrl : undefined}
+							size="large"
+						/>
 					</div>
 				</div>
 				<div className="mt-3 w-full">

@@ -80,7 +80,9 @@ export const getAllTeams = async () => {
 
 export const getTeamWithMembersById = async (teamId: string) => {
 	try {
+		console.log('TEAM FACADE TEAMD ID:', teamId);
 		const team = await teamService.getTeamWithMembersById(teamId);
+		console.log('Fetched team with members:', team);
 		return { error: null, team: teamMapper.mapTeamDetailModelToDto(team) };
 	} catch (error) {
 		return { error: (error as Error).message, team: null };

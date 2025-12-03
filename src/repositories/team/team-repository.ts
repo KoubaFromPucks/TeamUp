@@ -8,17 +8,29 @@ import { and, eq } from 'drizzle-orm';
 
 export const teamRepository = {
 	async createTeam(teamEntity: TeamInsertEntity) {
-		try {
-			const createdTeam = await db
-				.insert(teamTable)
-				.values(teamEntity)
-				.returning();
+		let createdTeam = null;
+		await db.transaction(async tx => {
+			createdTeam = await tx.insert(teamTable).values(teamEntity).returning();
 
-			return createdTeam[0] as TeamSelectEntity;
-		} catch (error) {
-			console.error('Error creating team:', error);
-			throw new Error('Could not create team');
+			if (!createdTeam || createdTeam.length === 0) {
+				throw new Error('Team creation failed');
+			}
+
+			const addedMember = await tx.insert(teamMemberTable).values({
+				teamId: createdTeam[0].id,
+				userId: teamEntity.organizerId
+			});
+
+			if (!addedMember) {
+				throw new Error('Adding organizer as team member failed');
+			}
+		});
+
+		if (!createdTeam) {
+			throw new Error('Team creation failed');
 		}
+
+		return createdTeam[0] as TeamSelectEntity;
 	},
 
 	async getTeamById(teamId: string) {

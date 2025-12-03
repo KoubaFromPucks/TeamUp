@@ -21,7 +21,6 @@ export const UserCard = ({
 	const imageUrl =
 		user.imageUrl && user.imageUrl.length > 0 ? user.imageUrl : defaultImageUrl;
 
-	// TODO Create team button should redirect to team creation page
 	return (
 		<>
 			<Card>
