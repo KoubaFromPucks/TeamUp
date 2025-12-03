@@ -16,7 +16,7 @@ import { useRemoveTeamMutation } from './hooks';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { TeamListDto } from '@/facades/team/schema';
-import { defaultImageUrl } from '@/lib/utils';
+import { getImageUrlOrDefault } from '@/lib/utils';
 
 export const UserCard = ({
 	user,
@@ -25,9 +25,6 @@ export const UserCard = ({
 	user: UserDetailDto;
 	myProfile: boolean;
 }) => {
-	const imageUrl =
-		user.imageUrl && user.imageUrl.length > 0 ? user.imageUrl : defaultImageUrl;
-
 	const router = useRouter();
 
 	const removeTeamMutation = useRemoveTeamMutation();
@@ -55,7 +52,7 @@ export const UserCard = ({
 					</CardHeader>
 				)}
 				<CardContent>
-					<CardImage imageUrl={imageUrl} />
+					<CardImage imageUrl={getImageUrlOrDefault(user.imageUrl)} />
 					<CardLabeledItem label="User informations">
 						<h2 className="text-xl font-bold">
 							{user.name} {user.surname}
@@ -115,11 +112,7 @@ const TeamListItem = ({
 		>
 			<div className="flex items-center gap-2">
 				<CardImage
-					imageUrl={
-						team.imageUrl && team.imageUrl.length > 0
-							? team.imageUrl
-							: defaultImageUrl
-					}
+					imageUrl={getImageUrlOrDefault(team.imageUrl)}
 					size="small"
 				/>
 				{team.name}

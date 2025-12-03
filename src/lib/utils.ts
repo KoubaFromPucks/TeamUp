@@ -4,3 +4,7 @@ export const delay = (ms: number) =>
 
 export const defaultImageUrl =
 	'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
+
+export const getImageUrlOrDefault = (imageUrl: string | undefined | null) => {
+	return imageUrl && imageUrl.length > 0 ? imageUrl : defaultImageUrl;
+};

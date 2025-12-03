@@ -15,6 +15,7 @@ import { toast } from 'sonner';
 import { CardImage } from '@/components/card';
 import { SubmitButton } from '@/components/form/submit-button';
 import { FormSelect } from '@/components/form/form-select';
+import { getImageUrlOrDefault } from '@/lib/utils';
 
 export const UpdateTeamForm = ({
 	team,
@@ -76,10 +77,7 @@ export const UpdateTeamForm = ({
 						)}
 					</div>
 					<div className="flex items-center justify-center lg:w-1/2">
-						<CardImage
-							imageUrl={imageUrl && imageUrl.length > 0 ? imageUrl : undefined}
-							size="large"
-						/>
+						<CardImage imageUrl={getImageUrlOrDefault(imageUrl)} size="large" />
 					</div>
 				</div>
 				<div className="mt-3 w-full">

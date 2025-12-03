@@ -9,28 +9,26 @@ import {
 	CardLinkList
 } from '@/components/card';
 import { X } from 'lucide-react';
-import { useRemoveUserFromTeamMutation } from './hooks';
+import { useRemoveTeamMutation, useRemoveUserFromTeamMutation } from './hooks';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { StandardLink } from '@/components/standard-link';
 import { AddTeamMemberDialog } from './add-team-member-dialog';
 import { CardContent, CardFooter, CardHeader } from '@/components/card/card';
 import { ConfirmDialog } from '@/components/dialog/confirm-dialog';
+import { getImageUrlOrDefault } from '@/lib/utils';
 
 export const TeamDetailCard = ({
 	team,
 	isUserAdmin
 }: {
 	team: TeamDetailDto;
-	isUserAdmin: boolean;
+	isUserAdmin: boolean; // TODO: replace with actual admin check
 }) => {
-	const defaultImageUrl =
-		'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
-	const imageUrl =
-		team.imageUrl && team.imageUrl.length > 0 ? team.imageUrl : defaultImageUrl;
 	const [isUserMember, setIsUserMember] = React.useState(true); // TODO: check properly
 	const currentUserId = 'fc06e91f-d36b-41ff-a42f-be1be694ec83'; // TODO: replace with actual current user ID
 	const mutation = useRemoveUserFromTeamMutation();
+	const removeTeamMutation = useRemoveTeamMutation();
 	const router = useRouter();
 
 	const onLeaveTeam = () => {
@@ -65,18 +63,33 @@ export const TeamDetailCard = ({
 		);
 	};
 
+	const onRemoveTeam = () => {
+		removeTeamMutation.mutate(
+			{ teamId: team.id },
+			{
+				onSuccess: () => {
+					toast.success('Team has been deleted successfully');
+					router.push(`/profile/${currentUserId}`);
+				},
+				onError: error => {
+					toast.error(`Failed to delete team: ${error.message}`);
+				}
+			}
+		);
+	};
+
 	return (
 		<>
 			<Card>
 				{isUserAdmin && (
 					<CardHeader>
 						<StandardLink href={`/team/${team.id}/edit`}>
-							Update Team Info
+							Edit Team Info
 						</StandardLink>
 					</CardHeader>
 				)}
 				<CardContent>
-					<CardImage imageUrl={imageUrl} />
+					<CardImage imageUrl={getImageUrlOrDefault(team.imageUrl)} />
 
 					<CardLabeledItem label="Team Information">
 						<p className="font-bold text-gray-600">{team.name}</p>
@@ -116,7 +129,7 @@ export const TeamDetailCard = ({
 									{isUserAdmin && (
 										<ConfirmDialog
 											onConfirm={() => onRemoveMember(member.id)}
-											question={`Are you sure you want to remove ${member.name} ${member.surname}?`}
+											question={`Are you sure you want to remove ${member.name} ${member.surname} from team?`}
 											triggerContent={<X />}
 										/>
 									)}
@@ -126,13 +139,22 @@ export const TeamDetailCard = ({
 					</CardLabeledItem>
 				</CardContent>
 
-				{isUserMember && (
+				{(isUserMember || isUserAdmin) && (
 					<CardFooter>
-						<ConfirmDialog
-							onConfirm={onLeaveTeam}
-							question="Are you sure you want to leave the team?"
-							triggerContent="Leave Team"
-						/>
+						{isUserMember && (
+							<ConfirmDialog
+								onConfirm={onLeaveTeam}
+								question="Are you sure you want to leave the team?"
+								triggerContent="Leave Team"
+							/>
+						)}
+						{isUserAdmin && (
+							<ConfirmDialog
+								onConfirm={() => onRemoveTeam()}
+								question="Are you sure you want to remove yourself from the team?"
+								triggerContent="Delete Team"
+							/>
+						)}
 					</CardFooter>
 				)}
 			</Card>

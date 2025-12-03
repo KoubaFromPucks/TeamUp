@@ -29,7 +29,12 @@ const Page = async ({ params }: PageProps) => {
 				</a>
 				<h1 className="text-3xl font-semibold">Edit Team</h1>
 			</div>
-			<UpdateTeamForm team={{ ...team }} navPath={returnPath} update={true} />
+			<UpdateTeamForm
+				team={{ ...team }}
+				navPath={returnPath}
+				update={true}
+				organizerId={team.organizerId}
+			/>
 		</>
 	);
 };

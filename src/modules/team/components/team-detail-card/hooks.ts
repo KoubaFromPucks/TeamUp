@@ -1,6 +1,7 @@
 import { addUserToTeam, removeUserFromTeam } from '@/facades/team/team-facade';
 import { getUserByMail } from '@/facades/user/user-facade';
 import { useMutation } from '@tanstack/react-query';
+import { deleteTeam } from '@/facades/team/team-facade';
 
 export const useRemoveUserFromTeamMutation = () =>
 	useMutation({
@@ -35,6 +36,19 @@ export const useAddMemberToTeamMutation = () =>
 			const { error, ok } = await addUserToTeam(teamId, user.id);
 			if (error || !ok) {
 				throw new Error(error ?? 'Failed to add member to team');
+			}
+
+			return true;
+		}
+	});
+
+export const useRemoveTeamMutation = () =>
+	useMutation({
+		mutationFn: async ({ teamId }: { teamId: string }) => {
+			const { error: userError, ok: ok } = await deleteTeam(teamId);
+
+			if (userError || !ok) {
+				throw new Error(userError ?? 'Could not delete team');
 			}
 
 			return true;
