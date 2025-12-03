@@ -31,6 +31,5 @@ export const db = drizzle(client, {
 		verification,
 		concreteEventTable,
 		eventInvitationTable,
-		...relations
 	}
 });
