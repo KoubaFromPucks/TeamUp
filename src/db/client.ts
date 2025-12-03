@@ -10,6 +10,7 @@ import { concreteEventTable } from './schema/concrete-event';
 import { eventInvitationTable } from './schema/event-invitation';
 import * as relations from './schema/relations';
 import { eventCoorganiserTable } from './schema/event-coorganisers';
+import { user, session, account, verification } from './schema/better-auth';
 
 const client = createClient({
 	url: process.env.DATABASE_URL!,
@@ -24,8 +25,11 @@ export const db = drizzle(client, {
 		venueTable,
 		eventTable,
 		eventCoorganiserTable,
+		user,
+		session,
+		account,
+		verification,
 		concreteEventTable,
 		eventInvitationTable,
-		...relations
 	}
 });
