@@ -15,6 +15,8 @@ import { ConfirmDialog } from '@/components/dialog/confirm-dialog';
 import { useRemoveTeamMutation } from './hooks';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { TeamListDto } from '@/facades/team/schema';
+import { defaultImageUrl } from '@/lib/utils';
 
 export const UserCard = ({
 	user,
@@ -23,8 +25,6 @@ export const UserCard = ({
 	user: UserDetailDto;
 	myProfile: boolean;
 }) => {
-	const defaultImageUrl =
-		'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUbHCcNJCdv2t8B2g1GVqYgs.jpg';
 	const imageUrl =
 		user.imageUrl && user.imageUrl.length > 0 ? user.imageUrl : defaultImageUrl;
 
@@ -79,35 +79,59 @@ export const UserCard = ({
 							}
 						>
 							{user.adminedTeams.map(team => (
-								<li key={team.id} className="flex w-full text-black">
-									<StandardLink
-										href={`/team/${team.id}`}
-										className="mx-0 block w-full"
-									>
-										{team.name}
-									</StandardLink>
-
-									<ConfirmDialog
-										onConfirm={() => onRemoveTeam(team.id)}
-										question={`Are you sure you want to remove the team "${team.name}"?`}
-										triggerContent={<X />}
-									/>
-								</li>
+								<TeamListItem
+									key={team.id}
+									team={team}
+									onRemove={onRemoveTeam}
+								/>
 							))}
 						</CardLinkList>
 					</CardLabeledItem>
 
 					<CardLabeledItem label="Membered Teams">
-						<CardLinkList
-							href="/team"
-							items={user.memberTeams.map(team => ({
-								id: team.id,
-								label: team.name
-							}))}
-						/>
+						<CardLinkList>
+							{user.memberTeams.map(team => (
+								<TeamListItem key={team.id} team={team} />
+							))}
+						</CardLinkList>
 					</CardLabeledItem>
 				</CardContent>
 			</Card>
 		</>
 	);
 };
+
+const TeamListItem = ({
+	team,
+	onRemove
+}: {
+	team: TeamListDto;
+	onRemove?: (teamId: string) => void;
+}) => (
+	<li key={team.id} className="flex w-full items-center text-black">
+		<StandardLink
+			href={`/team/${team.id}`}
+			className="mx-0 block h-auto w-full"
+		>
+			<div className="flex items-center gap-2">
+				<CardImage
+					imageUrl={
+						team.imageUrl && team.imageUrl.length > 0
+							? team.imageUrl
+							: defaultImageUrl
+					}
+					size="small"
+				/>
+				{team.name}
+			</div>
+		</StandardLink>
+
+		{onRemove && (
+			<ConfirmDialog
+				onConfirm={() => onRemove(team.id)}
+				question={`Are you sure you want to remove the team "${team.name}"?`}
+				triggerContent={<X />}
+			/>
+		)}
+	</li>
+);
