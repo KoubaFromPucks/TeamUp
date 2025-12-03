@@ -1,68 +1,95 @@
-import { concreteEventRepository } from "@/repositories/concrete_event/concrete-event-repository"
-import { ConcreteEventDetailModel, ConcreteEventInsertModel, ConcreteEventListModel } from "./schema";
-import { concreteEventMapper } from "./mapper";
-import { eventInvitationService } from "../event_invitation/event-invitation-service";
+import { concreteEventRepository } from '@/repositories/concrete_event/concrete-event-repository';
+import {
+	ConcreteEventDetailModel,
+	ConcreteEventInsertModel,
+	ConcreteEventListModel
+} from './schema';
+import { concreteEventMapper } from './mapper';
+import { eventInvitationService } from '../event_invitation/event-invitation-service';
 
 export const concreteEventService = {
-    async doesConcreteEventExist(id: string): Promise<boolean>{
-        if(await concreteEventRepository.getConcreteEventById(id)){
-            return true;
-        }
-        return false;
-    },
+	async doesConcreteEventExist(id: string): Promise<boolean> {
+		if (await concreteEventRepository.getConcreteEventById(id)) {
+			return true;
+		}
+		return false;
+	},
 
-    async createConcreteEvent(concreteEvent: ConcreteEventInsertModel): Promise<ConcreteEventListModel>{
-        const createEntity = concreteEventMapper.mapInsertModelToInsertEntity(concreteEvent);
-        const createdConcreteEvent = await concreteEventRepository.createConcreteEvent(createEntity);
-        return concreteEventMapper.mapEntityToListModel(createdConcreteEvent);
-    },
+	async createConcreteEvent(
+		concreteEvent: ConcreteEventInsertModel
+	): Promise<ConcreteEventListModel> {
+		const createEntity =
+			concreteEventMapper.mapInsertModelToInsertEntity(concreteEvent);
+		const createdConcreteEvent =
+			await concreteEventRepository.createConcreteEvent(createEntity);
+		return concreteEventMapper.mapEntityToListModel(createdConcreteEvent);
+	},
 
-    async getConcreteEnventById(concreteEventId: string): Promise<ConcreteEventDetailModel>{
-        const concreteEvent = await concreteEventRepository.getConcreteEventById(concreteEventId);
-        
+	async getConcreteEnventById(
+		concreteEventId: string
+	): Promise<ConcreteEventDetailModel> {
+		const concreteEvent =
+			await concreteEventRepository.getConcreteEventById(concreteEventId);
 
-        if(!concreteEvent){
-            throw Error('Concrete Event was not found')
-        }
-        const concreteEventDetail = concreteEventMapper.mapEntityToDetailModel(concreteEvent);
-        
-        concreteEventDetail.invitedUsers = await eventInvitationService.getEventInvitationsByConcreteEventId(concreteEventId);
+		if (!concreteEvent) {
+			throw Error('Concrete Event was not found');
+		}
+		const concreteEventDetail =
+			concreteEventMapper.mapEntityToDetailModel(concreteEvent);
 
-        return concreteEventDetail;
-    },
+		concreteEventDetail.invitedUsers =
+			await eventInvitationService.getEventInvitationsByConcreteEventId(
+				concreteEventId
+			);
 
-    async getConcreteEventsByEventId(eventId: string): Promise<ConcreteEventListModel[]>{
-        const concreteEvents = await concreteEventRepository.getConcreteEventsByEventId(eventId);
-        return concreteEvents.map(concreteEventMapper.mapEntityToListModel);
-    },
+		return concreteEventDetail;
+	},
 
-    async getAllConcreteEvents(): Promise<ConcreteEventListModel[]>{
-        const concreteEvents = await concreteEventRepository.getAllConcreteEvents();
-        return concreteEvents.map(concreteEventMapper.mapEntityToListModel);
-    },
+	async getConcreteEventsByEventId(
+		eventId: string
+	): Promise<ConcreteEventListModel[]> {
+		const concreteEvents =
+			await concreteEventRepository.getConcreteEventsByEventId(eventId);
+		return concreteEvents.map(concreteEventMapper.mapEntityToListModel);
+	},
 
-    async updateConcreteEventById(concreteEventId: string, concreteEvent: Partial<ConcreteEventInsertModel>): Promise<ConcreteEventListModel> {
-        if(!(await this.doesConcreteEventExist(concreteEventId))){
-            throw new Error('Concrete event does not exist');
-        }
+	async getAllConcreteEvents(): Promise<ConcreteEventListModel[]> {
+		const concreteEvents = await concreteEventRepository.getAllConcreteEvents();
+		return concreteEvents.map(concreteEventMapper.mapEntityToListModel);
+	},
 
-        const updateEntity = concreteEventMapper.mapInsertModelToUpdateEntity(concreteEvent);
+	async updateConcreteEventById(
+		concreteEventId: string,
+		concreteEvent: Partial<ConcreteEventInsertModel>
+	): Promise<ConcreteEventListModel> {
+		if (!(await this.doesConcreteEventExist(concreteEventId))) {
+			throw new Error('Concrete event does not exist');
+		}
 
-        const updatedConcreteEvent = await concreteEventRepository.updateConcreteEventById(concreteEventId, updateEntity);
-        if(!updatedConcreteEvent){
-            throw new Error('Concrete event update failed');
-        }
+		const updateEntity =
+			concreteEventMapper.mapInsertModelToUpdateEntity(concreteEvent);
 
-        return concreteEventMapper.mapEntityToListModel(updatedConcreteEvent);
-    },
+		const updatedConcreteEvent =
+			await concreteEventRepository.updateConcreteEventById(
+				concreteEventId,
+				updateEntity
+			);
+		if (!updatedConcreteEvent) {
+			throw new Error('Concrete event update failed');
+		}
 
-    async deleteConcreteEvent(concreteEventId: string): Promise<ConcreteEventListModel>{
-        const deleted = await concreteEventRepository.deleteConcreteEventById(concreteEventId);
-        if(!deleted){
-            throw new Error("Concrete event delete failed");
-        }
+		return concreteEventMapper.mapEntityToListModel(updatedConcreteEvent);
+	},
 
-        return concreteEventMapper.mapEntityToListModel(deleted);
-    }
+	async deleteConcreteEvent(
+		concreteEventId: string
+	): Promise<ConcreteEventListModel> {
+		const deleted =
+			await concreteEventRepository.deleteConcreteEventById(concreteEventId);
+		if (!deleted) {
+			throw new Error('Concrete event delete failed');
+		}
 
-}
+		return concreteEventMapper.mapEntityToListModel(deleted);
+	}
+};

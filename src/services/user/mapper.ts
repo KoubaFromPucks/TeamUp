@@ -15,7 +15,7 @@ export const userMapper = {
 			nickname: entity.nickname,
 			email: entity.email,
 			phoneNumber: entity.phoneNumber,
-			avatarUrl: entity.imageUrl
+			imageUrl: entity.imageUrl
 		};
 	},
 
@@ -27,7 +27,7 @@ export const userMapper = {
 			nickname: model.nickname,
 			email: model.email,
 			phoneNumber: model.phoneNumber,
-			imageUrl: model.avatarUrl
+			imageUrl: model.imageUrl
 		};
 	},
 
@@ -38,7 +38,7 @@ export const userMapper = {
 			nickname: model.nickname,
 			email: model.email,
 			phoneNumber: model.phoneNumber,
-			imageUrl: model.avatarUrl
+			imageUrl: model.imageUrl
 		};
 	},
 
@@ -49,7 +49,7 @@ export const userMapper = {
 			nickname: entity.nickname,
 			email: entity.email,
 			phoneNumber: entity.phoneNumber ?? null,
-			avatarUrl: entity.imageUrl ?? null
+			imageUrl: entity.imageUrl ?? null
 		};
 	},
 
@@ -63,7 +63,7 @@ export const userMapper = {
 			nickname: entity.nickname,
 			email: entity.email,
 			phoneNumber: entity.phoneNumber,
-			avatarUrl: entity.imageUrl,
+			imageUrl: entity.imageUrl,
 			adminedTeams: entity.adminedTeams.map(team =>
 				teamMapper.mapEntityToListModel(team)
 			),

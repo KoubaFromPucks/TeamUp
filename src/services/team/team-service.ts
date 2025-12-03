@@ -14,6 +14,7 @@ export const teamService = {
 		const createdTeam = await teamRepository.createTeam(
 			teamMapper.mapInsertModelToEntity(team)
 		);
+
 		if (!createdTeam) {
 			throw new Error('Team creation failed');
 		}
@@ -36,6 +37,20 @@ export const teamService = {
 	},
 
 	async updateTeamById(teamId: string, teamEntity: Partial<TeamInsertModel>) {
+		const currentTeam = await teamRepository.getTeamWithMembersById(teamId);
+		if (!currentTeam) {
+			throw new Error('Team not found');
+		}
+
+		if (
+			teamEntity.organizerId &&
+			currentTeam.members.some(
+				member => member.id === teamEntity.organizerId
+			) === false
+		) {
+			throw new Error('Organizer must be a member of the team');
+		}
+
 		const updatedTeam = await teamRepository.updateTeamById(teamId, teamEntity);
 		if (!updatedTeam) {
 			throw new Error('Team update failed');
@@ -46,6 +61,7 @@ export const teamService = {
 
 	async getTeamWithMembersById(teamId: string) {
 		const teamEntity = await teamRepository.getTeamWithMembersById(teamId);
+
 		if (!teamEntity) {
 			throw new Error('Team not found');
 		}
@@ -62,6 +78,10 @@ export const teamService = {
 			throw new Error('User does not exist');
 		}
 
+		if (await teamRepository.isUserInTeam(teamId, userId)) {
+			throw new Error('User is already in the team');
+		}
+
 		const result = await teamRepository.addUserToTeam(teamId, userId);
 		if (!result) {
 			throw new Error('Adding user to team failed');
@@ -75,6 +95,10 @@ export const teamService = {
 
 		if (!(await userRepository.getUserById(userId))) {
 			throw new Error('User does not exist');
+		}
+
+		if (await teamRepository.isUserTeamOrganizer(teamId, userId)) {
+			throw new Error('Organizer cannot be removed from team');
 		}
 
 		if (!(await teamRepository.isUserInTeam(teamId, userId))) {

@@ -11,7 +11,7 @@ export const teamMapper = {
 		return {
 			id: entity.id,
 			name: entity.name,
-			description: entity.desc,
+			desc: entity.desc,
 			imageUrl: entity.imageUrl,
 			organizerId: entity.organizerId
 		};
@@ -22,7 +22,7 @@ export const teamMapper = {
 			return {
 				id: model.id,
 				name: model.name,
-				desc: model.description,
+				desc: model.desc,
 				imageUrl: model.imageUrl,
 				organizerId: model.organizerId
 			};
@@ -32,7 +32,7 @@ export const teamMapper = {
 	mapInsertModelToEntity(model: TeamInsertModel) {
 		return {
 			name: model.name,
-			desc: model.description,
+			desc: model.desc,
 			imageUrl: model.imageUrl ?? null,
 			organizerId: model.organizerId
 		};
@@ -41,7 +41,7 @@ export const teamMapper = {
 	mapEntityToInsertModel(entity: TeamInsertEntity): TeamInsertModel {
 		return {
 			name: entity.name,
-			description: entity.desc,
+			desc: entity.desc ?? null,
 			imageUrl: entity.imageUrl ?? null,
 			organizerId: entity.organizerId
 		};
@@ -51,10 +51,12 @@ export const teamMapper = {
 		return {
 			id: entity.id,
 			name: entity.name,
-			description: entity.desc,
+			desc: entity.desc,
 			imageUrl: entity.imageUrl,
 			organizerId: entity.organizerId,
-			members: entity.members.map(userMapper.mapEntityToListModel),
+			members: entity.members
+				.filter(member => member !== null)
+				.map(userMapper.mapEntityToListModel),
 			organizer: userMapper.mapEntityToListModel(entity.organizer)
 		};
 	}
