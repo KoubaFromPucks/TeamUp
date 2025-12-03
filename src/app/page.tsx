@@ -7,7 +7,7 @@ const Home = () => (
 
 		<div className="mt-10">Page Content</div>
 
-		<GithubLoginButton/>
+		<GithubLoginButton />
 	</>
 );
 
