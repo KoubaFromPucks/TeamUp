@@ -79,6 +79,9 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 									onRemove={isItLoggedUserProfile ? onRemoveTeam : undefined}
 								/>
 							))}
+							{user.adminedTeams.length === 0 && (
+								<p className="text-gray-600">User has no teams</p>
+							)}
 						</CardLinkList>
 					</CardLabeledItem>
 
@@ -87,6 +90,9 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 							{user.memberTeams.map(team => (
 								<TeamListItem key={team.id} team={team} />
 							))}
+							{user.memberTeams.length === 0 && (
+								<p className="text-gray-600">User is not member of any team</p>
+							)}
 						</CardLinkList>
 					</CardLabeledItem>
 				</CardContent>
