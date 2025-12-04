@@ -10,7 +10,7 @@ import {
 import { Button } from '@/components/basic-components/button';
 import { useState } from 'react';
 import { BasicInput } from '@/components/basic-components/basic-input';
-import { useAddMemberToTeamMutation } from './hooks';
+import { useAddMemberToTeamMutation } from '../hooks';
 import { toast } from 'sonner';
 
 export const AddTeamMemberDialog = ({

@@ -8,73 +8,25 @@ import {
 	CardLabeledItem,
 	CardLinkList
 } from '@/components/card';
-import { X } from 'lucide-react';
-import { useRemoveTeamMutation, useRemoveUserFromTeamMutation } from './hooks';
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { StandardLink } from '@/components/standard-link';
-import { AddTeamMemberDialog } from './add-team-member-dialog';
+import { AddTeamMemberDialog } from './dialogs/add-team-member-dialog';
 import { CardContent, CardFooter, CardHeader } from '@/components/card/card';
-import { ConfirmDialog } from '@/components/dialog/confirm-dialog';
 import { getImageUrlOrDefault } from '@/lib/utils';
 import { useSession } from '@/lib/auth-client';
+import { RemoveMemberDialog } from './dialogs/remove-member-dialog';
+import { LeaveTeamDialog } from './dialogs/leave-team-dialog';
+import { RemoveTeamDialog } from './dialogs/remove-team-dialog';
 
 export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 	const { data: session } = useSession();
-	const mutation = useRemoveUserFromTeamMutation();
-	const removeTeamMutation = useRemoveTeamMutation();
+
 	const router = useRouter();
 	const currentUserId = session?.user?.id || '';
 	const [isUserMember, setIsUserMember] = React.useState(
 		team.members.some(member => member.id === currentUserId)
 	);
 	const isUserAdmin = session?.user?.id === team.organizerId;
-
-	const onLeaveTeam = () => {
-		mutation.mutate(
-			{ teamId: team.id, userId: currentUserId },
-			{
-				onSuccess: () => {
-					toast.success('You have left the team successfully');
-					setIsUserMember(false);
-					router.push(`/team/${team.id}`);
-				},
-				onError: error => {
-					toast.error(`Failed to leave team: ${error.message}`);
-				}
-			}
-		);
-	};
-
-	const onRemoveMember = (userId: string) => {
-		mutation.mutate(
-			{ teamId: team.id, userId: userId },
-			{
-				onSuccess: () => {
-					toast.success('Member has been removed from the team successfully');
-					router.push(`/team/${team.id}`);
-				},
-				onError: error => {
-					toast.error(`Failed to remove member: ${error.message}`);
-				}
-			}
-		);
-	};
-
-	const onRemoveTeam = () => {
-		removeTeamMutation.mutate(
-			{ teamId: team.id },
-			{
-				onSuccess: () => {
-					toast.success('Team has been deleted successfully');
-					router.push(`/profile/${currentUserId}`);
-				},
-				onError: error => {
-					toast.error(`Failed to delete team: ${error.message}`);
-				}
-			}
-		);
-	};
 
 	return (
 		<>
@@ -127,10 +79,10 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 										{`${member.name} (${member.nickname})`}
 									</StandardLink>
 									{isUserAdmin && (
-										<ConfirmDialog
-											onConfirm={() => onRemoveMember(member.id)}
-											question={`Are you sure you want to remove ${member.name} (${member.nickname}) from team?`}
-											triggerContent={<X />}
+										<RemoveMemberDialog
+											member={member}
+											teamId={team.id}
+											onRemove={() => router.push(`/team/${team.id}`)}
 										/>
 									)}
 								</li>
@@ -142,17 +94,19 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 				{(isUserMember || isUserAdmin) && (
 					<CardFooter>
 						{isUserMember && (
-							<ConfirmDialog
-								onConfirm={onLeaveTeam}
-								question="Are you sure you want to leave the team?"
-								triggerContent="Leave Team"
+							<LeaveTeamDialog
+								teamId={team.id}
+								userId={currentUserId}
+								onLeave={() => {
+									setIsUserMember(false);
+									router.push(`/profile/${currentUserId}`);
+								}}
 							/>
 						)}
 						{isUserAdmin && (
-							<ConfirmDialog
-								onConfirm={() => onRemoveTeam()}
-								question="Are you sure you want to remove yourself from the team?"
-								triggerContent="Delete Team"
+							<RemoveTeamDialog
+								teamId={team.id}
+								onRemove={() => router.push(`/profile/${currentUserId}`)}
 							/>
 						)}
 					</CardFooter>
