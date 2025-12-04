@@ -26,10 +26,7 @@ export const useAddMemberToTeamMutation = () =>
 	useMutation({
 		mutationFn: async ({ teamId, mail }: { teamId: string; mail: string }) => {
 			const { error: userError, user } = await getUserByMail(mail);
-			console.log('Fetched user by mail:', user, 'with error:', userError);
-			console.log('Team id:', teamId, 'Mail:', mail);
 			if (userError || !user) {
-				console.log('User not found or error occurred while fetching user.');
 				throw new Error(userError ?? 'User not found');
 			}
 
