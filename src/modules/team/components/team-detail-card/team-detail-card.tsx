@@ -17,15 +17,26 @@ import { useSession } from '@/lib/auth-client';
 import { RemoveMemberDialog } from './dialogs/remove-member-dialog';
 import { LeaveTeamDialog } from './dialogs/leave-team-dialog';
 import { RemoveTeamDialog } from './dialogs/remove-team-dialog';
+import { useState, useEffect } from 'react';
 
 export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 	const { data: session } = useSession();
 
 	const router = useRouter();
 	const currentUserId = session?.user?.id || '';
-	const [isUserMember, setIsUserMember] = React.useState(
+	console.log(
+		'TeamDetailCard render',
 		team.members.some(member => member.id === currentUserId)
 	);
+	console.log('Team members:', team.members);
+	const [isUserMember, setIsUserMember] = useState(
+		team.members.some(member => member.id === currentUserId)
+	);
+
+	useEffect(() => {
+		setIsUserMember(team.members.some(member => member.id === currentUserId));
+	}, [currentUserId]);
+
 	const isUserAdmin = session?.user?.id === team.organizerId;
 
 	return (

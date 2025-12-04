@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { UserDetailDto } from '@/facades/user/schema';
-import { X } from 'lucide-react';
 import {
 	Card,
 	CardImage,
@@ -11,34 +10,16 @@ import {
 } from '@/components/card';
 import { CardContent, CardHeader } from '@/components/card/card';
 import { StandardLink } from '@/components/standard-link';
-import { ConfirmDialog } from '@/components/dialog/confirm-dialog';
-import { useRemoveTeamMutation } from './hooks';
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { TeamListDto } from '@/facades/team/schema';
 import { getImageUrlOrDefault } from '@/lib/utils';
 import { useSession } from '@/lib/auth-client';
+import { RemoveTeamDialog } from './remove-team-dialog';
 
 export const UserCard = ({ user }: { user: UserDetailDto }) => {
 	const router = useRouter();
 	const { data: session } = useSession();
 	const isItLoggedUserProfile = session?.user?.id === user.id;
-
-	const removeTeamMutation = useRemoveTeamMutation();
-	const onRemoveTeam = (teamId: string) => {
-		removeTeamMutation.mutate(
-			{ teamId: teamId },
-			{
-				onSuccess: () => {
-					toast.success('Team has been deleted successfully');
-					router.push(`/profile/${user.id}`);
-				},
-				onError: error => {
-					toast.error(`Failed to delete team: ${error.message}`);
-				}
-			}
-		);
-	};
 
 	return (
 		<>
@@ -76,7 +57,13 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 								<TeamListItem
 									key={team.id}
 									team={team}
-									onRemove={isItLoggedUserProfile ? onRemoveTeam : undefined}
+									onRemove={
+										isItLoggedUserProfile
+											? () => {
+													router.push(`/profile/${user.id}`);
+												}
+											: undefined
+									}
 								/>
 							))}
 							{user.adminedTeams.length === 0 && (
@@ -123,10 +110,10 @@ const TeamListItem = ({
 		</StandardLink>
 
 		{onRemove && (
-			<ConfirmDialog
-				onConfirm={() => onRemove(team.id)}
-				question={`Are you sure you want to remove the team "${team.name}"?`}
-				triggerContent={<X />}
+			<RemoveTeamDialog
+				teamId={team.id}
+				teamName={team.name}
+				onRemove={() => onRemove(team.id)}
 			/>
 		)}
 	</li>
