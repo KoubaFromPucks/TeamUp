@@ -24,11 +24,7 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 
 	const router = useRouter();
 	const currentUserId = session?.user?.id || '';
-	console.log(
-		'TeamDetailCard render',
-		team.members.some(member => member.id === currentUserId)
-	);
-	console.log('Team members:', team.members);
+	
 	const [isUserMember, setIsUserMember] = useState(
 		team.members.some(member => member.id === currentUserId)
 	);
