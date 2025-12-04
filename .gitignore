@@ -137,3 +137,11 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Turso / SQLite
+dev.db
+dev.db-shm
+dev.db-wal
+
+# Drizzle migrations & metadata
+drizzle/
