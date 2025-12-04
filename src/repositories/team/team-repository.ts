@@ -106,7 +106,7 @@ export const teamRepository = {
 
 		const teamWithMembers = {
 			...dbResult[0].teams,
-			members: dbResult.map(row => row.users),
+			members: dbResult.map(row => row.user),
 			organizer: organizer[0]
 		};
 

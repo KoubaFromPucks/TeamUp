@@ -1,4 +1,4 @@
-import { userTable } from './user';
+import { user as userTable } from './better-auth';
 import { teamTable } from './team';
 import { text } from 'drizzle-orm/sqlite-core/columns/text';
 import { sqliteTable } from 'drizzle-orm/sqlite-core/table';

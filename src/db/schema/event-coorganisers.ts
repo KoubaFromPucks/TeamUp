@@ -1,5 +1,5 @@
 import { sqliteTable, text, primaryKey } from 'drizzle-orm/sqlite-core';
-import { userTable } from './user';
+import { user as userTable } from './better-auth';
 import { eventTable } from './event';
 
 export const eventCoorganiserTable = sqliteTable(

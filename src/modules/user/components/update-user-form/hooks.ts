@@ -1,6 +1,6 @@
 import { UserUpdateCreateDto } from '@/facades/user/schema';
 import { useMutation } from '@tanstack/react-query';
-import { createUpdateUser } from '@/facades/user/user-facade';
+import { updateUser } from '@/facades/user/user-facade';
 
 export const useUpdateUserMutation = () =>
 	useMutation({
@@ -11,7 +11,7 @@ export const useUpdateUserMutation = () =>
 			data: UserUpdateCreateDto;
 			id: string;
 		}) => {
-			const { error, user } = await createUpdateUser(id, data);
+			const { error, user } = await updateUser(id, data);
 
 			if (error) {
 				throw new Error(String(error));

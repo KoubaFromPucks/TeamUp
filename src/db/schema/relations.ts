@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm';
 import { venueTable } from './venue';
 import { eventTable } from './event';
-import { userTable } from './user';
+import { user as userTable } from './better-auth';
 import { teamTable } from './team';
 import { teamMemberTable } from './team-member';
 import { eventCoorganiserTable } from './event-coorganisers';

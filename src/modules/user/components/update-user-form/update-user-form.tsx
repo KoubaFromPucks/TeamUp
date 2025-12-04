@@ -27,7 +27,6 @@ export const UpdateUserForm = ({
 		resolver: zodResolver(userUpdateCreateSchema),
 		defaultValues: {
 			name: user?.name ?? '',
-			surname: user?.surname ?? '',
 			nickname: user?.nickname ?? '',
 			email: user?.email ?? '',
 			phoneNumber: user?.phoneNumber ?? '',
@@ -44,7 +43,7 @@ export const UpdateUserForm = ({
 			{
 				onSuccess: data => {
 					toast.success(
-						`User '${data.name} ${data.surname}' updated successfully`
+						`User '${data.name} updated successfully`
 					);
 
 					router.push(navPath);
@@ -64,7 +63,6 @@ export const UpdateUserForm = ({
 				<div className="flex flex-col gap-10 lg:flex-row">
 					<div className="lg:w-1/2">
 						<FormInput name="name" label="Name" />
-						<FormInput name="surname" label="Surname" />
 						<FormInput name="nickname" label="Nickname" />
 						<FormInput name="email" label="Email" />
 						<FormInput name="phoneNumber" label="Phone Number" />

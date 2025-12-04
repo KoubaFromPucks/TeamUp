@@ -1,7 +1,6 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 
-import { userTable } from './schema/user';
 import { teamTable } from './schema/team';
 import { teamMemberTable } from './schema/team-member';
 import { venueTable } from './schema/venue';
@@ -19,7 +18,6 @@ const client = createClient({
 
 export const db = drizzle(client, {
 	schema: {
-		userTable,
 		teamTable,
 		teamMemberTable,
 		venueTable,

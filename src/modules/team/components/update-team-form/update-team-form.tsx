@@ -70,7 +70,7 @@ export const UpdateTeamForm = ({
 							<FormSelect name="organizerId" label="Organizer">
 								{team?.members.map(member => (
 									<option key={member.id} value={member.id}>
-										{member.name} {member.surname} ({member.email})
+										{member.name} ({member.email})
 									</option>
 								))}
 							</FormSelect>

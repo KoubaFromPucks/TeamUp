@@ -6,11 +6,7 @@ export const userUpdateCreateSchema = z
 		name: z
 			.string()
 			.min(1, 'Name is required')
-			.max(40, 'Name must be at most 40 characters'),
-		surname: z
-			.string()
-			.min(1, 'Surname is required')
-			.max(40, 'Surname must be at most 40 characters'),
+			.max(80, 'Name must be at most 80 characters'),
 		nickname: z
 			.string()
 			.min(1, 'Nickname is required')
@@ -41,7 +37,6 @@ export type UserUpdateCreateDto = z.infer<typeof userUpdateCreateSchema>;
 export type UserDetailDto = {
 	id: string;
 	name: string;
-	surname: string;
 	nickname: string;
 	email: string;
 	phoneNumber?: string;

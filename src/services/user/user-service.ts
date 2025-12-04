@@ -14,15 +14,6 @@ export const userService = {
 		return false;
 	},
 
-	async createUser(user: UserInsertModel) {
-		if (await this.doesUserExist(user.email)) {
-			throw new Error('User with this email already exists');
-		}
-
-		const createdUser = await userRepository.createUser(user);
-		return userMapper.mapEntityToListModel(createdUser);
-	},
-
 	async getUserById(userId: string) {
 		const user = await userRepository.getUserById(userId);
 		return user ? userMapper.mapEntityToListModel(user) : undefined;
@@ -42,15 +33,16 @@ export const userService = {
 		if (!(await this.getUserById(userId))) {
 			throw new Error('User does not exist');
 		}
+		const userInsertEntity = userMapper.mapPartialInsertModelToEntity(user);
 
-		if (user.email) {
-			const existingUser = await userRepository.getUserByMail(user.email);
+		if (userInsertEntity.email) {
+			const existingUser = await userRepository.getUserByMail(userInsertEntity.email);
 			if (existingUser && existingUser.id !== userId) {
 				throw new Error('Another user with this email already exists');
 			}
 		}
 
-		const updatedUser = await userRepository.updateUserById(userId, user);
+		const updatedUser = await userRepository.updateUserById(userId, userInsertEntity);
 		if (!updatedUser) {
 			throw new Error('User update failed');
 		}

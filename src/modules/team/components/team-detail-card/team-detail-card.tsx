@@ -100,7 +100,7 @@ export const TeamDetailCard = ({
 							items={[
 								{
 									id: team.organizer.id,
-									label: `${team.organizer.name} ${team.organizer.surname} (${team.organizer.nickname})`
+									label: `${team.organizer.name} (${team.organizer.nickname})`
 								}
 							]}
 							href="/profile"
@@ -123,12 +123,12 @@ export const TeamDetailCard = ({
 										href={`/profile/${member.id}`}
 										className="mx-0 block w-full"
 									>
-										{`${member.name} ${member.surname} (${member.nickname})`}
+										{`${member.name} (${member.nickname})`}
 									</StandardLink>
 									{isUserAdmin && (
 										<ConfirmDialog
 											onConfirm={() => onRemoveMember(member.id)}
-											question={`Are you sure you want to remove ${member.name} ${member.surname} from team?`}
+											question={`Are you sure you want to remove ${member.name} (${member.nickname}) from team?`}
 											triggerContent={<X />}
 										/>
 									)}

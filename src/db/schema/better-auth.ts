@@ -14,7 +14,9 @@ export const user = sqliteTable('user', {
 		.default(sql`(unixepoch())`),
 	updatedAt: integer('updatedAt', { mode: 'timestamp' })
 		.notNull()
-		.default(sql`(unixepoch())`)
+		.default(sql`(unixepoch())`),
+	phoneNumber: text('phone_number'),
+	nickname: text('nickname').notNull().default('MY_NICKNAME')
 });
 
 export const session = sqliteTable('session', {

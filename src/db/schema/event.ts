@@ -1,6 +1,6 @@
 import { real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { venueTable } from './venue';
-import { userTable } from './user';
+import { user as userTable } from './better-auth';
 import { dayOfWeekEnum } from './enums/dayOfWeek';
 import { inviteTypeEnum } from './enums/inviteType';
 import { pricingTypeEnum } from './enums/pricingType';

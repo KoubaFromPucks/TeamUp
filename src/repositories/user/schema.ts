@@ -1,4 +1,4 @@
-import { userTable } from '@/db/schema/user';
+import { user as userTable } from '@/db/schema/better-auth';
 import { TeamSelectEntity } from '../team/schema';
 
 export type UserSelectEntity = typeof userTable.$inferSelect;

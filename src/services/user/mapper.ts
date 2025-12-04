@@ -11,45 +11,20 @@ export const userMapper = {
 		return {
 			id: entity.id,
 			name: entity.name,
-			surname: entity.surname,
 			nickname: entity.nickname,
 			email: entity.email,
 			phoneNumber: entity.phoneNumber,
-			imageUrl: entity.imageUrl
-		};
-	},
-
-	mapListModelToEntity(model: UserListModel): UserSelectEntity {
-		return {
-			id: model.id,
-			name: model.name,
-			surname: model.surname,
-			nickname: model.nickname,
-			email: model.email,
-			phoneNumber: model.phoneNumber,
-			imageUrl: model.imageUrl
+			imageUrl: entity.image
 		};
 	},
 
 	mapInsertModelToEntity(model: Omit<UserInsertModel, 'id'>): UserInsertEntity {
 		return {
 			name: model.name,
-			surname: model.surname,
 			nickname: model.nickname,
 			email: model.email,
 			phoneNumber: model.phoneNumber,
-			imageUrl: model.imageUrl
-		};
-	},
-
-	mapEntityToInsertModel(entity: UserInsertEntity): UserInsertModel {
-		return {
-			name: entity.name,
-			surname: entity.surname,
-			nickname: entity.nickname,
-			email: entity.email,
-			phoneNumber: entity.phoneNumber ?? null,
-			imageUrl: entity.imageUrl ?? null
+			image: model.imageUrl
 		};
 	},
 
@@ -59,11 +34,10 @@ export const userMapper = {
 		return {
 			id: entity.id,
 			name: entity.name,
-			surname: entity.surname,
 			nickname: entity.nickname,
 			email: entity.email,
 			phoneNumber: entity.phoneNumber,
-			imageUrl: entity.imageUrl,
+			imageUrl: entity.image,
 			adminedTeams: entity.adminedTeams.map(team =>
 				teamMapper.mapEntityToListModel(team)
 			),
@@ -71,5 +45,18 @@ export const userMapper = {
 				teamMapper.mapEntityToListModel(team)
 			)
 		};
+	},
+
+	mapPartialInsertModelToEntity(
+		model: Partial<UserInsertModel>
+	): Partial<UserInsertEntity> {
+		const entity: Partial<UserInsertEntity> = {};
+		if (model.name !== undefined) entity.name = model.name;
+		if (model.nickname !== undefined) entity.nickname = model.nickname;
+		if (model.email !== undefined) entity.email = model.email;
+		if (model.phoneNumber !== undefined) entity.phoneNumber = model.phoneNumber;
+		if (model.imageUrl !== undefined) entity.image = model.imageUrl;
+		
+		return entity;
 	}
 };

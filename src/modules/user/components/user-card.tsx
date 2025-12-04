@@ -55,7 +55,7 @@ export const UserCard = ({
 					<CardImage imageUrl={getImageUrlOrDefault(user.imageUrl)} />
 					<CardLabeledItem label="User informations">
 						<h2 className="text-xl font-bold">
-							{user.name} {user.surname}
+							{user.name}
 						</h2>
 						<p className="text-gray-600">@{user.nickname}</p>
 						<p className="text-gray-600">{user.email}</p>

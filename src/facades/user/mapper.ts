@@ -11,7 +11,6 @@ export const userMapper = {
 		return {
 			id: model.id,
 			name: model.name,
-			surname: model.surname,
 			nickname: model.nickname,
 			email: model.email,
 			phoneNumber: model.phoneNumber ?? undefined,
@@ -25,7 +24,6 @@ export const userMapper = {
 		return {
 			id: model.id,
 			name: model.name,
-			surname: model.surname,
 			nickname: model.nickname,
 			email: model.email,
 			phoneNumber: model.phoneNumber ?? undefined,
@@ -37,7 +35,6 @@ export const userMapper = {
 		return {
 			id: dto.id,
 			name: dto.name,
-			surname: dto.surname,
 			nickname: dto.nickname,
 			email: dto.email,
 			phoneNumber: dto.phoneNumber ?? null,
@@ -48,7 +45,6 @@ export const userMapper = {
 	mapDtoToUserInsertModel(dto: UserUpdateCreateDto): UserInsertModel {
 		return {
 			name: dto.name,
-			surname: dto.surname,
 			nickname: dto.nickname,
 			email: dto.email,
 			phoneNumber: dto.phoneNumber ?? null,
