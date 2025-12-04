@@ -1,14 +1,12 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 
-import { userTable } from './schema/user';
 import { teamTable } from './schema/team';
 import { teamMemberTable } from './schema/team-member';
 import { venueTable } from './schema/venue';
 import { eventTable } from './schema/event';
 import { concreteEventTable } from './schema/concrete-event';
 import { eventInvitationTable } from './schema/event-invitation';
-import * as relations from './schema/relations';
 import { eventCoorganiserTable } from './schema/event-coorganisers';
 import { user, session, account, verification } from './schema/better-auth';
 
@@ -19,7 +17,6 @@ const client = createClient({
 
 export const db = drizzle(client, {
 	schema: {
-		userTable,
 		teamTable,
 		teamMemberTable,
 		venueTable,
@@ -30,6 +27,6 @@ export const db = drizzle(client, {
 		account,
 		verification,
 		concreteEventTable,
-		eventInvitationTable,
+		eventInvitationTable
 	}
 });

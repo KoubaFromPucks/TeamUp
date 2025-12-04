@@ -7,20 +7,6 @@ import { db, teamTable, userTable, teamMemberTable } from '@/db';
 import { eq } from 'drizzle-orm';
 
 export const userRepository = {
-	async createUser(userEntity: UserInsertEntity) {
-		try {
-			const createdUser = await db
-				.insert(userTable)
-				.values(userEntity)
-				.returning();
-
-			return createdUser[0] as UserSelectEntity;
-		} catch (error) {
-			console.error('Error creating user:', error);
-			throw new Error('Could not create user');
-		}
-	},
-
 	async getUserById(userId: string) {
 		try {
 			const user = await db

@@ -1,5 +1,5 @@
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { userTable } from './user';
+import { user as userTable } from './better-auth';
 
 export const teamTable = sqliteTable('teams', {
 	id: text('id')

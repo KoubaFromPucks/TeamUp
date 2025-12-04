@@ -5,10 +5,7 @@ import { UserUpdateCreateDto, userUpdateCreateSchema } from './schema';
 
 import { userMapper } from './mapper';
 
-export const createUpdateUser = async (
-	userId: string | undefined,
-	user: UserUpdateCreateDto
-) => {
+export const updateUser = async (userId: string, user: UserUpdateCreateDto) => {
 	const validationResult = userUpdateCreateSchema.safeParse(user);
 
 	if (!validationResult.success) {
@@ -16,30 +13,17 @@ export const createUpdateUser = async (
 		return { error: errors, user: null };
 	}
 
-	let result;
 	const insertUserDto = userMapper.mapDtoToUserInsertModel(
 		validationResult.data
 	);
 
 	try {
-		if (userId) {
-			result = await userService.updateUserById(userId, insertUserDto);
-		} else {
-			result = await userService.createUser(insertUserDto);
-		}
+		const result = await userService.updateUserById(userId, insertUserDto);
+
+		return { error: null, user: userMapper.mapUserListModelToDto(result) };
 	} catch (error) {
 		return { error: (error as Error).message, user: null };
 	}
-
-	return { error: null, user: userMapper.mapUserListModelToDto(result) };
-};
-
-export const createUser = async (user: UserUpdateCreateDto) => {
-	await createUpdateUser(undefined, user);
-};
-
-export const updateUser = async (userId: string, user: UserUpdateCreateDto) => {
-	await createUpdateUser(userId, user);
 };
 
 export const getUserById = async (userId: string) => {
