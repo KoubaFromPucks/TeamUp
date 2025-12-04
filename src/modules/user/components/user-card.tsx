@@ -17,15 +17,12 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { TeamListDto } from '@/facades/team/schema';
 import { getImageUrlOrDefault } from '@/lib/utils';
+import { useSession } from '@/lib/auth-client';
 
-export const UserCard = ({
-	user,
-	myProfile
-}: {
-	user: UserDetailDto;
-	myProfile: boolean;
-}) => {
+export const UserCard = ({ user }: { user: UserDetailDto }) => {
 	const router = useRouter();
+	const { data: session } = useSession();
+	const isItLoggedUserProfile = session?.user?.id === user.id;
 
 	const removeTeamMutation = useRemoveTeamMutation();
 	const onRemoveTeam = (teamId: string) => {
@@ -46,7 +43,7 @@ export const UserCard = ({
 	return (
 		<>
 			<Card>
-				{myProfile && (
+				{isItLoggedUserProfile && (
 					<CardHeader>
 						<StandardLink href={`/profile/edit`}>Edit Profile</StandardLink>
 					</CardHeader>
@@ -64,20 +61,22 @@ export const UserCard = ({
 						<CardLinkList
 							href="/team"
 							additionalContent={
-								<StandardLink
-									className="block w-full"
-									variant="dark"
-									href="/team/create"
-								>
-									Create team
-								</StandardLink>
+								isItLoggedUserProfile && (
+									<StandardLink
+										className="block w-full"
+										variant="dark"
+										href="/team/create"
+									>
+										Create team
+									</StandardLink>
+								)
 							}
 						>
 							{user.adminedTeams.map(team => (
 								<TeamListItem
 									key={team.id}
 									team={team}
-									onRemove={onRemoveTeam}
+									onRemove={isItLoggedUserProfile ? onRemoveTeam : undefined}
 								/>
 							))}
 						</CardLinkList>

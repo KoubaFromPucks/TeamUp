@@ -12,7 +12,7 @@ export const userUpdateCreateSchema = z
 			.min(1, 'Nickname is required')
 			.max(40, 'Nickname must be at most 40 characters'),
 		email: z.string().email('Invalid email address'),
-		phoneNumber: z.string().min(1, 'Phone number is required').optional(),
+		phoneNumber: z.string().optional(),
 		imageUrl: z.string().url('Invalid URL').nullable()
 	})
 	.refine(

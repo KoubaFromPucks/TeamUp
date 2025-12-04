@@ -17,19 +17,18 @@ import { AddTeamMemberDialog } from './add-team-member-dialog';
 import { CardContent, CardFooter, CardHeader } from '@/components/card/card';
 import { ConfirmDialog } from '@/components/dialog/confirm-dialog';
 import { getImageUrlOrDefault } from '@/lib/utils';
+import { useSession } from '@/lib/auth-client';
 
-export const TeamDetailCard = ({
-	team,
-	isUserAdmin
-}: {
-	team: TeamDetailDto;
-	isUserAdmin: boolean; // TODO: replace with actual admin check
-}) => {
-	const [isUserMember, setIsUserMember] = React.useState(true); // TODO: check properly
-	const currentUserId = 'fc06e91f-d36b-41ff-a42f-be1be694ec83'; // TODO: replace with actual current user ID
+export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
+	const { data: session } = useSession();
 	const mutation = useRemoveUserFromTeamMutation();
 	const removeTeamMutation = useRemoveTeamMutation();
 	const router = useRouter();
+	const currentUserId = session?.user?.id || '';
+	const [isUserMember, setIsUserMember] = React.useState(
+		team.members.some(member => member.id === currentUserId)
+	);
+	const isUserAdmin = session?.user?.id === team.organizerId;
 
 	const onLeaveTeam = () => {
 		mutation.mutate(
@@ -111,10 +110,12 @@ export const TeamDetailCard = ({
 						<CardLinkList
 							href="/profile"
 							additionalContent={
-								<AddTeamMemberDialog
-									teamId={team.id}
-									onSuccess={() => router.push(`/team/${team.id}`)}
-								/>
+								isUserAdmin && (
+									<AddTeamMemberDialog
+										teamId={team.id}
+										onSuccess={() => router.push(`/team/${team.id}`)}
+									/>
+								)
 							}
 						>
 							{team.members.map(member => (
