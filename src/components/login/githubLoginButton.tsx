@@ -1,6 +1,8 @@
 'use client';
 
+import React from 'react';
 import { signIn, signOut, useSession } from '@/lib/auth-client';
+import { getImageUrlOrDefault } from '@/lib/utils';
 
 type Props = {
 	className?: string;
@@ -38,9 +40,8 @@ export function GithubLoginButton({ className, showUser = true }: Props) {
 			{showUser && (
 				<div className="flex items-center gap-2">
 					{user.image && (
-						// eslint-disable-next-line @next/next/no-img-element
 						<img
-							src={user.image}
+							src={getImageUrlOrDefault(user.image)}
 							alt={user.name ?? user.email}
 							className="h-8 w-8 rounded-full"
 						/>

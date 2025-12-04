@@ -5,10 +5,7 @@ import { UserUpdateCreateDto, userUpdateCreateSchema } from './schema';
 
 import { userMapper } from './mapper';
 
-export const updateUser = async (
-	userId: string,
-	user: UserUpdateCreateDto
-) => {
+export const updateUser = async (userId: string, user: UserUpdateCreateDto) => {
 	const validationResult = userUpdateCreateSchema.safeParse(user);
 
 	if (!validationResult.success) {

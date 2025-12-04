@@ -36,13 +36,18 @@ export const userService = {
 		const userInsertEntity = userMapper.mapPartialInsertModelToEntity(user);
 
 		if (userInsertEntity.email) {
-			const existingUser = await userRepository.getUserByMail(userInsertEntity.email);
+			const existingUser = await userRepository.getUserByMail(
+				userInsertEntity.email
+			);
 			if (existingUser && existingUser.id !== userId) {
 				throw new Error('Another user with this email already exists');
 			}
 		}
 
-		const updatedUser = await userRepository.updateUserById(userId, userInsertEntity);
+		const updatedUser = await userRepository.updateUserById(
+			userId,
+			userInsertEntity
+		);
 		if (!updatedUser) {
 			throw new Error('User update failed');
 		}

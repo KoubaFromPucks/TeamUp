@@ -42,9 +42,7 @@ export const UpdateUserForm = ({
 			{ data: values, id: user.id ?? '' },
 			{
 				onSuccess: data => {
-					toast.success(
-						`User '${data.name} updated successfully`
-					);
+					toast.success(`User '${data.name} updated successfully`);
 
 					router.push(navPath);
 				},

@@ -56,7 +56,7 @@ export const userMapper = {
 		if (model.email !== undefined) entity.email = model.email;
 		if (model.phoneNumber !== undefined) entity.phoneNumber = model.phoneNumber;
 		if (model.imageUrl !== undefined) entity.image = model.imageUrl;
-		
+
 		return entity;
 	}
 };

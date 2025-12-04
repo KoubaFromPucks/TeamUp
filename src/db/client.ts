@@ -7,7 +7,6 @@ import { venueTable } from './schema/venue';
 import { eventTable } from './schema/event';
 import { concreteEventTable } from './schema/concrete-event';
 import { eventInvitationTable } from './schema/event-invitation';
-import * as relations from './schema/relations';
 import { eventCoorganiserTable } from './schema/event-coorganisers';
 import { user, session, account, verification } from './schema/better-auth';
 
@@ -28,6 +27,6 @@ export const db = drizzle(client, {
 		account,
 		verification,
 		concreteEventTable,
-		eventInvitationTable,
+		eventInvitationTable
 	}
 });
