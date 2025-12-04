@@ -1,5 +1,5 @@
 'use client';
-import { useSession } from "@/lib/auth-client";
+import { signOut, useSession } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
 import { GithubLoginButton } from "./login/githubLoginButton";
@@ -55,6 +55,13 @@ export const Navigation = () => {
                 </Link>
             }
             {!user && <GithubLoginButton></GithubLoginButton>}
+            {
+                user && 
+                <div className="flex items-center">
+                    <div className="border-l border-gray-400 h-8 mx-2 pl-3"></div>
+                    <Image src={'/logout.png'} alt='logout' onClick={() => signOut()} width={30} height={30}></Image>
+                </div>
+            }
         </div>
     </header>
     );
