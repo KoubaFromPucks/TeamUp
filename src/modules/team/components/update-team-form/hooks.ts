@@ -11,7 +11,6 @@ export const useUpdateTeamMutation = () =>
 			data: TeamUpdateCreateDto;
 			id: string;
 		}) => {
-			console.log('Updating team with id:', id, 'and data:', data);
 			const { error, team } = await createUpdateTeam(id, data);
 
 			if (error) {
