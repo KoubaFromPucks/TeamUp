@@ -94,7 +94,7 @@ export const Navigation = () => {
 				</div>
 				{user && (
 					<Link
-						href={`/profile/${user.id}`}
+						href={`/user/${user.id}`}
 						className="rounded-xl p-2 hover:bg-gray-300"
 					>
 						<Image

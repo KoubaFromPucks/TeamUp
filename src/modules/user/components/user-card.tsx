@@ -33,7 +33,7 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 			<Card>
 				{isItLoggedUserProfile && (
 					<CardHeader>
-						<StandardLink href={`/profile/edit`}>Edit Profile</StandardLink>
+						<StandardLink href={`/user/edit`}>Edit Profile</StandardLink>
 					</CardHeader>
 				)}
 				<CardContent>
@@ -67,7 +67,7 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 									onRemove={
 										isItLoggedUserProfile
 											? () => {
-													router.push(`/profile/${user.id}`);
+													router.push(`/user/${user.id}`);
 												}
 											: undefined
 									}

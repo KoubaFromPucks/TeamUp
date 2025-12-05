@@ -17,7 +17,7 @@ const Page = async () => {
 			<h1 className="text-3xl font-semibold">Create Team</h1>
 			<UpdateTeamForm
 				team={null}
-				navPath={`/profile/${loggedUserId}`}
+				navPath={`/user/${loggedUserId}`}
 				update={false}
 				organizerId={loggedUserId}
 			/>

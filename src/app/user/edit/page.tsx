@@ -12,7 +12,7 @@ const Page = async () => {
 	}
 
 	const { error, user } = await getUserById(session.user.id);
-	const returnPath = `/profile/${user?.id}`;
+	const returnPath = `/user/${user?.id}`;
 
 	if (!user || error) {
 		throw new Error('User to edit was not found');
