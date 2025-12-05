@@ -29,11 +29,17 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 		team.members.some(member => member.id === currentUserId)
 	);
 
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
 	useEffect(() => {
 		setIsUserMember(team.members.some(member => member.id === currentUserId));
 	}, [currentUserId]);
 
-	const isUserAdmin = session?.user?.id === team.organizerId;
+	const isUserAdmin = isMounted && session?.user?.id === team.organizerId;
 
 	return (
 		<>
