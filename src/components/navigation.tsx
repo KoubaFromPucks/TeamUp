@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { signOut, useSession } from '@/lib/auth-client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -92,7 +93,10 @@ export const Navigation = () => {
 					/>
 				</div>
 				{user && (
-					<Link href={`/profile/${user.id}`} className="rounded-xl p-2 hover:bg-gray-300">
+					<Link
+						href={`/profile/${user.id}`}
+						className="rounded-xl p-2 hover:bg-gray-300"
+					>
 						<Image
 							src={user.image || '/user.png'}
 							alt={user.name}
