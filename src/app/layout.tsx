@@ -11,7 +11,11 @@ import { Navigation } from '@/components/navigation';
 const poppins = Poppins({ subsets: ['latin'], weight: ['400'] });
 
 export const metadata: Metadata = {
-	title: 'TeamUp'
+	title: 'TeamUp',
+	icons: {
+		icon: '/icon.png'
+	},
+	description: 'Event management platform'
 };
 
 const RootLayout = ({
