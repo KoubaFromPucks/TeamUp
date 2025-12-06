@@ -1,6 +1,6 @@
 import { db } from '@/db';
 import { boardItemTable } from '@/db/schema/board-item';
-import { eq, and, desc } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
 import type {
 	BoardItemSelectEntity,
 	BoardItemInsertEntity,
