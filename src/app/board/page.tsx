@@ -1,6 +1,6 @@
 import { getAllBoardItems } from '@/facades/board/board-item-facade';
 import { Card, CardContent, CardHeader } from '@/components/card';
-import { Calendar, User, Plus, Pencil } from 'lucide-react';
+import { Calendar, User, Plus } from 'lucide-react';
 import React from 'react';
 import type { BoardItemListDto } from '@/facades/board/schema';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import { Button } from '@/components/basic-components/button';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { BoardItemActions } from './board-item-actions';
 
 const BoardPage = async () => {
 	const session = await auth.api.getSession({ headers: await headers() });
@@ -68,13 +69,7 @@ const BoardPage = async () => {
 									<h3 className="text-lg font-semibold leading-tight">
 										{item.title}
 									</h3>
-									<Link
-										href={`/board/edit/${item.id}`}
-										className="flex-shrink-0 rounded p-1 hover:bg-gray-100"
-										title="Edit board item"
-									>
-										<Pencil className="h-4 w-4 text-gray-600" />
-									</Link>
+									<BoardItemActions itemId={item.id} />
 								</div>
 							</CardHeader>
 							<CardContent className="flex-col items-start">
