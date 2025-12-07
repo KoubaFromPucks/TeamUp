@@ -10,7 +10,23 @@ import {
 	BoardItemUpdateModel
 } from './schema';
 
-function mapEntityToListModel(entity: BoardItemSelectEntity | Record<string, unknown>): BoardItemListModel {
+type BoardItemWithRelations = {
+	id: string;
+	concreteEventId: string;
+	authorId: string;
+	title: string;
+	content: string;
+	isPinned: boolean;
+	createdAt: string;
+	updatedAt: string | null;
+	authorName: string | null;
+	eventName: string | null;
+	eventStartDate: string | null;
+};
+
+function mapEntityToListModel(entity: BoardItemSelectEntity | BoardItemWithRelations): BoardItemListModel {
+	const hasRelations = 'authorName' in entity;
+	
 	return {
 		id: entity.id,
 		concreteEventId: entity.concreteEventId,
@@ -20,13 +36,13 @@ function mapEntityToListModel(entity: BoardItemSelectEntity | Record<string, unk
 		isPinned: entity.isPinned,
 		createdAt: entity.createdAt,
 		updatedAt: entity.updatedAt,
-		authorName: entity.authorName ?? null,
-		eventName: entity.eventName ?? null,
-		eventStartDate: entity.eventStartDate ?? null
+		authorName: hasRelations ? entity.authorName : null,
+		eventName: hasRelations ? entity.eventName : null,
+		eventStartDate: hasRelations ? entity.eventStartDate : null
 	};
 }
 
-function mapEntityToDetailModel(entity: BoardItemSelectEntity | Record<string, unknown>): BoardItemDetailModel {
+function mapEntityToDetailModel(entity: BoardItemSelectEntity | BoardItemWithRelations): BoardItemDetailModel {
 	return mapEntityToListModel(entity);
 }
 
