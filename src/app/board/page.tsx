@@ -1,6 +1,6 @@
 import { getAllBoardItems } from '@/facades/board/board-item-facade';
 import { Card, CardContent, CardHeader } from '@/components/card';
-import { Calendar, User, Plus } from 'lucide-react';
+import { Calendar, User, Plus, Pencil } from 'lucide-react';
 import React from 'react';
 import type { BoardItemListDto } from '@/facades/board/schema';
 import Link from 'next/link';
@@ -8,6 +8,15 @@ import { Button } from '@/components/basic-components/button';
 
 const BoardPage = async () => {
 	const { error, boardItems } = await getAllBoardItems();
+
+	if (error || !boardItems) {
+		return (
+			<div className="container mx-auto px-4 py-8">
+				<h1 className="mb-6 text-3xl font-semibold">Board</h1>
+				<p className="text-red-500">Failed to load board items: {error}</p>
+			</div>
+		);
+	}
 
 	if (error || !boardItems) {
 		return (
@@ -46,9 +55,18 @@ const BoardPage = async () => {
 					{boardItems.map((item: BoardItemListDto) => (
 						<Card key={item.id}>
 							<CardHeader className="border-b-0 pb-3 !text-left">
-								<h3 className="text-lg leading-tight font-semibold">
-									{item.title}
-								</h3>
+								<div className="flex items-start justify-between gap-2">
+									<h3 className="text-lg font-semibold leading-tight">
+										{item.title}
+									</h3>
+									<Link
+										href={`/board/edit/${item.id}`}
+										className="flex-shrink-0 rounded p-1 hover:bg-gray-100"
+										title="Edit board item"
+									>
+										<Pencil className="h-4 w-4 text-gray-600" />
+									</Link>
+								</div>
 							</CardHeader>
 							<CardContent className="flex-col items-start">
 								<p className="mb-4 line-clamp-4 text-sm leading-relaxed text-gray-700">

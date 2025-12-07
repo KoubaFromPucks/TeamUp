@@ -10,6 +10,7 @@ export type BoardItemDetailModel = {
 	authorName: string | null;
 	eventName: string | null;
 	eventStartDate: string | null;
+	eventOrganizerId: string | null;
 };
 
 export type BoardItemListModel = BoardItemDetailModel;

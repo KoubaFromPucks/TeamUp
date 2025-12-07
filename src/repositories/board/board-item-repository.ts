@@ -41,7 +41,8 @@ export const boardItemRepository = {
 				updatedAt: boardItemTable.updatedAt,
 				authorName: userTable.name,
 				eventName: eventTable.name,
-				eventStartDate: concreteEventTable.startDate
+				eventStartDate: concreteEventTable.startDate,
+				eventOrganizerId: eventTable.organisatorId
 			})
 			.from(boardItemTable)
 			.leftJoin(userTable, eq(boardItemTable.authorId, userTable.id))
