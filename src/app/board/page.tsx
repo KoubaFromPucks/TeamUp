@@ -1,8 +1,10 @@
 import { getAllBoardItems } from '@/facades/board/board-item-facade';
 import { Card, CardContent, CardHeader } from '@/components/card';
-import { Calendar, User } from 'lucide-react';
+import { Calendar, User, Plus } from 'lucide-react';
 import React from 'react';
 import type { BoardItemListDto } from '@/facades/board/schema';
+import Link from 'next/link';
+import { Button } from '@/components/basic-components/button';
 
 const BoardPage = async () => {
 	const { error, boardItems } = await getAllBoardItems();
@@ -18,8 +20,14 @@ const BoardPage = async () => {
 
 	return (
 		<div className="container mx-auto px-4 py-8">
-			<div className="mb-10">
+			<div className="mb-10 flex items-center justify-between">
 				<h1 className="mb-2 text-4xl font-bold tracking-tight">Board</h1>
+				<Button asChild>
+					<Link href="/board/create">
+						<Plus className="h-4 w-4" />
+						Create Board Item
+					</Link>
+				</Button>
 			</div>
 
 			{boardItems.length === 0 ? (
