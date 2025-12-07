@@ -10,23 +10,29 @@ import {
 	BoardItemUpdateModel
 } from './schema';
 
-export const boardItemMapper = {
-	mapEntityToListModel(entity: BoardItemSelectEntity): BoardItemListModel {
-		return {
-			id: entity.id,
-			concreteEventId: entity.concreteEventId,
-			authorId: entity.authorId,
-			title: entity.title,
-			content: entity.content,
-			isPinned: entity.isPinned,
-			createdAt: entity.createdAt,
-			updatedAt: entity.updatedAt
-		};
-	},
+function mapEntityToListModel(entity: BoardItemSelectEntity | Record<string, unknown>): BoardItemListModel {
+	return {
+		id: entity.id,
+		concreteEventId: entity.concreteEventId,
+		authorId: entity.authorId,
+		title: entity.title,
+		content: entity.content,
+		isPinned: entity.isPinned,
+		createdAt: entity.createdAt,
+		updatedAt: entity.updatedAt,
+		authorName: entity.authorName ?? null,
+		eventName: entity.eventName ?? null,
+		eventStartDate: entity.eventStartDate ?? null
+	};
+}
 
-	mapEntityToDetailModel(entity: BoardItemSelectEntity): BoardItemDetailModel {
-		return this.mapEntityToListModel(entity);
-	},
+function mapEntityToDetailModel(entity: BoardItemSelectEntity | Record<string, unknown>): BoardItemDetailModel {
+	return mapEntityToListModel(entity);
+}
+
+export const boardItemMapper = {
+	mapEntityToListModel,
+	mapEntityToDetailModel,
 
 	mapInsertModelToInsertEntity(
 		model: BoardItemInsertModel
