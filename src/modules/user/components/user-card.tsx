@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UserDetailDto } from '@/facades/user/schema';
 import {
 	Card,
@@ -19,14 +19,21 @@ import { RemoveTeamDialog } from './remove-team-dialog';
 export const UserCard = ({ user }: { user: UserDetailDto }) => {
 	const router = useRouter();
 	const { data: session } = useSession();
-	const isItLoggedUserProfile = session?.user?.id === user.id;
+
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
+
+	const isItLoggedUserProfile = isMounted && session?.user?.id === user.id;
 
 	return (
 		<>
 			<Card>
 				{isItLoggedUserProfile && (
 					<CardHeader>
-						<StandardLink href={`/profile/edit`}>Edit Profile</StandardLink>
+						<StandardLink href={`/user/edit`}>Edit Profile</StandardLink>
 					</CardHeader>
 				)}
 				<CardContent>
@@ -60,7 +67,7 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 									onRemove={
 										isItLoggedUserProfile
 											? () => {
-													router.push(`/profile/${user.id}`);
+													router.push(`/user/${user.id}`);
 												}
 											: undefined
 									}

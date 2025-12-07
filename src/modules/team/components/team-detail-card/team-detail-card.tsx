@@ -24,16 +24,22 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 
 	const router = useRouter();
 	const currentUserId = session?.user?.id || '';
-	
+
 	const [isUserMember, setIsUserMember] = useState(
 		team.members.some(member => member.id === currentUserId)
 	);
+
+	const [isMounted, setIsMounted] = useState(false);
+
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
 	useEffect(() => {
 		setIsUserMember(team.members.some(member => member.id === currentUserId));
 	}, [currentUserId]);
 
-	const isUserAdmin = session?.user?.id === team.organizerId;
+	const isUserAdmin = isMounted && session?.user?.id === team.organizerId;
 
 	return (
 		<>
@@ -61,13 +67,13 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 									label: `${team.organizer.name} (${team.organizer.nickname})`
 								}
 							]}
-							href="/profile"
+							href="/user"
 						/>
 					</CardLabeledItem>
 
 					<CardLabeledItem label="Members">
 						<CardLinkList
-							href="/profile"
+							href="/user"
 							additionalContent={
 								isUserAdmin && (
 									<AddTeamMemberDialog
@@ -80,7 +86,7 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 							{team.members.map(member => (
 								<li key={member.id} className="flex w-full text-black">
 									<StandardLink
-										href={`/profile/${member.id}`}
+										href={`/user/${member.id}`}
 										className="mx-0 block w-full"
 									>
 										{`${member.name} (${member.nickname})`}
@@ -106,14 +112,14 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 								userId={currentUserId}
 								onLeave={() => {
 									setIsUserMember(false);
-									router.push(`/profile/${currentUserId}`);
+									router.push(`/user/${currentUserId}`);
 								}}
 							/>
 						)}
 						{isUserAdmin && (
 							<RemoveTeamDialog
 								teamId={team.id}
-								onRemove={() => router.push(`/profile/${currentUserId}`)}
+								onRemove={() => router.push(`/user/${currentUserId}`)}
 							/>
 						)}
 					</CardFooter>
