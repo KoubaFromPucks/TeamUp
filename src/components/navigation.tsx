@@ -33,12 +33,16 @@ export const Navigation = () => {
 				<Link href="/venues" className={linkClass('/venues')}>
 					Venues
 				</Link>
-				<Link href="/board" className={linkClass('/board')}>
-					Board
-				</Link>
-				<Link href="/ownedEvents" className={linkClass('/ownedEvents')}>
-					Owned events
-				</Link>
+				{user && (
+					<>
+						<Link href="/board" className={linkClass('/board')}>
+							Board
+						</Link>
+						<Link href="/ownedEvents" className={linkClass('/ownedEvents')}>
+							Owned events
+						</Link>
+					</>
+				)}
 			</nav>
 
 			{isOpen && (
@@ -62,24 +66,28 @@ export const Navigation = () => {
 						>
 							Venues
 						</Link>
-						<Link
-							href="/board"
-							className={linkClass('/board')}
-							onClick={() => {
-								setIsOpen(!isOpen);
-							}}
-						>
-							Board
-						</Link>
-						<Link
-							href="/ownedEvents"
-							className={linkClass('/ownedEvents')}
-							onClick={() => {
-								setIsOpen(!isOpen);
-							}}
-						>
-							Owned events
-						</Link>
+						{user && (
+							<>
+								<Link
+									href="/board"
+									className={linkClass('/board')}
+									onClick={() => {
+										setIsOpen(!isOpen);
+									}}
+								>
+									Board
+								</Link>
+								<Link
+									href="/ownedEvents"
+									className={linkClass('/ownedEvents')}
+									onClick={() => {
+										setIsOpen(!isOpen);
+									}}
+								>
+									Owned events
+								</Link>
+							</>
+						)}
 					</nav>
 				</div>
 			)}
