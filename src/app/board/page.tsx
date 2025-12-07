@@ -1,25 +1,38 @@
 import { getAllBoardItems } from '@/facades/board/board-item-facade';
 import { Card, CardContent, CardHeader } from '@/components/card';
-import { Calendar, User } from 'lucide-react';
+import { Calendar, User, Plus } from 'lucide-react';
 import React from 'react';
 import type { BoardItemListDto } from '@/facades/board/schema';
+import Link from 'next/link';
+import { Button } from '@/components/basic-components/button';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { BoardItemActions } from './board-item-actions';
 
 const BoardPage = async () => {
+	const session = await auth.api.getSession({ headers: await headers() });
+
+	if (!session?.user) {
+		redirect('/');
+	}
+
 	const { error, boardItems } = await getAllBoardItems();
 
 	if (error || !boardItems) {
-		return (
-			<div className="container mx-auto px-4 py-8">
-				<h1 className="mb-6 text-3xl font-semibold">Board</h1>
-				<p className="text-red-500">Failed to load board items: {error}</p>
-			</div>
-		);
+		throw new Error(`Failed to load board items: ${error}`);
 	}
 
 	return (
 		<div className="container mx-auto px-4 py-8">
-			<div className="mb-10">
+			<div className="mb-10 flex items-center justify-between">
 				<h1 className="mb-2 text-4xl font-bold tracking-tight">Board</h1>
+				<Button asChild>
+					<Link href="/board/create">
+						<Plus className="h-4 w-4" />
+						Create Board Item
+					</Link>
+				</Button>
 			</div>
 
 			{boardItems.length === 0 ? (
@@ -38,9 +51,12 @@ const BoardPage = async () => {
 					{boardItems.map((item: BoardItemListDto) => (
 						<Card key={item.id}>
 							<CardHeader className="border-b-0 pb-3 !text-left">
-								<h3 className="text-lg leading-tight font-semibold">
-									{item.title}
-								</h3>
+								<div className="flex items-start justify-between gap-2">
+									<h3 className="text-lg leading-tight font-semibold">
+										{item.title}
+									</h3>
+									<BoardItemActions itemId={item.id} />
+								</div>
 							</CardHeader>
 							<CardContent className="flex-col items-start">
 								<p className="mb-4 line-clamp-4 text-sm leading-relaxed text-gray-700">
