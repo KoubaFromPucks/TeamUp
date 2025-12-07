@@ -59,7 +59,7 @@ export const CreateBoardItemForm = ({
 				router.push('/board');
 			}
 		} catch (error) {
-			toast.error('An unexpected error occurred');
+			toast.error(`An unexpected error occurred: ${error}`);
 		} finally {
 			setIsLoading(false);
 		}

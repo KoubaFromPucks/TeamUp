@@ -5,8 +5,17 @@ import React from 'react';
 import type { BoardItemListDto } from '@/facades/board/schema';
 import Link from 'next/link';
 import { Button } from '@/components/basic-components/button';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 const BoardPage = async () => {
+	const session = await auth.api.getSession({ headers: await headers() });
+
+	if (!session?.user) {
+		redirect('/');
+	}
+
 	const { error, boardItems } = await getAllBoardItems();
 
 	if (error || !boardItems) {

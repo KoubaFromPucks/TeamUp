@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { FormInput } from '@/components/form/form-input';
-import { FormSelect } from '@/components/form/form-select';
 import { SubmitButton } from '@/components/form/submit-button';
 import {
 	BoardItemUpdateOnlyDto,
@@ -22,8 +21,7 @@ type EditBoardItemFormProps = {
 };
 
 export const EditBoardItemForm = ({
-	boardItem,
-	concreteEvents
+	boardItem
 }: EditBoardItemFormProps) => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +56,7 @@ export const EditBoardItemForm = ({
 				router.push('/board');
 			}
 		} catch (error) {
-			toast.error('An unexpected error occurred');
+			toast.error(`An unexpected error occurred: ${error}`);
 		} finally {
 			setIsLoading(false);
 		}
