@@ -7,13 +7,15 @@ import { teamMemberTable } from './team-member';
 import { eventCoorganiserTable } from './event-coorganisers';
 import { eventInvitationTable } from './event-invitation';
 import { concreteEventTable } from './concrete-event';
+import { boardItemTable } from './board-item';
 
 export const userRelations = relations(userTable, ({ many }) => ({
 	ownedTeams: many(teamTable),
 	teamMembers: many(teamMemberTable),
 	organizedEvents: many(eventTable),
-	coorganizedEvents: many(eventCoorganiserTable),
-	eventsInvitedOn: many(eventInvitationTable)
+  	coorganizedEvents: many(eventCoorganiserTable),
+	eventsInvitedOn: many(eventInvitationTable),
+	boardItems: many(boardItemTable)
 }));
 
 export const venueRelations = relations(venueTable, ({ many }) => ({
@@ -87,6 +89,18 @@ export const concreteEventRelations = relations(
 			fields: [concreteEventTable.eventId],
 			references: [eventTable.id]
 		}),
-		invitations: many(eventInvitationTable)
+		invitations: many(eventInvitationTable),
+	boardItems: many(boardItemTable)
+}));
+
+export const boardItemRelations = relations(boardItemTable, ({ one }) => ({
+	concreteEvent: one(concreteEventTable, {
+		fields: [boardItemTable.concreteEventId],
+		references: [concreteEventTable.id]
+	}),
+	author: one(userTable, {
+		fields: [boardItemTable.authorId],
+		references: [userTable.id]
+	})
 	})
 );

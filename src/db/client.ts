@@ -8,6 +8,7 @@ import { eventTable } from './schema/event';
 import { concreteEventTable } from './schema/concrete-event';
 import { eventInvitationTable } from './schema/event-invitation';
 import { eventCoorganiserTable } from './schema/event-coorganisers';
+import { boardItemTable } from './schema/board-item';
 import { user, session, account, verification } from './schema/better-auth';
 
 const client = createClient({
@@ -27,6 +28,7 @@ export const db = drizzle(client, {
 		account,
 		verification,
 		concreteEventTable,
-		eventInvitationTable
+		eventInvitationTable,
+		boardItemTable
 	}
 });
