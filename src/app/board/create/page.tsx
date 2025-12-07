@@ -15,14 +15,7 @@ const CreateBoardItemPage = async () => {
 	const { concreteEvent: concreteEvents, error } = await getAllConcreteEvents();
 
 	if (error || !concreteEvents) {
-		return (
-			<div className="container mx-auto px-4 py-8">
-				<h1 className="mb-6 text-3xl font-semibold">Create Board Item</h1>
-				<p className="text-red-500">
-					Failed to load events. Please try again later.
-				</p>
-			</div>
-		);
+		throw new Error(`Failed to load concrete events: ${error}`);
 	}
 
 	return (

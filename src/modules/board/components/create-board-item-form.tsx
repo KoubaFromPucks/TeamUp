@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { FormInput } from '@/components/form/form-input';
 import { FormSelect } from '@/components/form/form-select';
 import { SubmitButton } from '@/components/form/submit-button';
+import { Button } from '@/components/basic-components/button';
 import {
 	BoardItemCreateUpdateDto,
 	boardItemCreateUpdateSchema
@@ -78,7 +79,10 @@ export const CreateBoardItemForm = ({
 
 	return (
 		<FormProvider {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="max-w-2xl space-y-6">
+			<form
+				onSubmit={form.handleSubmit(onSubmit)}
+				className="max-w-2xl space-y-6"
+			>
 				<FormInput
 					name="title"
 					label="Title"
@@ -95,32 +99,32 @@ export const CreateBoardItemForm = ({
 						id="content"
 						rows={6}
 						placeholder="Enter board item content"
-						className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+						className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 					/>
 					{form.formState.errors.content && (
 						<span className="mt-1 text-sm text-red-600">
 							{form.formState.errors.content.message}
 						</span>
 					)}
-			</div>
+				</div>
 
-			<FormSelect name="concreteEventId" label="Event">
-				{concreteEvents.map(event => (
-					<option key={event.id} value={event.id}>
-						Event Date {new Date(event.startDate).toLocaleDateString()}
-					</option>
-				))}
-			</FormSelect>
+				<FormSelect name="concreteEventId" label="Event">
+					{concreteEvents.map(event => (
+						<option key={event.id} value={event.id}>
+							Event Date {new Date(event.startDate).toLocaleDateString()}
+						</option>
+					))}
+				</FormSelect>
 
-			<div className="flex gap-4 pt-4">
+				<div className="flex gap-4 pt-4">
 					<SubmitButton text="Create Board Item" isLoading={isLoading} />
-					<button
+					<Button
 						type="button"
 						onClick={() => router.push('/board')}
-						className="rounded-md border border-gray-300 px-4 py-2 hover:bg-gray-50"
+						variant="outline"
 					>
 						Cancel
-					</button>
+					</Button>
 				</div>
 			</form>
 		</FormProvider>

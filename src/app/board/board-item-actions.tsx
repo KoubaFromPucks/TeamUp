@@ -6,6 +6,7 @@ import { Pencil, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { deleteBoardItemById } from '@/facades/board/board-item-facade';
+import { Button } from '@/components/basic-components/button';
 
 type BoardItemActionsProps = {
 	itemId: string;
@@ -46,14 +47,16 @@ export const BoardItemActions = ({ itemId }: BoardItemActionsProps) => {
 			>
 				<Pencil className="h-4 w-4 text-gray-600" />
 			</Link>
-			<button
+			<Button
 				onClick={handleDelete}
 				disabled={isDeleting}
-				className="flex-shrink-0 rounded p-1 hover:bg-red-100 disabled:opacity-50"
+				variant="ghost"
+				size="icon"
+				className="h-8 w-8 hover:bg-red-100"
 				title="Delete board item"
 			>
 				<Trash2 className="h-4 w-4 text-red-600" />
-			</button>
+			</Button>
 		</div>
 	);
 };

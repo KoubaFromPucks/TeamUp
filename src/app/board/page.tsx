@@ -20,21 +20,7 @@ const BoardPage = async () => {
 	const { error, boardItems } = await getAllBoardItems();
 
 	if (error || !boardItems) {
-		return (
-			<div className="container mx-auto px-4 py-8">
-				<h1 className="mb-6 text-3xl font-semibold">Board</h1>
-				<p className="text-red-500">Failed to load board items: {error}</p>
-			</div>
-		);
-	}
-
-	if (error || !boardItems) {
-		return (
-			<div className="container mx-auto px-4 py-8">
-				<h1 className="mb-6 text-3xl font-semibold">Board</h1>
-				<p className="text-red-500">Failed to load board items: {error}</p>
-			</div>
-		);
+		throw new Error(`Failed to load board items: ${error}`);
 	}
 
 	return (
@@ -66,7 +52,7 @@ const BoardPage = async () => {
 						<Card key={item.id}>
 							<CardHeader className="border-b-0 pb-3 !text-left">
 								<div className="flex items-start justify-between gap-2">
-									<h3 className="text-lg font-semibold leading-tight">
+									<h3 className="text-lg leading-tight font-semibold">
 										{item.title}
 									</h3>
 									<BoardItemActions itemId={item.id} />
