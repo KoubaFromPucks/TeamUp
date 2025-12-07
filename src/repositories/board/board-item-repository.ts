@@ -43,12 +43,15 @@ export const boardItemRepository = {
 				eventName: eventTable.name,
 				eventStartDate: concreteEventTable.startDate
 			})
-		.from(boardItemTable)
-		.leftJoin(userTable, eq(boardItemTable.authorId, userTable.id))
-		.leftJoin(concreteEventTable, eq(boardItemTable.concreteEventId, concreteEventTable.id))
-		.leftJoin(eventTable, eq(concreteEventTable.eventId, eventTable.id))
-		.orderBy(concreteEventTable.startDate);
-	return boardItems;
+			.from(boardItemTable)
+			.leftJoin(userTable, eq(boardItemTable.authorId, userTable.id))
+			.leftJoin(
+				concreteEventTable,
+				eq(boardItemTable.concreteEventId, concreteEventTable.id)
+			)
+			.leftJoin(eventTable, eq(concreteEventTable.eventId, eventTable.id))
+			.orderBy(concreteEventTable.startDate);
+		return boardItems;
 	},
 
 	async getBoardItemsByConcreteEventId(concreteEventId: string) {

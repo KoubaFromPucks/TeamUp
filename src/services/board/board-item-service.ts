@@ -42,9 +42,7 @@ export const boardItemService = {
 		concreteEventId: string
 	): Promise<BoardItemListModel[]> {
 		const boardItems =
-			await boardItemRepository.getBoardItemsByConcreteEventId(
-				concreteEventId
-			);
+			await boardItemRepository.getBoardItemsByConcreteEventId(concreteEventId);
 		return boardItems.map(boardItemMapper.mapEntityToListModel);
 	},
 
@@ -87,9 +85,7 @@ export const boardItemService = {
 		await boardItemRepository.deleteBoardItemById(boardItemId);
 	},
 
-	async togglePinBoardItem(
-		boardItemId: string
-	): Promise<BoardItemListModel> {
+	async togglePinBoardItem(boardItemId: string): Promise<BoardItemListModel> {
 		if (!(await this.doesBoardItemExist(boardItemId))) {
 			throw new Error('Board item does not exist');
 		}

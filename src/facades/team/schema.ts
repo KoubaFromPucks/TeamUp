@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { UserListDto } from '../user/schema';
+import { emptyToUndefined } from '@/lib/utils';
 
 export const teamUpdateCreateSchema = z.object({
 	name: z
@@ -12,7 +13,10 @@ export const teamUpdateCreateSchema = z.object({
 		.optional()
 		.or(z.literal(''))
 		.transform(val => (val === '' ? undefined : val)),
-	imageUrl: z.string().url('Invalid URL').optional(),
+	imageUrl: z.preprocess(
+		emptyToUndefined,
+		z.string().url('Invalid URL').optional()
+	),
 	organizerId: z.string().uuid('Invalid organizer ID')
 });
 
