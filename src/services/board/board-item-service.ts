@@ -33,6 +33,11 @@ export const boardItemService = {
 		return boardItemMapper.mapEntityToDetailModel(boardItem);
 	},
 
+	async getAllBoardItems(): Promise<BoardItemListModel[]> {
+		const boardItems = await boardItemRepository.getAllBoardItems();
+		return boardItems.map(boardItemMapper.mapEntityToListModel);
+	},
+
 	async getBoardItemsByConcreteEventId(
 		concreteEventId: string
 	): Promise<BoardItemListModel[]> {

@@ -1,5 +1,8 @@
 import { db } from '@/db';
 import { boardItemTable } from '@/db/schema/board-item';
+import { user as userTable } from '@/db/schema/better-auth';
+import { concreteEventTable } from '@/db/schema/concrete-event';
+import { eventTable } from '@/db/schema/event';
 import { eq, desc } from 'drizzle-orm';
 import type {
 	BoardItemSelectEntity,
@@ -23,6 +26,29 @@ export const boardItemRepository = {
 			.where(eq(boardItemTable.id, boardItemId))
 			.limit(1);
 		return boardItem[0] as BoardItemSelectEntity | undefined;
+	},
+
+	async getAllBoardItems() {
+		const boardItems = await db
+			.select({
+				id: boardItemTable.id,
+				concreteEventId: boardItemTable.concreteEventId,
+				authorId: boardItemTable.authorId,
+				title: boardItemTable.title,
+				content: boardItemTable.content,
+				isPinned: boardItemTable.isPinned,
+				createdAt: boardItemTable.createdAt,
+				updatedAt: boardItemTable.updatedAt,
+				authorName: userTable.name,
+				eventName: eventTable.name,
+				eventStartDate: concreteEventTable.startDate
+			})
+		.from(boardItemTable)
+		.leftJoin(userTable, eq(boardItemTable.authorId, userTable.id))
+		.leftJoin(concreteEventTable, eq(boardItemTable.concreteEventId, concreteEventTable.id))
+		.leftJoin(eventTable, eq(concreteEventTable.eventId, eventTable.id))
+		.orderBy(concreteEventTable.startDate);
+	return boardItems;
 	},
 
 	async getBoardItemsByConcreteEventId(concreteEventId: string) {

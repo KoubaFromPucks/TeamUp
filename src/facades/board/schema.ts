@@ -28,6 +28,9 @@ export type BoardItemDetailDto = BoardItemCreateUpdateDto & {
 	id: string;
 	createdAt: string;
 	updatedAt: string | null;
+	authorName: string | null;
+	eventName: string | null;
+	eventStartDate: string | null;
 };
 
 export type BoardItemListDto = BoardItemDetailDto;
