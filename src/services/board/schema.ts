@@ -16,7 +16,12 @@ export type BoardItemListModel = BoardItemDetailModel;
 
 export type BoardItemInsertModel = Omit<
 	BoardItemDetailModel,
-	'id' | 'createdAt' | 'updatedAt' | 'authorName' | 'eventName' | 'eventStartDate'
+	| 'id'
+	| 'createdAt'
+	| 'updatedAt'
+	| 'authorName'
+	| 'eventName'
+	| 'eventStartDate'
 >;
 
 export type BoardItemUpdateModel = Partial<

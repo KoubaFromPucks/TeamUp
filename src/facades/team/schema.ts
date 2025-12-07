@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { UserListDto } from '../user/schema';
+import { emptyToUndefined } from '@/lib/utils';
 
 export const teamUpdateCreateSchema = z.object({
 	name: z
@@ -9,8 +10,13 @@ export const teamUpdateCreateSchema = z.object({
 	desc: z
 		.string()
 		.max(500, 'Description must be at most 500 characters')
-		.optional(),
-	imageUrl: z.string().url('Invalid URL').optional(),
+		.optional()
+		.or(z.literal(''))
+		.transform(val => (val === '' ? undefined : val)),
+	imageUrl: z.preprocess(
+		emptyToUndefined,
+		z.string().url('Invalid URL').optional()
+	),
 	organizerId: z.string().uuid('Invalid organizer ID')
 });
 

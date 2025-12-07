@@ -30,7 +30,7 @@ export const UpdateUserForm = ({
 			nickname: user?.nickname ?? '',
 			email: user?.email ?? '',
 			phoneNumber: user?.phoneNumber ?? '',
-			imageUrl: user?.imageUrl ?? null
+			imageUrl: user?.imageUrl
 		}
 	});
 

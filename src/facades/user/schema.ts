@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { TeamListDto } from '../team/schema';
+import { emptyToUndefined } from '@/lib/utils';
 
 export const userUpdateCreateSchema = z
 	.object({
@@ -13,7 +14,10 @@ export const userUpdateCreateSchema = z
 			.max(40, 'Nickname must be at most 40 characters'),
 		email: z.string().email('Invalid email address'),
 		phoneNumber: z.string().optional(),
-		imageUrl: z.string().url('Invalid URL').nullable()
+		imageUrl: z.preprocess(
+			emptyToUndefined,
+			z.string().url('Invalid URL').optional()
+		)
 	})
 	.refine(
 		data => {

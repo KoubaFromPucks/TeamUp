@@ -21,12 +21,16 @@ const BoardPage = async () => {
 			<div className="mb-10">
 				<h1 className="mb-2 text-4xl font-bold tracking-tight">Board</h1>
 			</div>
-			
+
 			{boardItems.length === 0 ? (
 				<div className="flex min-h-[400px] items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gradient-to-br from-gray-50 to-gray-100">
 					<div className="text-center">
-						<p className="text-xl font-medium text-gray-500">No board items yet</p>
-						<p className="mt-2 text-sm text-gray-400">Check back later for new posts</p>
+						<p className="text-xl font-medium text-gray-500">
+							No board items yet
+						</p>
+						<p className="mt-2 text-sm text-gray-400">
+							Check back later for new posts
+						</p>
 					</div>
 				</div>
 			) : (
@@ -34,7 +38,7 @@ const BoardPage = async () => {
 					{boardItems.map((item: BoardItemListDto) => (
 						<Card key={item.id}>
 							<CardHeader className="border-b-0 pb-3 !text-left">
-								<h3 className="text-lg font-semibold leading-tight">
+								<h3 className="text-lg leading-tight font-semibold">
 									{item.title}
 								</h3>
 							</CardHeader>
@@ -69,11 +73,14 @@ const BoardPage = async () => {
 										<div className="flex items-center gap-2">
 											<span className="font-medium">Event Date:</span>
 											<span>
-												{new Date(item.eventStartDate).toLocaleDateString('en-US', {
-													year: 'numeric',
-													month: 'short',
-													day: 'numeric'
-												})}
+												{new Date(item.eventStartDate).toLocaleDateString(
+													'en-US',
+													{
+														year: 'numeric',
+														month: 'short',
+														day: 'numeric'
+													}
+												)}
 											</span>
 										</div>
 									)}

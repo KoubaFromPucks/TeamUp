@@ -18,10 +18,9 @@ export async function createBoardItem(boardItem: BoardItemCreateUpdateDto) {
 	}
 
 	try {
-		const insertModel =
-			boardItemFacadeMapper.mapCreateUpdateDtoToInsertModel(
-				validationResult.data
-			);
+		const insertModel = boardItemFacadeMapper.mapCreateUpdateDtoToInsertModel(
+			validationResult.data
+		);
 		const result = await boardItemService.createBoardItem(insertModel);
 		return {
 			error: null,
@@ -93,10 +92,9 @@ export async function updateBoardItemById(
 	}
 
 	try {
-		const updateModel =
-			boardItemFacadeMapper.mapUpdateOnlyDtoToUpdateModel(
-				validationResult.data
-			);
+		const updateModel = boardItemFacadeMapper.mapUpdateOnlyDtoToUpdateModel(
+			validationResult.data
+		);
 		const result = await boardItemService.updateBoardItemById(
 			boardItemId,
 			updateModel

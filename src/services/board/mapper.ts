@@ -24,9 +24,11 @@ type BoardItemWithRelations = {
 	eventStartDate: string | null;
 };
 
-function mapEntityToListModel(entity: BoardItemSelectEntity | BoardItemWithRelations): BoardItemListModel {
+function mapEntityToListModel(
+	entity: BoardItemSelectEntity | BoardItemWithRelations
+): BoardItemListModel {
 	const hasRelations = 'authorName' in entity;
-	
+
 	return {
 		id: entity.id,
 		concreteEventId: entity.concreteEventId,
@@ -42,7 +44,9 @@ function mapEntityToListModel(entity: BoardItemSelectEntity | BoardItemWithRelat
 	};
 }
 
-function mapEntityToDetailModel(entity: BoardItemSelectEntity | BoardItemWithRelations): BoardItemDetailModel {
+function mapEntityToDetailModel(
+	entity: BoardItemSelectEntity | BoardItemWithRelations
+): BoardItemDetailModel {
 	return mapEntityToListModel(entity);
 }
 
