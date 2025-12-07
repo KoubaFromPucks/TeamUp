@@ -9,7 +9,9 @@ export const teamUpdateCreateSchema = z.object({
 	desc: z
 		.string()
 		.max(500, 'Description must be at most 500 characters')
-		.optional(),
+		.optional()
+		.or(z.literal(''))
+		.transform(val => (val === '' ? undefined : val)),
 	imageUrl: z.string().url('Invalid URL').optional(),
 	organizerId: z.string().uuid('Invalid organizer ID')
 });

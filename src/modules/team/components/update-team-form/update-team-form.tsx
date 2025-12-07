@@ -33,7 +33,7 @@ export const UpdateTeamForm = ({
 		defaultValues: {
 			name: team?.name ?? '',
 			desc: team?.desc ?? '',
-			imageUrl: team?.imageUrl ?? undefined,
+			imageUrl: team?.imageUrl,
 			organizerId: organizerId
 		}
 	});

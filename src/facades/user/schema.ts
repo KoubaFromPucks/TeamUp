@@ -13,7 +13,12 @@ export const userUpdateCreateSchema = z
 			.max(40, 'Nickname must be at most 40 characters'),
 		email: z.string().email('Invalid email address'),
 		phoneNumber: z.string().optional(),
-		imageUrl: z.string().url('Invalid URL').nullable()
+		imageUrl: z
+			.string()
+			.url('Invalid URL')
+			.optional()
+			.or(z.literal(''))
+			.transform(val => (val === '' ? undefined : val))
 	})
 	.refine(
 		data => {
