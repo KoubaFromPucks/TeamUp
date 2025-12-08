@@ -1,5 +1,6 @@
 import z from 'zod';
 import { UserListDto } from '../user/schema';
+import { ConcreteEventListDto } from '../concrete_event/schema';
 
 export const eventInvitationUpdateSchema = z.object({
 	state: z.enum(['Accepted', 'Declined', 'Not sure', 'Pending']),
@@ -14,6 +15,7 @@ export type EventInvitationUpdateDto = z.infer<
 export type EventInvitationDetailDto = EventInvitationUpdateDto & {
 	id: string;
 	user: UserListDto | undefined;
+	concreteEvent: ConcreteEventListDto | undefined;
 };
 
 export type EventInvitationListDto = EventInvitationDetailDto;

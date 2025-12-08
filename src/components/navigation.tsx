@@ -4,6 +4,7 @@ import { signOut, useSession } from '@/lib/auth-client';
 import Image from 'next/image';
 import Link from 'next/link';
 import { GithubLoginButton } from './login/githubLoginButton';
+import { NotificationBell } from './notification-bell';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -102,17 +103,20 @@ export const Navigation = () => {
 					/>
 				</div>
 				{user && (
-					<Link
-						href={`/user/${user.id}`}
-						className="rounded-xl p-2 hover:bg-gray-300"
-					>
-						<Image
-							src={user.image || '/user.png'}
-							alt={user.name}
-							width={30}
-							height={30}
-						></Image>
-					</Link>
+					<>
+						<NotificationBell userId={user.id} />
+						<Link
+							href={`/user/${user.id}`}
+							className="rounded-xl p-2 hover:bg-gray-300"
+						>
+							<Image
+								src={user.image || '/user.png'}
+								alt={user.name}
+								width={30}
+								height={30}
+							></Image>
+						</Link>
+					</>
 				)}
 				{!user && <GithubLoginButton></GithubLoginButton>}
 				{user && (
