@@ -7,6 +7,7 @@ import {
 import { concreteEventMapper } from './mapper';
 import { eventInvitationService } from '../event_invitation/event-invitation-service';
 import { eventRepository } from '@/repositories/event/repository';
+import { eventCoorganiserRepository } from '@/repositories/event_coorganiser/event-coorganiser-repository';
 
 export const concreteEventService = {
 	async doesConcreteEventExist(id: string): Promise<boolean> {
@@ -137,5 +138,31 @@ export const concreteEventService = {
 		}
 
 		return concreteEventMapper.mapEntityToListModel(deleted);
+	},
+
+	async isUserEventsOrganizer(concreteEventId: string, userId: string): Promise<boolean>{
+		const concreteEvent = await concreteEventRepository.getConcreteEventById(concreteEventId);
+
+		if(!concreteEvent){
+			throw new Error('Concrete event not found');
+		}
+
+		const event = await eventRepository.getEventById(concreteEvent?.eventId);
+
+		if(!event){
+			throw new Error('Event not found');
+		}
+
+		if(event.organisatorId === userId){
+			return true;
+		}
+
+		const coorganisers = await eventCoorganiserRepository.getEventCoorganisersByEventId(event.id);
+
+		if(coorganisers.some((coorganiser) => coorganiser.userId === userId)){
+			return true;
+		}
+
+		return false;
 	}
 };
