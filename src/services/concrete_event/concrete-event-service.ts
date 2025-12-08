@@ -22,7 +22,7 @@ export const concreteEventService = {
 		concreteEvent: ConcreteEventInsertModel
 	): Promise<ConcreteEventListModel> {
 		const user = await authService.getLoggedUserOrThrow();
-		if (!(await this.isUserEventsOrganizer(concreteEvent.eventId, user.id))){
+		if (!(await this.isUserEventsOrganizer(concreteEvent.eventId, user.id))) {
 			throw new Error('User is not events organiser');
 		}
 		const createEntity =
@@ -123,10 +123,12 @@ export const concreteEventService = {
 	): Promise<ConcreteEventListModel> {
 		const concreteEventGet = await this.getConcreteEnventById(concreteEventId);
 		const user = await authService.getLoggedUserOrThrow();
-		if (!(await this.isUserEventsOrganizer(concreteEventGet.eventId, user.id))){
+		if (
+			!(await this.isUserEventsOrganizer(concreteEventGet.eventId, user.id))
+		) {
 			throw new Error('User is not events organiser');
 		}
-		
+
 		if (!(await this.doesConcreteEventExist(concreteEventId))) {
 			throw new Error('Concrete event does not exist');
 		}
@@ -151,10 +153,12 @@ export const concreteEventService = {
 	): Promise<ConcreteEventListModel> {
 		const concreteEventGet = await this.getConcreteEnventById(concreteEventId);
 		const user = await authService.getLoggedUserOrThrow();
-		if (!(await this.isUserEventsOrganizer(concreteEventGet.eventId, user.id))){
+		if (
+			!(await this.isUserEventsOrganizer(concreteEventGet.eventId, user.id))
+		) {
 			throw new Error('User is not events organiser');
 		}
-		
+
 		const deleted =
 			await concreteEventRepository.deleteConcreteEventById(concreteEventId);
 		if (!deleted) {
