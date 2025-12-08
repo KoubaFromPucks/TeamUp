@@ -6,6 +6,7 @@ import {
 	BoardItemUpdateModel
 } from './schema';
 import { boardItemMapper } from './mapper';
+import { authService } from '../auth/auth-service';
 
 export const boardItemService = {
 	async doesBoardItemExist(id: string): Promise<boolean> {
@@ -16,6 +17,11 @@ export const boardItemService = {
 	async createBoardItem(
 		boardItem: BoardItemInsertModel
 	): Promise<BoardItemListModel> {
+		const user = await authService.getLoggedUserOrThrow(
+			'You must be logged in to create a board item.'
+		);
+		boardItem.authorId = user.id;
+
 		const createEntity =
 			boardItemMapper.mapInsertModelToInsertEntity(boardItem);
 		const createdBoardItem =
@@ -56,6 +62,10 @@ export const boardItemService = {
 		boardItemId: string,
 		boardItem: BoardItemUpdateModel
 	): Promise<BoardItemListModel> {
+		const user = await authService.getLoggedUserOrThrow(
+			'You must be logged in to update a board item.'
+		);
+
 		if (!(await this.doesBoardItemExist(boardItemId))) {
 			throw new Error('Board item does not exist');
 		}
@@ -76,6 +86,10 @@ export const boardItemService = {
 	},
 
 	async deleteBoardItemById(boardItemId: string): Promise<void> {
+		const user = await authService.getLoggedUserOrThrow(
+			'You must be logged in to delete a board item.'
+		);
+		
 		if (!(await this.doesBoardItemExist(boardItemId))) {
 			throw new Error('Board item does not exist');
 		}
