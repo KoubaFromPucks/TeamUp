@@ -17,6 +17,7 @@ import {
 } from '@/facades/event_invitation/event-invitation-facade';
 import { toast } from 'sonner';
 import type { EventInvitationListDto } from '@/facades/event_invitation/schema';
+import type { InviteState } from '@/db/schema/enums/inviteState';
 
 interface NotificationBellProps {
 	userId: string;
@@ -61,7 +62,7 @@ export const NotificationBell = ({ userId }: NotificationBellProps) => {
 
 	const handleUpdateInvitation = async (
 		invitation: EventInvitationListDto,
-		newState: 'Accepted' | 'Declined' | 'Not sure'
+		newState: InviteState
 	) => {
 		setUpdatingId(invitation.id);
 		try {

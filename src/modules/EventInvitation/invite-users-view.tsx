@@ -23,6 +23,7 @@ import { toast } from 'sonner';
 import React from 'react';
 import type { UserListDto } from '@/facades/user/schema';
 import type { EventInvitationListDto } from '@/facades/event_invitation/schema';
+import type { InviteState } from '@/db/schema/enums/inviteState';
 
 interface InviteUsersViewProps {
 	concreteEventId: string;
@@ -40,7 +41,14 @@ export const InviteUsersView = ({
 	const [isInviting, setIsInviting] = useState<string | null>(null);
 	const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
-	const stateConfig = {
+	const stateConfig: Record<
+		InviteState,
+		{
+			icon: React.ComponentType<{ className?: string }>;
+			className: string;
+			label: string;
+		}
+	> = {
 		'Accepted': {
 			icon: Check,
 			className: 'text-green-600',
@@ -61,7 +69,7 @@ export const InviteUsersView = ({
 			className: 'text-gray-500',
 			label: 'Not sure'
 		}
-	} as const;
+	};
 
 	const invitedUserIds = new Set(invitedUsers.map(inv => inv.userId));
 
@@ -102,7 +110,7 @@ export const InviteUsersView = ({
 			}
 
 			const newInvitation: EventInvitationListDto = {
-				id: `temp-${user.id}`, // Temporary ID
+				id: `temp-${user.id}`,
 				concreteEventId,
 				userId: user.id,
 				state: 'Pending',
@@ -155,7 +163,6 @@ export const InviteUsersView = ({
 
 	return (
 		<div className="space-y-6">
-			{/* Search Bar */}
 			<Card>
 				<CardContent>
 					<div className="flex items-center gap-4">
@@ -170,9 +177,7 @@ export const InviteUsersView = ({
 				</CardContent>
 			</Card>
 
-			{/* Two Column Layout */}
 			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-				{/* Uninvited Users Column */}
 				<div>
 					<h2 className="mb-4 text-xl font-semibold text-gray-800">
 						Available Users ({uninvitedUsers.length})
@@ -229,7 +234,6 @@ export const InviteUsersView = ({
 					</div>
 				</div>
 
-				{/* Invited Users Column */}
 				<div>
 					<h2 className="mb-4 text-xl font-semibold text-gray-800">
 						Invited Users ({currentlyInvitedUsers.length})

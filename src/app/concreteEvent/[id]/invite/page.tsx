@@ -6,7 +6,7 @@ import {
 	isUserEventsOrganizer
 } from '@/facades/concrete_event/concrete-event-facade';
 import { getAllUsers } from '@/facades/user/user-facade';
-import { InviteUsersView } from '@/modules/invitation/invite-users-view';
+import { InviteUsersView } from '@/modules/EventInvitation/invite-users-view';
 import React from 'react';
 
 type PageProps = {
