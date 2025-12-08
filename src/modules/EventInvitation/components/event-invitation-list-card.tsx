@@ -52,22 +52,24 @@ export const EventInvitationListCard = ({
 					</div>
 
 					<CardLabeledItem label="Invitation State">
-						{(() => {
-							const config = stateConfig[eventInvitation.state];
-							const Icon = config.icon;
-
-							return (
-								<div
-									className={`flex items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold ${config.className}`}
-								>
-									<Icon size={18} />
-									{config.label}
-								</div>
-							);
-						})()}
+						<InvitationStateItem state={eventInvitation.state} />
 					</CardLabeledItem>
 				</CardContent>
 			</Card>
+		</div>
+	);
+};
+
+export const InvitationStateItem = ({ state }: { state: keyof typeof stateConfig }) => {
+	const config = stateConfig[state];
+	const Icon = config.icon;
+
+	return (
+		<div
+			className={`flex items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold ${config.className}`}
+		>
+			<Icon size={18} />
+			{config.label}
 		</div>
 	);
 };
