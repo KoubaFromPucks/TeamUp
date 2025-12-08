@@ -44,7 +44,7 @@ export const NotificationBell = ({ userId }: NotificationBellProps) => {
 				setInvitations(eventInvitation);
 			}
 		} catch (err) {
-			toast.error('An error occurred while loading invitations');
+			toast.error(`An error occurred while loading invitations: ${err}`);
 		} finally {
 			setIsLoading(false);
 		}
@@ -83,7 +83,7 @@ export const NotificationBell = ({ userId }: NotificationBellProps) => {
 				toast.success(`Invitation ${newState.toLowerCase()}`);
 			}
 		} catch (err) {
-			toast.error('An error occurred');
+			toast.error(`An error occurred: ${err}`);
 		} finally {
 			setUpdatingId(null);
 		}

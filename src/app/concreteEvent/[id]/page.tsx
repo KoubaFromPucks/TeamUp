@@ -29,7 +29,10 @@ const Page = async ({ params }: PageProps) => {
 
 	let showInviteButton = false;
 	if (userId) {
-		const { isOrganiser } = await isUserEventsOrganizer(concreteEvent.eventId, userId);
+		const { isOrganiser } = await isUserEventsOrganizer(
+			concreteEvent.eventId,
+			userId
+		);
 		showInviteButton = !!isOrganiser;
 	}
 

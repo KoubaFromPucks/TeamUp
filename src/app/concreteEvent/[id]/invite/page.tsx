@@ -50,7 +50,7 @@ const InvitePage = async ({ params }: PageProps) => {
 			<div className="mb-6">
 				<h1 className="text-3xl font-bold">Invite Users</h1>
 				<p className="mt-2 text-gray-600">
-					Manage invitations for "{concreteEvent.eventName}"
+					Manage invitations for &ldquo;{concreteEvent.eventName}&rdquo;
 				</p>
 			</div>
 
