@@ -29,19 +29,28 @@ export const UserStatsCard = ({
 				<CardLabeledItem label="Accepted invitations">
 					<p className="text-base font-medium text-gray-700">
 						{acceptedInvitations} (
-						{((acceptedInvitations / totalEvents) * 100).toFixed(2)}%)
+						{totalEvents > 0
+							? ((acceptedInvitations / totalEvents) * 100).toFixed(2)
+							: '0.00'}
+						%)
 					</p>
 				</CardLabeledItem>
 				<CardLabeledItem label="Declined invitations">
 					<p className="text-base font-medium text-gray-700">
 						{declinedInvitations} (
-						{((declinedInvitations / totalEvents) * 100).toFixed(2)}%)
+						{totalEvents > 0
+							? ((declinedInvitations / totalEvents) * 100).toFixed(2)
+							: '0.00'}
+						%)
 					</p>
 				</CardLabeledItem>
 				<CardLabeledItem label="Pending invitations">
 					<p className="text-base font-medium text-gray-700">
 						{pendingInvitations} (
-						{((pendingInvitations / totalEvents) * 100).toFixed(2)}%)
+						{totalEvents > 0
+							? ((pendingInvitations / totalEvents) * 100).toFixed(2)
+							: '0.00'}
+						%)
 					</p>
 				</CardLabeledItem>
 			</CardContent>
