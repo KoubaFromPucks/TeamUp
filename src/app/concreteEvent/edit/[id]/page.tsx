@@ -23,7 +23,7 @@ export const Page = async ({ params }: { params: { id: string } }) => {
 	const userId = session?.user?.id;
 
 	if (userId) {
-		const { isOrganiser } = await isUserEventsOrganizer(id, userId);
+		const { isOrganiser } = await isUserEventsOrganizer(concreteEvent.eventId, userId);
 		if(!isOrganiser){
 			throw new Error('You must be organiser to edit concrete event');
 		}

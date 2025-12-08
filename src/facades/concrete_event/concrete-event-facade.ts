@@ -121,12 +121,12 @@ export const getAllConcreteEventsFromCurrentDate = async () => {
 };
 
 export const isUserEventsOrganizer = async (
-	concreteEventId: string,
+	eventId: string,
 	userId: string
 ) => {
 	try {
 		const result = await concreteEventService.isUserEventsOrganizer(
-			concreteEventId,
+			eventId,
 			userId
 		);
 		if (!result) {
