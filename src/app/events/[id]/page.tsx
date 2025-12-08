@@ -22,7 +22,10 @@ const Page = async ({ params }: PageProps) => {
 	const { error, event } = await getEventById(id);
 
 	if (!event || error) {
-		throw new Error('Error fetching event data. Either event does not exist or ther was an error: ' + (error ?? ''));
+		throw new Error(
+			'Error fetching event data. Either event does not exist or ther was an error: ' +
+				(error ?? '')
+		);
 	}
 
 	const invitedEventIds = userId
