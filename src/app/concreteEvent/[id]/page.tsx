@@ -1,7 +1,7 @@
+import { StandardLink } from "@/components/standard-link";
 import { getConcreteEventById } from "@/facades/concrete_event/concrete-event-facade";
 import { ConcreteEventCard } from "@/modules/concreteEvent/components/concrete-event-card";
 import { EventInvitationListCard } from "@/modules/EventInvitation/components/event-invitation-list-card";
-import Link from "next/link";
 import React from 'react';
 
 type PageProps = {
@@ -23,7 +23,7 @@ const Page = async({params}: PageProps) => {
             <ConcreteEventCard concreteEvent={concreteEvent} isDetail={true}></ConcreteEventCard>
             <div className="flex mb-2 mt-2 justify-between">
                 <h1 className="text-lg font-semibold">ivited users</h1>
-                <Link href={'/invite/create'} className="rounded-md bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300">invite users</Link>
+                <StandardLink href={'/invite/create'}>invite users</StandardLink>
             </div>
             
             <div className='flex flex-wrap gap-6'>

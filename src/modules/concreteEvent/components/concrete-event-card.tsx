@@ -1,10 +1,10 @@
 import { Card, CardLabeledItem } from "@/components/card";
 import { CardContent, CardHeader } from "@/components/card/card";
 import { ConcreteEventListDto } from "@/facades/concrete_event/schema";
-import Link from "next/link";
 import { CalendarDays, DollarSign } from "lucide-react";
 import { DeleteConcreteEventButton } from "./delete-concrete-event-button";
 import React from 'react';
+import { StandardLink } from "@/components/standard-link";
 
 export const ConcreteEventCard = ({
 	concreteEvent,
@@ -27,12 +27,12 @@ export const ConcreteEventCard = ({
 							<DeleteConcreteEventButton id={concreteEvent.id} />
 						}
 
-						<Link
+						<StandardLink
 							href={isDetail? `/concreteEvent/edit/${concreteEvent.id}` :`/concreteEvent/${concreteEvent.id}`}
-							className="flex items-center rounded-md bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
+							
 						>
 							{isDetail? 'Edit': 'Detail'}
-						</Link>
+						</StandardLink>
                     </div>
 				</CardHeader>
 
