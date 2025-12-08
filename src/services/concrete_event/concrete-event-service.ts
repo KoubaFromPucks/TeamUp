@@ -6,6 +6,7 @@ import {
 } from './schema';
 import { concreteEventMapper } from './mapper';
 import { eventInvitationService } from '../event_invitation/event-invitation-service';
+import { eventRepository } from '@/repositories/event/repository';
 
 export const concreteEventService = {
 	async doesConcreteEventExist(id: string): Promise<boolean> {
@@ -36,6 +37,10 @@ export const concreteEventService = {
 		}
 		const concreteEventDetail =
 			concreteEventMapper.mapEntityToDetailModel(concreteEvent);
+		
+		const eventModel = await eventRepository.getEventById(concreteEvent.eventId);
+
+		concreteEventDetail.eventName = eventModel?.name;
 
 		concreteEventDetail.invitedUsers =
 			await eventInvitationService.getEventInvitationsByConcreteEventId(
@@ -55,7 +60,42 @@ export const concreteEventService = {
 
 	async getAllConcreteEvents(): Promise<ConcreteEventListModel[]> {
 		const concreteEvents = await concreteEventRepository.getAllConcreteEvents();
-		return concreteEvents.map(concreteEventMapper.mapEntityToListModel);
+		const result = await Promise.all(
+			concreteEvents.map(async (concreteEvent) => {
+				const eventModel = await eventRepository.getEventById(
+					concreteEvent.eventId
+				);
+
+				const listModel = concreteEventMapper.mapEntityToListModel(concreteEvent);
+
+				return {
+					...listModel,
+					eventName: eventModel?.name,
+				};
+			})
+		);
+
+		return result;
+	},
+
+	async getAllConcreteEventsFromCurrentDate(): Promise<ConcreteEventListModel[]> {
+		const concreteEvents = await concreteEventRepository.getAllConcreteEventsFromCurrentDate();
+		const result = await Promise.all(
+			concreteEvents.map(async (concreteEvent) => {
+				const eventModel = await eventRepository.getEventById(
+					concreteEvent.eventId
+				);
+
+				const listModel = concreteEventMapper.mapEntityToListModel(concreteEvent);
+
+				return {
+					...listModel,
+					eventName: eventModel?.name,
+				};
+			})
+		);
+
+		return result;
 	},
 
 	async updateConcreteEventById(

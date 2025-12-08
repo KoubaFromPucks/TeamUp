@@ -18,7 +18,8 @@ export const concreteEventMapper = {
 			price: entity.price,
 			eventId: entity.eventId,
 			startDate: entity.startDate,
-			endDate: entity.endDate
+			endDate: entity.endDate,
+			eventName: undefined
 		};
 	},
 
@@ -42,7 +43,8 @@ export const concreteEventMapper = {
 			startDate: entity.startDate,
 			endDate: entity.endDate,
 			price: entity.price,
-			invitedUsers: []
+			invitedUsers: [],
+			eventName: undefined
 		};
 	},
 
@@ -50,7 +52,7 @@ export const concreteEventMapper = {
 		model: Partial<ConcreteEventInsertModel>
 	): ConcreteEventUpdateEntity {
 		return {
-			startDate: model.endDate,
+			startDate: model.startDate,
 			endDate: model.endDate,
 			eventId: model.eventId,
 			price: model.price

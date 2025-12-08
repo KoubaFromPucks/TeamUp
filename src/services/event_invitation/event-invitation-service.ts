@@ -55,7 +55,23 @@ export const eventInvitationService = {
 			await eventInvitationRepository.getEventInvitationsByConcreteEventId(
 				concreteEventId
 			);
-		return eventInvitations.map(EventInvitationMapper.mapEntityToListModel);
+		
+		return Promise.all(
+			eventInvitations.map(async (eventInvitation) => {
+				const userEntity = await userRepository.getUserById(eventInvitation.userId);
+				
+				if(!userEntity){
+					throw new Error('user not found');
+				}
+
+				const userListModel = userMapper.mapEntityToListModel(userEntity);
+				const listModel = EventInvitationMapper.mapEntityToListModel(eventInvitation);
+				return {
+					...listModel,
+					user: userListModel
+				}
+			})
+		);
 	},
 
 	async getEventInvitationsByUserId(

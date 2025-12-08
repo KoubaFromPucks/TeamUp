@@ -1,3 +1,4 @@
+'use server'
 import { concreteEventService } from '@/services/concrete_event/concrete-event-service';
 import { ConcreteEventMapper } from './mapper';
 import { ConcreteEventUpdateDto, concreteEventUpdateSchema } from './schema';
@@ -98,5 +99,22 @@ export const deleteConcreteEvent = async (concreteEventId: string) => {
 		return { error: null, ok: true };
 	} catch (error) {
 		return { error: (error as Error).message, ok: false };
+	}
+};
+
+export const getAllConcreteEventsFromCurrentDate = async () => {
+	try {
+		const result = await concreteEventService.getAllConcreteEventsFromCurrentDate();
+		if (!result) {
+			return { error: 'Concrete event not found', concreteEvent: null };
+		}
+		return {
+			error: null,
+			concreteEvent: result.map(
+				ConcreteEventMapper.mapConcreteEventListModelToDto
+			)
+		};
+	} catch (error) {
+		return { error: (error as Error).message, concreteEvent: null };
 	}
 };

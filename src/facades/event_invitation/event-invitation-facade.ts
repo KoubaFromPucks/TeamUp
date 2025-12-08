@@ -1,3 +1,4 @@
+'use server'
 import { eventInvitationService } from '@/services/event_invitation/event-invitation-service';
 import { eventInvitationMapper } from './mapper';
 import {

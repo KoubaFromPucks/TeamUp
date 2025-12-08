@@ -5,7 +5,7 @@ import {
 	ConcreteEventUpdateEntity
 } from './schema';
 import { concreteEventTable } from '@/db/schema/concrete-event';
-import { eq } from 'drizzle-orm';
+import { asc, eq, sql } from 'drizzle-orm';
 
 export const concreteEventRepository = {
 	async createConcreteEvent(concreteEventEntity: ConcreteEventInsertEntity) {
@@ -27,6 +27,16 @@ export const concreteEventRepository = {
 
 	async getAllConcreteEvents() {
 		const concreteEvents = await db.select().from(concreteEventTable);
+		return concreteEvents as ConcreteEventSelectEntity[];
+	},
+
+	async getAllConcreteEventsFromCurrentDate() {
+		const concreteEvents = await db
+			.select()
+			.from(concreteEventTable)
+			.where(sql`datetime(start_date) > datetime('now')`)
+			.orderBy(asc(concreteEventTable.startDate));
+
 		return concreteEvents as ConcreteEventSelectEntity[];
 	},
 
