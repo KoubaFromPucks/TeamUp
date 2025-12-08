@@ -76,6 +76,11 @@ export const boardItemService = {
 		return boardItems.map(boardItemMapper.mapEntityToListModel);
 	},
 
+	async getBoardItemsForUser(userId: string): Promise<BoardItemListModel[]> {
+		const boardItems = await boardItemRepository.getBoardItemsForUser(userId);
+		return boardItems.map(boardItemMapper.mapEntityToListModel);
+	},
+
 	async getBoardItemsByEventId(eventId: string): Promise<BoardItemListModel[]> {
 		const boardItems =
 			await boardItemRepository.getBoardItemsByEventId(eventId);

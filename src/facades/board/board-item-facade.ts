@@ -55,6 +55,18 @@ export async function getAllBoardItems() {
 	}
 }
 
+export async function getBoardItemsForUser(userId: string) {
+	try {
+		const result = await boardItemService.getBoardItemsForUser(userId);
+		return {
+			error: null,
+			boardItems: result.map(boardItemFacadeMapper.mapListModelToDto)
+		};
+	} catch (error) {
+		return { error: (error as Error).message, boardItems: null };
+	}
+}
+
 export async function getBoardItemsByEventId(eventId: string) {
 	try {
 		const result = await boardItemService.getBoardItemsByEventId(eventId);

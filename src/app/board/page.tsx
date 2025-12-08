@@ -1,5 +1,5 @@
 import {
-	getAllBoardItems,
+	getBoardItemsForUser,
 	canUserModifyBoardItem
 } from '@/facades/board/board-item-facade';
 import { Card, CardContent, CardHeader } from '@/components/card';
@@ -20,14 +20,14 @@ const BoardPage = async () => {
 		redirect('/');
 	}
 
-	const { error, boardItems } = await getAllBoardItems();
+	const { error, boardItems } = await getBoardItemsForUser(session.user.id);
 
 	if (error || !boardItems) {
 		throw new Error(`Failed to load board items: ${error}`);
 	}
 
 	const boardItemsWithAuth = await Promise.all(
-		boardItems.map(async item => {
+		boardItems.map(async (item: BoardItemListDto) => {
 			const { canModify } = await canUserModifyBoardItem(
 				item.id,
 				session.user.id
