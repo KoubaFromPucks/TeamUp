@@ -60,8 +60,9 @@ export const getEventsList = async ({
 
 export const getEventById = async (eventId: string) => {
 	try {
-		const [event, 
-			{ error: biError, boardItems: initialBoardItems }, 
+		const [
+			event,
+			{ error: biError, boardItems: initialBoardItems },
 			concreteEvents
 		] = await Promise.all([
 			eventService.getEventById(eventId),

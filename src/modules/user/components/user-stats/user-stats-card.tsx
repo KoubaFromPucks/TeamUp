@@ -44,37 +44,55 @@ export const UserStatsCard = ({
 				</h2>
 			</CardHeader>
 			<CardContent>
-				<CardLabeledItem label="Total invitations">
-					<p className="text-base font-medium text-gray-700">{totalEvents}</p>
-				</CardLabeledItem>
-				<CardLabeledItem label="Accepted">
-					<p className="text-base font-medium text-gray-700">
-						{acceptedInvitations} (
-						{totalEvents > 0
-							? ((acceptedInvitations / totalEvents) * 100).toFixed(2)
-							: '0.00'}
-						%)
-					</p>
-				</CardLabeledItem>
-				<CardLabeledItem label="Declined">
-					<p className="text-base font-medium text-gray-700">
-						{declinedInvitations} (
-						{totalEvents > 0
-							? ((declinedInvitations / totalEvents) * 100).toFixed(2)
-							: '0.00'}
-						%)
-					</p>
-				</CardLabeledItem>
-				<CardLabeledItem label="Not sure or Pending">
-					<p className="text-base font-medium text-gray-700">
-						{notSureOrPendingInvitations} (
-						{totalEvents > 0
-							? ((notSureOrPendingInvitations / totalEvents) * 100).toFixed(2)
-							: '0.00'}
-						%)
-					</p>
-				</CardLabeledItem>
+				<StatsItem
+					label="Total invitations"
+					totalCount={totalEvents}
+					categoryCount={totalEvents}
+					showPercentage={false}
+				/>
+
+				<StatsItem
+					label="Accepted"
+					totalCount={totalEvents}
+					categoryCount={acceptedInvitations}
+				/>
+
+				<StatsItem
+					label="Declined"
+					totalCount={totalEvents}
+					categoryCount={declinedInvitations}
+				/>
+
+				<StatsItem
+					label="Not sure or Pending"
+					totalCount={totalEvents}
+					categoryCount={notSureOrPendingInvitations}
+				/>
 			</CardContent>
 		</Card>
 	);
 };
+
+const bracketPercentage = (percentage: string) => ` (${percentage} %)`;
+
+const StatsItem = ({
+	label,
+	totalCount,
+	categoryCount,
+	showPercentage = true
+}: {
+	label: string;
+	totalCount: number;
+	categoryCount: number;
+	showPercentage?: boolean;
+}) => (
+	<CardLabeledItem label={label}>
+		<p className="text-base font-medium text-gray-700">
+			{categoryCount}
+			{showPercentage &&
+				(totalCount > 0
+					? bracketPercentage(((categoryCount / totalCount) * 100).toFixed(2))
+					: bracketPercentage('0.00'))}
+		</p>
+	</CardLabeledItem>
+);
