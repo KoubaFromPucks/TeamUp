@@ -31,6 +31,7 @@ export type BoardItemDetailDto = BoardItemCreateUpdateDto & {
 	authorName: string | null;
 	eventName: string | null;
 	eventOrganizerId: string | null;
+	canUserModify?: boolean;
 };
 
 export type BoardItemListDto = BoardItemDetailDto;

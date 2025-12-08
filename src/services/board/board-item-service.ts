@@ -7,11 +7,43 @@ import {
 } from './schema';
 import { boardItemMapper } from './mapper';
 import { authService } from '../auth/auth-service';
+import { eventRepository } from '@/repositories/event/repository';
+import { eventCoorganiserRepository } from '@/repositories/event_coorganiser/event-coorganiser-repository';
 
 export const boardItemService = {
 	async doesBoardItemExist(id: string): Promise<boolean> {
 		const boardItem = await boardItemRepository.getBoardItemById(id);
 		return !!boardItem;
+	},
+
+	async canUserModifyBoardItem(
+		boardItemId: string,
+		userId: string
+	): Promise<boolean> {
+		const boardItem = await boardItemRepository.getBoardItemById(boardItemId);
+
+		if (!boardItem) {
+			return false;
+		}
+
+		const event = await eventRepository.getEventById(boardItem.eventId);
+
+		if (!event) {
+			return false;
+		}
+
+		if (event.organisatorId === userId) {
+			return true;
+		}
+
+		const coorganisers =
+			await eventCoorganiserRepository.getEventCoorganisersByEventId(event.id);
+
+		if (coorganisers.some(coorganiser => coorganiser.userId === userId)) {
+			return true;
+		}
+
+		return false;
 	},
 
 	async createBoardItem(
@@ -70,6 +102,12 @@ export const boardItemService = {
 			throw new Error('Board item does not exist');
 		}
 
+		if (!(await this.canUserModifyBoardItem(boardItemId, user.id))) {
+			throw new Error(
+				'You do not have permission to update this board item. Only the event organizer or coorganizers can modify it.'
+			);
+		}
+
 		const updateEntity =
 			boardItemMapper.mapUpdateModelToUpdateEntity(boardItem);
 
@@ -89,9 +127,15 @@ export const boardItemService = {
 		const user = await authService.getLoggedUserOrThrow(
 			'You must be logged in to delete a board item.'
 		);
-		
+
 		if (!(await this.doesBoardItemExist(boardItemId))) {
 			throw new Error('Board item does not exist');
+		}
+
+		if (!(await this.canUserModifyBoardItem(boardItemId, user.id))) {
+			throw new Error(
+				'You do not have permission to delete this board item. Only the event organizer or coorganizers can delete it.'
+			);
 		}
 
 		await boardItemRepository.deleteBoardItemById(boardItemId);

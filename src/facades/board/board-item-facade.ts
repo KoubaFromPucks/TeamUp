@@ -127,3 +127,18 @@ export async function togglePinBoardItem(boardItemId: string) {
 		return { error: (error as Error).message, boardItem: null };
 	}
 }
+
+export async function canUserModifyBoardItem(
+	boardItemId: string,
+	userId: string
+) {
+	try {
+		const canModify = await boardItemService.canUserModifyBoardItem(
+			boardItemId,
+			userId
+		);
+		return { error: null, canModify };
+	} catch (error) {
+		return { error: (error as Error).message, canModify: false };
+	}
+}

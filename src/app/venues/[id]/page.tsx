@@ -16,7 +16,10 @@ export default async function Page({ params }: PageProps) {
 	const { error, venue } = await getVenueById(id);
 
 	if (!venue || error) {
-		throw new Error('Error fetching venue data. Either venue does not exist or ther was an error: ' + (error ?? ''));
+		throw new Error(
+			'Error fetching venue data. Either venue does not exist or ther was an error: ' +
+				(error ?? '')
+		);
 	}
 
 	const canManage = !!userId && venue.ownerId === userId;

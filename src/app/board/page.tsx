@@ -1,4 +1,7 @@
-import { getAllBoardItems } from '@/facades/board/board-item-facade';
+import {
+	getAllBoardItems,
+	canUserModifyBoardItem
+} from '@/facades/board/board-item-facade';
 import { Card, CardContent, CardHeader } from '@/components/card';
 import { Calendar, User, Plus } from 'lucide-react';
 import React from 'react';
@@ -22,6 +25,16 @@ const BoardPage = async () => {
 	if (error || !boardItems) {
 		throw new Error(`Failed to load board items: ${error}`);
 	}
+
+	const boardItemsWithAuth = await Promise.all(
+		boardItems.map(async item => {
+			const { canModify } = await canUserModifyBoardItem(
+				item.id,
+				session.user.id
+			);
+			return { ...item, canUserModify: canModify };
+		})
+	);
 
 	return (
 		<div className="container mx-auto px-4 py-8">
@@ -48,14 +61,14 @@ const BoardPage = async () => {
 				</div>
 			) : (
 				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-					{boardItems.map((item: BoardItemListDto) => (
+					{boardItemsWithAuth.map((item: BoardItemListDto) => (
 						<Card key={item.id}>
 							<CardHeader className="border-b-0 pb-3 !text-left">
 								<div className="flex items-start justify-between gap-2">
 									<h3 className="text-lg leading-tight font-semibold">
 										{item.title}
 									</h3>
-									<BoardItemActions itemId={item.id} />
+									{item.canUserModify && <BoardItemActions itemId={item.id} />}
 								</div>
 							</CardHeader>
 							<CardContent className="flex-col items-start">

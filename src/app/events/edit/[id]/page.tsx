@@ -10,7 +10,7 @@ type PageProps = {
 
 export default async function Page({ params }: PageProps) {
 	const { id } = await params;
-	
+
 	const sessionUser = await authService.getLoggedUserOrThrow(
 		'You must be logged in to edit event.'
 	);
@@ -20,7 +20,10 @@ export default async function Page({ params }: PageProps) {
 	const { error, event } = await getEventById(id);
 
 	if (error || !event) {
-		throw new Error('Error fetching event data. Either event does not exist or ther was an error: ' + (error ?? ''));
+		throw new Error(
+			'Error fetching event data. Either event does not exist or ther was an error: ' +
+				(error ?? '')
+		);
 	}
 
 	if (!userId || userId !== event.organisatorId) {
