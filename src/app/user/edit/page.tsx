@@ -22,7 +22,7 @@ const Page = async () => {
 				<a href={returnPath}>
 					<ChevronLeft className="h-7 w-7 cursor-pointer" />
 				</a>
-				1<h1 className="text-3xl font-semibold">Edit User Profile</h1>
+				<h1 className="text-3xl font-semibold">Edit User Profile</h1>
 			</div>
 			<UpdateUserForm user={{ ...user }} navPath={returnPath} />
 		</>
