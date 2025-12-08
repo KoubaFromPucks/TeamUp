@@ -6,7 +6,13 @@ export const concreteEventUpdateSchema = z.object({
 	price: z.number().gte(0).nullable(),
 	startDate: z.string(),
 	endDate: z.string()
-});
+}).refine(
+    (data) => new Date(data.endDate) >= new Date(data.startDate),
+    {
+        message: "End date cannot be earlier than start date",
+        path: ["endDate"],
+    }
+);
 
 export type ConcreteEventUpdateDto = z.infer<typeof concreteEventUpdateSchema>;
 
