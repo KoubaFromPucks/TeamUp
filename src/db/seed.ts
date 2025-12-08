@@ -95,7 +95,8 @@ async function seed() {
 					address: 'Main Street 123, Prague',
 					gps: '50.0755,14.4378',
 					description: 'Modern indoor sports facility',
-					pricePerHour: 500
+					pricePerHour: 500,
+					owner: users[0].id
 				},
 				{
 					id: crypto.randomUUID(),
@@ -103,7 +104,8 @@ async function seed() {
 					address: 'Park Avenue 45, Prague',
 					gps: '50.0875,14.4215',
 					description: 'Outdoor sports field',
-					pricePerHour: 300
+					pricePerHour: 300,
+					owner: users[1].id
 				}
 			])
 			.returning();

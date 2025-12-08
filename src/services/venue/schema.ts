@@ -5,6 +5,7 @@ export type VenueDetailModel = {
 	gps: string | null;
 	description: string | null;
 	pricePerHour: number;
+	ownerId: string;
 };
 
 export type VenueListModel = VenueDetailModel;

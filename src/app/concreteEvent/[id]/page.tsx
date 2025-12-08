@@ -1,4 +1,4 @@
-import { StandardLink } from '@/components/standard-link';
+import { StandardLink } from '@/components/standard-link';;
 import {
 	getConcreteEventById,
 	isUserEventsOrganizer
