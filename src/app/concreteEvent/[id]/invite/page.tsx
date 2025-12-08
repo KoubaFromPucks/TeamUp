@@ -30,7 +30,10 @@ const InvitePage = async ({ params }: PageProps) => {
 		throw new Error('Concrete event not found');
 	}
 
-	const { isOrganiser } = await isUserEventsOrganizer(id, session.user.id);
+	const { isOrganiser } = await isUserEventsOrganizer(
+		concreteEvent.eventId,
+		session.user.id
+	);
 
 	if (!isOrganiser) {
 		redirect(`/concreteEvent/${id}`);
