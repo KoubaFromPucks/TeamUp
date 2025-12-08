@@ -1,7 +1,9 @@
+import { cn } from '@/lib/cn';
 import React from 'react';
 
 type CardProps = {
 	children: React.ReactNode;
+	className?: string;
 };
 
 export const CardContent = ({
@@ -42,8 +44,8 @@ export const CardFooter = ({
 	</div>
 );
 
-export const Card = ({ children }: CardProps) => (
-	<div className="relative flex flex-col rounded-lg border p-4 shadow">
+export const Card = ({ children, className }: CardProps) => (
+	<div className={cn("relative flex flex-col rounded-lg border p-4 shadow", className)}>
 		{children}
 	</div>
 );
