@@ -16,7 +16,7 @@ import { getImageUrlOrDefault } from '@/lib/utils';
 import { useSession } from '@/lib/auth-client';
 import { RemoveTeamDialog } from './remove-team-dialog';
 
-export const UserCard = ({ user }: { user: UserDetailDto }) => {
+export const UserCard = ({ user }: { user?: UserDetailDto }) => {
 	const router = useRouter();
 	const { data: session } = useSession();
 
@@ -26,7 +26,7 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 		setIsMounted(true);
 	}, []);
 
-	const isItLoggedUserProfile = isMounted && session?.user?.id === user.id;
+	const isItLoggedUserProfile = isMounted && session?.user?.id === user?.id;
 
 	return (
 		<>
@@ -37,12 +37,12 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 					</CardHeader>
 				)}
 				<CardContent>
-					<CardImage imageUrl={getImageUrlOrDefault(user.imageUrl)} />
+					<CardImage imageUrl={getImageUrlOrDefault(user?.imageUrl)} />
 					<CardLabeledItem label="User informations">
-						<h2 className="text-xl font-bold">{user.name}</h2>
-						<p className="text-gray-600">@{user.nickname}</p>
-						<p className="text-gray-600">{user.email}</p>
-						<p className="text-gray-600">{user.phoneNumber}</p>
+						<h2 className="text-xl font-bold">{user?.name}</h2>
+						<p className="text-gray-600">@{user?.nickname}</p>
+						<p className="text-gray-600">{user?.email}</p>
+						<p className="text-gray-600">{user?.phoneNumber}</p>
 					</CardLabeledItem>
 
 					<CardLabeledItem label="Admined Teams">
@@ -60,7 +60,7 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 								)
 							}
 						>
-							{user.adminedTeams.map(team => (
+							{user?.adminedTeams.map(team => (
 								<TeamListItem
 									key={team.id}
 									team={team}
@@ -73,7 +73,7 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 									}
 								/>
 							))}
-							{user.adminedTeams.length === 0 && (
+							{user?.adminedTeams.length === 0 && (
 								<p className="text-gray-600">User has no teams</p>
 							)}
 						</CardLinkList>
@@ -81,10 +81,10 @@ export const UserCard = ({ user }: { user: UserDetailDto }) => {
 
 					<CardLabeledItem label="Membered Teams">
 						<CardLinkList>
-							{user.memberTeams.map(team => (
+							{user?.memberTeams.map(team => (
 								<TeamListItem key={team.id} team={team} />
 							))}
-							{user.memberTeams.length === 0 && (
+							{user?.memberTeams.length === 0 && (
 								<p className="text-gray-600">User is not member of any team</p>
 							)}
 						</CardLinkList>

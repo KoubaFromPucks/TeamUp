@@ -19,14 +19,14 @@ import { LeaveTeamDialog } from './dialogs/leave-team-dialog';
 import { RemoveTeamDialog } from './dialogs/remove-team-dialog';
 import { useState, useEffect } from 'react';
 
-export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
+export const TeamDetailCard = ({ team }: { team?: TeamDetailDto }) => {
 	const { data: session } = useSession();
 
 	const router = useRouter();
 	const currentUserId = session?.user?.id || '';
 
 	const [isUserMember, setIsUserMember] = useState(
-		team.members.some(member => member.id === currentUserId)
+		team?.members.some(member => member.id === currentUserId) || false
 	);
 
 	const [isMounted, setIsMounted] = useState(false);
@@ -36,35 +36,37 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 	}, []);
 
 	useEffect(() => {
-		setIsUserMember(team.members.some(member => member.id === currentUserId));
+		setIsUserMember(
+			team?.members.some(member => member.id === currentUserId) || false
+		);
 	}, [currentUserId]);
 
-	const isUserAdmin = isMounted && session?.user?.id === team.organizerId;
+	const isUserAdmin = isMounted && session?.user?.id === team?.organizerId;
 
 	return (
 		<>
 			<Card>
 				{isUserAdmin && (
 					<CardHeader>
-						<StandardLink href={`/team/${team.id}/edit`}>
+						<StandardLink href={`/team/${team?.id}/edit`}>
 							Edit Team Info
 						</StandardLink>
 					</CardHeader>
 				)}
 				<CardContent>
-					<CardImage imageUrl={getImageUrlOrDefault(team.imageUrl)} />
+					<CardImage imageUrl={getImageUrlOrDefault(team?.imageUrl)} />
 
 					<CardLabeledItem label="Team Information">
-						<p className="font-bold text-gray-600">{team.name}</p>
-						<p className="text-gray-500">{team.desc}</p>
+						<p className="font-bold text-gray-600">{team?.name}</p>
+						<p className="text-gray-500">{team?.desc}</p>
 					</CardLabeledItem>
 
 					<CardLabeledItem label="Organiser">
 						<CardLinkList
 							items={[
 								{
-									id: team.organizer.id,
-									label: `${team.organizer.name} (${team.organizer.nickname})`
+									id: team?.organizer.id ?? '',
+									label: `${team?.organizer.name} (${team?.organizer.nickname})`
 								}
 							]}
 							href="/user"
@@ -77,13 +79,13 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 							additionalContent={
 								isUserAdmin && (
 									<AddTeamMemberDialog
-										teamId={team.id}
-										onSuccess={() => router.push(`/team/${team.id}`)}
+										teamId={team?.id ?? ''}
+										onSuccess={() => router.push(`/team/${team?.id}`)}
 									/>
 								)
 							}
 						>
-							{team.members.map(member => (
+							{team?.members.map(member => (
 								<li key={member.id} className="flex w-full text-black">
 									<StandardLink
 										href={`/user/${member.id}`}
@@ -108,7 +110,7 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 					<CardFooter>
 						{isUserMember && (
 							<LeaveTeamDialog
-								teamId={team.id}
+								teamId={team?.id ?? ''}
 								userId={currentUserId}
 								onLeave={() => {
 									setIsUserMember(false);
@@ -118,7 +120,7 @@ export const TeamDetailCard = ({ team }: { team: TeamDetailDto }) => {
 						)}
 						{isUserAdmin && (
 							<RemoveTeamDialog
-								teamId={team.id}
+								teamId={team?.id ?? ''}
 								onRemove={() => router.push(`/user/${currentUserId}`)}
 							/>
 						)}
