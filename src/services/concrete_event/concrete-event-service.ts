@@ -80,11 +80,15 @@ export const concreteEventService = {
 
 	async getAllConcreteEventsFromCurrentDate(): Promise<ConcreteEventListModel[]> {
 		const concreteEvents = await concreteEventRepository.getAllConcreteEventsFromCurrentDate();
-		const result = await Promise.all(
+		const result = (await Promise.all(
 			concreteEvents.map(async (concreteEvent) => {
 				const eventModel = await eventRepository.getEventById(
 					concreteEvent.eventId
 				);
+
+				if (eventModel?.inviteType !== 'public') {
+					return null;
+				}
 
 				const listModel = concreteEventMapper.mapEntityToListModel(concreteEvent);
 
@@ -93,7 +97,9 @@ export const concreteEventService = {
 					eventName: eventModel?.name,
 				};
 			})
-		);
+		)).filter(
+			(item): item is NonNullable<typeof item> => item !== null
+		);;
 
 		return result;
 	},
