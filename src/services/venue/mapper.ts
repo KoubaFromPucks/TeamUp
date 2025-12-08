@@ -12,7 +12,8 @@ export const mapEntityToSelectModel = (
 	address: entity.address,
 	gps: entity.gps ?? null,
 	description: entity.description ?? null,
-	pricePerHour: entity.pricePerHour ?? 0
+	pricePerHour: entity.pricePerHour ?? 0,
+	ownerId: entity.owner
 });
 
 export const mapSelectModelToEntity = (
@@ -23,7 +24,8 @@ export const mapSelectModelToEntity = (
 	address: model.address,
 	gps: model.gps,
 	description: model.description,
-	pricePerHour: model.pricePerHour
+	pricePerHour: model.pricePerHour,
+	owner: model.ownerId
 });
 
 export const mapInsertModelToEntity = (
@@ -33,7 +35,8 @@ export const mapInsertModelToEntity = (
 	address: model.address,
 	gps: model.gps,
 	description: model.description,
-	pricePerHour: model.pricePerHour
+	pricePerHour: model.pricePerHour,
+	owner: model.ownerId
 });
 
 export const mapEntityToInsertModel = (
@@ -43,5 +46,6 @@ export const mapEntityToInsertModel = (
 	address: entity.address,
 	gps: entity.gps ?? null,
 	description: entity.description ?? null,
-	pricePerHour: entity.pricePerHour ?? 0
+	pricePerHour: entity.pricePerHour ?? 0,
+	ownerId: entity.owner
 });

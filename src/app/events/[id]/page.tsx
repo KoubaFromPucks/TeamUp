@@ -8,6 +8,8 @@ import { auth } from '@/lib/auth';
 import { DeleteEventButton } from '@/modules/event/components/delete-event-button/delete-event-button';
 import { EventDetailCard } from '@/modules/event/components/event-detail-card';
 import { getEventPermissions } from '@/modules/event/utils/permissions';
+import { VenueCard } from '@/modules/venue/components/venue-card';
+import { getVenueById } from '@/facades/venue/venue-facade';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -37,14 +39,28 @@ const Page = async ({ params }: PageProps) => {
 		invitedEventIds
 	});
 
+    const { venue } = await getVenueById(event.venueId);
+
 	if (!canSee) {
 		throw new Error('not allowed');
 	}
 
 
 	return (
-		<div>
-			<EventDetailCard event={event} canManage={canManage} />
+		<div className="flex flex-col gap-8">
+			<div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
+                <div className="lg:w-2/3">
+                    <div className="min-h-[180px] h-full">
+                        <EventDetailCard event={event} canManage={canManage} />
+                    </div>
+                </div>
+
+                {venue && (
+                    <div className="lg:w-1/3">
+                        <VenueCard venue={venue} isDetail={false} />
+                    </div>
+                )}
+            </div>
 
 			<div className="flex flex-wrap gap-6">
 				{event.boardItems.length === 0 ? (

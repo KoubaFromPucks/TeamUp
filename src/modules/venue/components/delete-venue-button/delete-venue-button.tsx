@@ -1,13 +1,13 @@
 'use client';
 
+import React from 'react';
 import { Button } from '@/components/basic-components/button';
-import { useDeleteEventMutation } from './hooks';
+import { useDeleteVenueMutation } from './hooks';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import React from 'react';
 
-export const DeleteEventButton = ({ id }: { id: string }) => {
-	const deleteMutation = useDeleteEventMutation();
+export const DeleteVenueButton = ({ id }: { id: string }) => {
+	const deleteMutation = useDeleteVenueMutation();
 	const router = useRouter();
 
 	return (
@@ -16,13 +16,13 @@ export const DeleteEventButton = ({ id }: { id: string }) => {
 			onClick={() => {
 				deleteMutation.mutate(id, {
 					onSuccess: () => {
-                        toast.success('Event deleted successfully');
-						router.push('/events');
+						toast.success('Venue deleted successfully');
+						router.push('/venues');
 					},
-					onError: e => toast.error(`Delete failed: ${e.message}`)
+					onError: e => toast.error(e.message)
 				});
 			}}
-            variant="destructive"
+			variant="destructive"
 		>
 			{deleteMutation.isPending ? 'Deleting...' : 'Delete'}
 		</Button>

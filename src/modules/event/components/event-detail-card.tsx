@@ -36,14 +36,16 @@ export const EventDetailCard = ({ event, canManage }: EventDetailCardProps) => (
 			<CardHeader className="flex items-center justify-between text-left">
 				<h3 className="text-lg font-semibold">{event.name}</h3>
 
-				{canManage && (
-					<div className="flex gap-3">
-						<StandardLink href={`/events/edit/${event.id}`}>
-							Edit
-						</StandardLink>
-						<DeleteEventButton id={event.id} />
-					</div>
-				)}
+				{canManage ? (
+                    <div className="flex gap-3">
+                        <StandardLink href={`/events/edit/${event.id}`}>Edit</StandardLink>
+                        <DeleteEventButton id={event.id} />
+                    </div>
+                ) : (
+                    <div className="invisible flex gap-3">
+                        <span className="px-3 py-5"/>
+                    </div>
+                )}
 			</CardHeader>
 
 			<CardContent className="gap-6">
