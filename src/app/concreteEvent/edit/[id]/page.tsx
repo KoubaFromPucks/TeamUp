@@ -1,12 +1,10 @@
 import { getConcreteEventById, isUserEventsOrganizer } from '@/facades/concrete_event/concrete-event-facade';
-import { auth } from '@/lib/auth';
 import { ConcreteEventForm } from '@/modules/concreteEvent/components/update-concrete-event-form/update-concrete-event-form';
 import { authService } from '@/services/auth/auth-service'
-import { headers } from 'next/headers';
 import React from 'react';
 
 export const Page = async ({ params }: { params: { id: string } }) => {
-	await authService.throwIfUserNotLoggedIn(
+	const user = await authService.getLoggedUserOrThrow(
 		'You must be logged in to edit concreteEvent'
 	)
 	const { id } = await params;
@@ -16,17 +14,9 @@ export const Page = async ({ params }: { params: { id: string } }) => {
 		throw new Error('concrete event not found');
 	}
 	
-	const session = await auth.api.getSession({
-		headers: await headers()
-	});
-
-	const userId = session?.user?.id;
-
-	if (userId) {
-		const { isOrganiser } = await isUserEventsOrganizer(concreteEvent.eventId, userId);
-		if(!isOrganiser){
-			throw new Error('You must be organiser to edit concrete event');
-		}
+	const { isOrganiser } = await isUserEventsOrganizer(concreteEvent.eventId, user.id);
+	if(!isOrganiser){
+		throw new Error('You must be organiser to edit concrete event');
 	}
 
 	return (

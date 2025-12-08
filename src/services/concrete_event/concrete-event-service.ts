@@ -149,6 +149,12 @@ export const concreteEventService = {
 	async deleteConcreteEvent(
 		concreteEventId: string
 	): Promise<ConcreteEventListModel> {
+		const concreteEventGet = await this.getConcreteEnventById(concreteEventId);
+		const user = await authService.getLoggedUserOrThrow();
+		if (!(await this.isUserEventsOrganizer(concreteEventGet.eventId, user.id))){
+			throw new Error('User is not events organiser');
+		}
+		
 		const deleted =
 			await concreteEventRepository.deleteConcreteEventById(concreteEventId);
 		if (!deleted) {

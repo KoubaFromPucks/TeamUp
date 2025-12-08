@@ -18,6 +18,9 @@ export const DeleteConcreteEventButton = ({ id }: { id: string }) => {
 					onSuccess: () => {
 						router.push('/');
 						toast.success('Concrete event deleted successfully');
+					},
+					onError: (error) => {
+						toast.error(`Delete failed: ${error.message}`);
 					}
 				});
 			}}
