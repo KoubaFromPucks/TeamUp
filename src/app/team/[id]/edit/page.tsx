@@ -3,17 +3,14 @@ import React from 'react';
 import { ChevronLeft } from 'lucide-react';
 import { getTeamWithMembersById } from '@/facades/team/team-facade';
 import { UpdateTeamForm } from '@/modules/team/components';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { authService } from '@/services/auth/auth-service';
 
 type PageProps = { params: { id: string } };
 
 const Page = async ({ params }: PageProps) => {
-	const session = await auth.api.getSession({ headers: await headers() });
-
-	if (!session?.user) {
-		throw new Error('You must be logged in to be able to edit team!');
-	}
+	await authService.throwIfUserNotLoggedIn(
+		'You must be logged in to edit team'
+	);
 
 	const { id } = await params;
 	const { error, team } = await getTeamWithMembersById(id);

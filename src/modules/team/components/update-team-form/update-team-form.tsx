@@ -16,6 +16,7 @@ import { CardImage } from '@/components/card';
 import { SubmitButton } from '@/components/form/submit-button';
 import { FormSelect } from '@/components/form/form-select';
 import { getImageUrlOrDefault } from '@/lib/utils';
+import { useSession } from '@/lib/auth-client';
 
 export const UpdateTeamForm = ({
 	team,
@@ -40,6 +41,11 @@ export const UpdateTeamForm = ({
 
 	const mutation = useUpdateTeamMutation();
 	const router = useRouter();
+	const { data: session } = useSession();
+
+	if (!session?.user) {
+		throw new Error('You must be logged in to update your profile.');
+	}
 
 	const onSubmit = (values: TeamUpdateCreateDto) => {
 		mutation.mutate(

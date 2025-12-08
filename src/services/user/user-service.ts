@@ -2,6 +2,7 @@ import type { UserListModel, UserInsertModel } from './schema';
 
 import { userMapper } from './mapper';
 import { userRepository } from '@/repositories/user/user-repository';
+import { authService } from '../auth/auth-service';
 
 export const userService = {
 	async doesUserExist(email: string, id?: string): Promise<boolean> {
@@ -30,6 +31,10 @@ export const userService = {
 	},
 
 	async updateUserById(userId: string, user: Partial<UserInsertModel>) {
+		await authService.throwIfUserNotLoggedIn(
+			'You must be logged in to update a user.'
+		);
+
 		if (!(await this.getUserById(userId))) {
 			throw new Error('User does not exist');
 		}

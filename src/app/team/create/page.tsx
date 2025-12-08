@@ -1,17 +1,15 @@
 'use server';
 import React from 'react';
 import { UpdateTeamForm } from '@/modules/team/components';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { authService } from '@/services/auth/auth-service';
 
 const Page = async () => {
-	const session = await auth.api.getSession({ headers: await headers() });
+	await authService.throwIfUserNotLoggedIn(
+		'You must be logged in to create team'
+	);
+	const user = await authService.getLoggedUserOrThrow();
+	const loggedUserId = user.id;
 
-	if (!session?.user) {
-		throw new Error('You must be logged in to create team');
-	}
-
-	const loggedUserId = session.user.id;
 	return (
 		<>
 			<h1 className="text-3xl font-semibold">Create Team</h1>
