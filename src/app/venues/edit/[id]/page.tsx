@@ -1,8 +1,7 @@
 import React from 'react';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
 import { getVenueById } from '@/facades/venue/venue-facade';
 import { VenueForm } from '@/modules/venue/components/update-venue-form/update-venue-form';
+import { authService } from '@/services/auth/auth-service';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -11,10 +10,10 @@ type PageProps = {
 export default async function Page({ params }: PageProps) {
 	const { id } = await params;
 
-	const session = await auth.api.getSession({
-		headers: await headers()
-	});
-	const userId = session?.user?.id ?? null;
+	const sessionUser = await authService.getLoggedUserOrThrow(
+        'You must be logged in to edit a venue.'
+    );
+    const userId = sessionUser?.id ?? null;
 
 	if (!userId) {
 		throw new Error('You have to be logged in to edit a venue.');

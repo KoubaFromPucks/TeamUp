@@ -1,8 +1,7 @@
 import React from 'react';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
 import { getVenueById } from '@/facades/venue/venue-facade';
 import { VenueDetailCard } from '@/modules/venue/components/venue-detail-card';
+import { authService } from '@/services/auth/auth-service';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -11,10 +10,8 @@ type PageProps = {
 export default async function Page({ params }: PageProps) {
 	const { id } = await params;
 
-	const session = await auth.api.getSession({
-		headers: await headers()
-	});
-	const userId = session?.user?.id ?? null;
+	const sessionUser = await authService.getLoggedUserOrNull();
+	const userId = sessionUser?.id ?? null;
 
 	const { error, venue } = await getVenueById(id);
 

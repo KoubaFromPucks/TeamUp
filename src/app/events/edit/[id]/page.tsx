@@ -1,9 +1,8 @@
 import React from 'react';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
 import { getEventById } from '@/facades/event/event-facade';
 import { EventForm } from '@/modules/event/components/update-event-form/update-event-form';
 import { venueService } from '@/services/venue/service';
+import { authService } from '@/services/auth/auth-service';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -11,11 +10,12 @@ type PageProps = {
 
 export default async function Page({ params }: PageProps) {
 	const { id } = await params;
+	
+	const sessionUser = await authService.getLoggedUserOrThrow(
+		'You must be logged in to edit event.'
+	);
 
-	const session = await auth.api.getSession({
-		headers: await headers()
-	});
-	const userId = session?.user?.id ?? null;
+	const userId = sessionUser?.id ?? null;
 
 	const { error, event } = await getEventById(id);
 

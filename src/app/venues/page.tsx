@@ -1,10 +1,9 @@
 import React, { Suspense } from 'react';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
 import { getAllVenues } from '@/facades/venue/venue-facade';
 import { CreateVenueCard } from '@/modules/venue/components/create-venue-card';
 import { VenueCard } from '@/modules/venue/components/venue-card';
 import { VenueCardSkeleton } from '@/modules/venue/components/skeletons/venue-card-skeleton';
+import { authService } from '@/services/auth/auth-service';
 
 const VenuesList = async ({ userId }: { userId: string | null }) => {
 	const { error, venues } = await getAllVenues();
@@ -31,10 +30,8 @@ const VenuesList = async ({ userId }: { userId: string | null }) => {
 };
 
 export default async function Page() {
-	const session = await auth.api.getSession({
-		headers: await headers()
-	});
-	const userId = session?.user?.id ?? null;
+	const sessionUser = await authService.getLoggedUserOrNull();
+	const userId = sessionUser?.id ?? null;
 
 	return (
 		<Suspense

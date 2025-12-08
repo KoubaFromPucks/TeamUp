@@ -1,15 +1,14 @@
 import React from 'react';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
 import { EventForm } from '@/modules/event/components/update-event-form/update-event-form';
 import { venueService } from '@/services/venue/service';
+import { authService } from '@/services/auth/auth-service';
 
 const Page = async () => {
-	const session = await auth.api.getSession({
-		headers: await headers()
-	});
+	const sessionUser = await authService.getLoggedUserOrThrow(
+		'You must be logged in to create an event.'
+	);
 
-	const userId = session?.user?.id;
+	const userId = sessionUser?.id;
 
 	if (!userId) {
 		throw new Error('You have to be logged in to create an event.');

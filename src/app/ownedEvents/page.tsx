@@ -1,16 +1,14 @@
 import React from 'react';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
 import { getOwnedEventsList } from '@/facades/event/event-facade';
 import { EventCard } from '@/modules/event/components/event-card';
 import { CreateEventCard } from '@/modules/event/components/create-event-card';
+import { authService } from '@/services/auth/auth-service';
 
 const Page = async () => {
-	const session = await auth.api.getSession({
-		headers: await headers()
-	});
-
-	const userId = session?.user?.id ?? null;
+	const sessionUser = await authService.getLoggedUserOrThrow(
+		'You must be logged in to view your owned events.'
+	);
+    const userId = sessionUser?.id ?? null;
 
 	if (!userId) {
 		throw new Error('You have to be logged in to view your owned events.');

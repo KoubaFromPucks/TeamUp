@@ -1,17 +1,13 @@
-import React, { Suspense } from 'react';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
+import React, { Suspense } from 'react';;
 
 import { getInvitedEventIdsForUser } from '@/facades/event/helper';
 import { EventsListSkeleton } from '@/modules/event/components/skeletons/events-list-skeleton';
 import { EventsList } from '@/modules/event/components/events-list';
+import { authService } from '@/services/auth/auth-service';
 
 const EventsPage = async () => {
-	const session = await auth.api.getSession({
-		headers: await headers()
-	});
-
-	const userId = session?.user?.id ?? null;
+	const sessionUser = await authService.getLoggedUserOrNull();
+	const userId = sessionUser?.id ?? null;
 
 	const invitedEventIds = userId
 		? await getInvitedEventIdsForUser(userId)

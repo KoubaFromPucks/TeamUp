@@ -3,12 +3,11 @@ import { getEventById } from '@/facades/event/event-facade';
 import { getInvitedEventIdsForUser } from '@/facades/event/helper';
 import { ConcreteEventCard } from '@/modules/concreteEvent/components/concrete-event-card';
 import React from 'react';
-import { headers } from 'next/headers';
-import { auth } from '@/lib/auth';
 import { EventDetailCard } from '@/modules/event/components/event-detail-card';
 import { getEventPermissions } from '@/modules/event/utils/permissions';
 import { VenueCard } from '@/modules/venue/components/venue-card';
 import { getVenueById } from '@/facades/venue/venue-facade';
+import { authService } from '@/services/auth/auth-service';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -17,10 +16,8 @@ type PageProps = {
 const Page = async ({ params }: PageProps) => {
 	const { id } = await params;
 
-	const session = await auth.api.getSession({
-		headers: await headers()
-	});
-	const userId = session?.user?.id ?? null;
+	const sessionUser = await authService.getLoggedUserOrNull();
+	const userId = sessionUser?.id ?? null;
 
 	const { error, event } = await getEventById(id);
 
