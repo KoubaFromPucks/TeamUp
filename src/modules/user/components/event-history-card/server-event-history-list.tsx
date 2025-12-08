@@ -1,5 +1,3 @@
-'use server';
-
 import React from 'react';
 import { EventHistoryCard } from './event-history-card';
 import { getUserEventHistoryById } from '@/facades/user/user-facade';

@@ -60,7 +60,11 @@ export const EventInvitationListCard = ({
 	);
 };
 
-export const InvitationStateItem = ({ state }: { state: keyof typeof stateConfig }) => {
+export const InvitationStateItem = ({
+	state
+}: {
+	state: keyof typeof stateConfig;
+}) => {
 	const config = stateConfig[state];
 	const Icon = config.icon;
 
