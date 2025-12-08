@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getBoardItemById } from '@/facades/board/board-item-facade';
-import { getAllConcreteEvents } from '@/facades/concrete_event/concrete-event-facade';
+import { eventService } from '@/services/event/service';
 import { EditBoardItemForm } from '../../../../modules/board/components/edit-board-item-form';
 
 type PageProps = {
@@ -24,22 +24,27 @@ const EditBoardItemPage = async ({ params }: PageProps) => {
 		throw new Error(`Failed to load board item: ${boardItemError}`);
 	}
 
-	const { concreteEvent: concreteEvents, error: eventsError } =
-		await getAllConcreteEvents();
+	try {
+		const events = await eventService.getAllEvents();
 
-	if (eventsError || !concreteEvents) {
-		throw new Error(`Failed to load concrete events: ${eventsError}`);
+		if (!events) {
+			throw new Error('Failed to load events');
+		}
+
+		return (
+			<div className="container mx-auto px-4 py-8">
+				<h1 className="mb-6 text-3xl font-semibold">Edit Board Item</h1>
+				<EditBoardItemForm
+					boardItem={boardItem}
+					events={events}
+				/>
+			</div>
+		);
+	} catch (error) {
+		throw new Error(`Failed to load events: ${error}`);
 	}
 
-	return (
-		<div className="container mx-auto px-4 py-8">
-			<h1 className="mb-6 text-3xl font-semibold">Edit Board Item</h1>
-			<EditBoardItemForm
-				boardItem={boardItem}
-				concreteEvents={concreteEvents}
-			/>
-		</div>
-	);
+
 };
 
 export default EditBoardItemPage;

@@ -14,16 +14,16 @@ import {
 	boardItemCreateUpdateSchema
 } from '@/facades/board/schema';
 import { createBoardItem } from '@/facades/board/board-item-facade';
-import type { ConcreteEventListDto } from '@/facades/concrete_event/schema';
+import type { EventListModel } from '@/services/event/schema';
 
 type CreateBoardItemFormProps = {
 	userId: string;
-	concreteEvents: ConcreteEventListDto[];
+	events: EventListModel[];
 };
 
 export const CreateBoardItemForm = ({
 	userId,
-	concreteEvents
+	events
 }: CreateBoardItemFormProps) => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +32,7 @@ export const CreateBoardItemForm = ({
 		resolver: zodResolver(boardItemCreateUpdateSchema),
 		defaultValues: {
 			authorId: userId,
-			concreteEventId: concreteEvents[0]?.id ?? '',
+			eventId: events[0]?.id ?? '',
 			title: '',
 			content: '',
 			isPinned: false
@@ -66,7 +66,7 @@ export const CreateBoardItemForm = ({
 		}
 	};
 
-	if (concreteEvents.length === 0) {
+	if (events.length === 0) {
 		return (
 			<div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4">
 				<p className="text-yellow-800">
@@ -108,10 +108,10 @@ export const CreateBoardItemForm = ({
 					)}
 				</div>
 
-				<FormSelect name="concreteEventId" label="Event">
-					{concreteEvents.map(event => (
+				<FormSelect name="eventId" label="Event">
+					{events.map(event => (
 						<option key={event.id} value={event.id}>
-							Event Date {new Date(event.startDate).toLocaleDateString()}
+							{event.name} ({event.dayOfWeek})
 						</option>
 					))}
 				</FormSelect>

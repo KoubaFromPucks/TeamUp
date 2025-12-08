@@ -1,7 +1,6 @@
 import { db } from '@/db';
 import { boardItemTable } from '@/db/schema/board-item';
 import { user as userTable } from '@/db/schema/better-auth';
-import { concreteEventTable } from '@/db/schema/concrete-event';
 import { eventTable } from '@/db/schema/event';
 import { eq, desc } from 'drizzle-orm';
 import type {
@@ -32,7 +31,7 @@ export const boardItemRepository = {
 		const boardItems = await db
 			.select({
 				id: boardItemTable.id,
-				concreteEventId: boardItemTable.concreteEventId,
+				eventId: boardItemTable.eventId,
 				authorId: boardItemTable.authorId,
 				title: boardItemTable.title,
 				content: boardItemTable.content,
@@ -41,26 +40,22 @@ export const boardItemRepository = {
 				updatedAt: boardItemTable.updatedAt,
 				authorName: userTable.name,
 				eventName: eventTable.name,
-				eventStartDate: concreteEventTable.startDate,
 				eventOrganizerId: eventTable.organisatorId
 			})
 			.from(boardItemTable)
 			.leftJoin(userTable, eq(boardItemTable.authorId, userTable.id))
 			.leftJoin(
-				concreteEventTable,
-				eq(boardItemTable.concreteEventId, concreteEventTable.id)
-			)
-			.leftJoin(eventTable, eq(concreteEventTable.eventId, eventTable.id))
-			.orderBy(concreteEventTable.startDate);
+				eventTable,
+				eq(boardItemTable.eventId, eventTable.id)
+			);
 		return boardItems;
 	},
 
-	async getBoardItemsByConcreteEventId(concreteEventId: string) {
+	async getBoardItemsByEventId(eventId: string) {
 		const boardItems = await db
 			.select()
 			.from(boardItemTable)
-			.where(eq(boardItemTable.concreteEventId, concreteEventId))
-			.orderBy(desc(boardItemTable.isPinned), desc(boardItemTable.createdAt));
+			.where(eq(boardItemTable.eventId, eventId));
 		return boardItems as BoardItemSelectEntity[];
 	},
 
