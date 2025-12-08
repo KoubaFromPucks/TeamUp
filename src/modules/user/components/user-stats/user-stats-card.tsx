@@ -2,12 +2,19 @@
 
 import React from 'react';
 import { UserEventHistoryDataDto } from '@/facades/user/schema';
-import { Card, CardContent, CardLabeledItem } from '@/components/card';
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardLabeledItem
+} from '@/components/card';
 
 export const UserStatsCard = ({
-	userData
+	userData,
+	title
 }: {
 	userData: UserEventHistoryDataDto[];
+	title: string;
 }) => {
 	const totalEvents = userData.length;
 	const acceptedInvitations = userData.filter(
@@ -16,17 +23,24 @@ export const UserStatsCard = ({
 	const declinedInvitations = userData.filter(
 		data => data.eventInvitation.state === 'Declined'
 	).length;
-	const pendingInvitations = userData.filter(
-		data => data.eventInvitation.state === 'Pending'
+	const notSureOrPendingInvitations = userData.filter(
+		data =>
+			data.eventInvitation.state === 'Not sure' ||
+			data.eventInvitation.state === 'Pending'
 	).length;
 
 	return (
 		<Card className="my-2">
+			<CardHeader>
+				<h2 className="text-center text-2xl leading-tight font-extrabold text-gray-900">
+					{title}
+				</h2>
+			</CardHeader>
 			<CardContent>
 				<CardLabeledItem label="Total invitations">
 					<p className="text-base font-medium text-gray-700">{totalEvents}</p>
 				</CardLabeledItem>
-				<CardLabeledItem label="Accepted invitations">
+				<CardLabeledItem label="Accepted">
 					<p className="text-base font-medium text-gray-700">
 						{acceptedInvitations} (
 						{totalEvents > 0
@@ -35,7 +49,7 @@ export const UserStatsCard = ({
 						%)
 					</p>
 				</CardLabeledItem>
-				<CardLabeledItem label="Declined invitations">
+				<CardLabeledItem label="Declined">
 					<p className="text-base font-medium text-gray-700">
 						{declinedInvitations} (
 						{totalEvents > 0
@@ -44,11 +58,11 @@ export const UserStatsCard = ({
 						%)
 					</p>
 				</CardLabeledItem>
-				<CardLabeledItem label="Pending invitations">
+				<CardLabeledItem label="Not sure or Pending">
 					<p className="text-base font-medium text-gray-700">
-						{pendingInvitations} (
+						{notSureOrPendingInvitations} (
 						{totalEvents > 0
-							? ((pendingInvitations / totalEvents) * 100).toFixed(2)
+							? ((notSureOrPendingInvitations / totalEvents) * 100).toFixed(2)
 							: '0.00'}
 						%)
 					</p>

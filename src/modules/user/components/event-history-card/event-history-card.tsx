@@ -5,7 +5,6 @@ import { UserEventHistoryDataDto } from '@/facades/user/schema';
 import {
 	Card,
 	CardContent,
-	CardFooter,
 	CardHeader,
 	CardLabeledItem
 } from '@/components/card';
