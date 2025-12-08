@@ -96,10 +96,7 @@ export const createUpdateEvent = async (
 	eventId: string | undefined,
 	event: EventUpdateDto
 ) => {
-	console.log('Received event data for create/update:', event);
 	const validationResult = eventUpdateSchema.safeParse(event);
-
-	console.log('Validation Result:', validationResult);
 
 	if (!validationResult.success) {
 		const errors = validationResult.error.flatten().fieldErrors;

@@ -12,7 +12,7 @@ const Page = async () => {
 	const userId = session?.user?.id;
 
 	if (!userId) {
-		throw new Error('not allowed');
+		throw new Error('You have to be logged in to create an event.');
 	}
 
 	const venues = await venueService.getAllVenues();

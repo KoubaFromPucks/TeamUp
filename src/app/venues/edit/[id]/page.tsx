@@ -17,18 +17,18 @@ export default async function Page({ params }: PageProps) {
 	const userId = session?.user?.id ?? null;
 
 	if (!userId) {
-		throw new Error('not allowed');
+		throw new Error('You have to be logged in to edit a venue.');
 	}
 
 	const { error, venue } = await getVenueById(id);
 
 	if (!venue || error) {
-		throw new Error('venue not found');
+		throw new Error('Error fetching venue data. Either venue does not exist or there was an error: ' + (error ?? ''));
 	}
 
 	const canManage = venue.ownerId === userId;
 	if (!canManage) {
-		throw new Error('not allowed');
+		throw new Error('Only owner of the venue is allowed to edit it.');
 	}
 
 	return (

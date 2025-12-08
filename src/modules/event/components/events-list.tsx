@@ -20,7 +20,7 @@ export const EventsList = async ({
 	});
 
 	if (!events || error) {
-		throw new Error('error fetching events');
+		throw new Error('Error fetching events data. Either event does not exist or there was an error: ' + (error ?? ''));
 	}
 
 	return (

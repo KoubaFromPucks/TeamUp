@@ -13,13 +13,13 @@ const Page = async () => {
 	const userId = session?.user?.id ?? null;
 
 	if (!userId) {
-		throw new Error('not allowed');
+		throw new Error('You have to be logged in to view your owned events.');
 	}
 
 	const { error, events } = await getOwnedEventsList(userId);
 
 	if (!events || error) {
-		throw new Error('error fetching owned events');
+		throw new Error('Error fetching owned events data. Either there was an error: ' + (error ?? ''));
 	}
 
 	return (

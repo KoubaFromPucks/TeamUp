@@ -10,7 +10,7 @@ export default async function Page() {
 	const userId = session?.user?.id ?? null;
 
 	if (!userId) {
-		throw new Error('not allowed');
+		throw new Error('You have to be logged in to create a venue.');
 	}
 
 	return (

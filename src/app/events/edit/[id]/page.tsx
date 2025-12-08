@@ -20,11 +20,11 @@ export default async function Page({ params }: PageProps) {
 	const { error, event } = await getEventById(id);
 
 	if (error || !event) {
-		throw new Error('event not found');
+		throw new Error('Error fetching event data. Either event does not exist or ther was an error: ' + (error ?? ''));
 	}
 
 	if (!userId || userId !== event.organisatorId) {
-		throw new Error('not allowed');
+		throw new Error('Only orginizators of the event are allowed to edit it.');
 	}
 
 	const venues = await venueService.getAllVenues();

@@ -1,4 +1,3 @@
-// src/app/events/page.tsx
 import React, { Suspense } from 'react';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';

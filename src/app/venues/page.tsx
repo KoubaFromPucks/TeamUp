@@ -10,7 +10,7 @@ const VenuesList = async ({ userId }: { userId: string | null }) => {
 	const { error, venues } = await getAllVenues();
 
 	if (!venues || error) {
-		throw new Error('error fetching venues');
+		throw new Error('Error fetching venues data. Either venue does not exist or there was an error: ' + (error ?? ''));
 	}
 
 	return (

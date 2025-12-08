@@ -25,7 +25,7 @@ const Page = async ({ params }: PageProps) => {
 	const { error, event } = await getEventById(id);
 
 	if (!event || error) {
-		throw new Error('error fetching event');
+		throw new Error('Error fetching event data. Either event does not exist or ther was an error: ' + (error ?? ''));
 	}
 
 	const invitedEventIds = userId
@@ -41,7 +41,7 @@ const Page = async ({ params }: PageProps) => {
 	const { venue } = await getVenueById(event.venueId);
 
 	if (!canSee) {
-		throw new Error('not allowed');
+		throw new Error('You are not allowed to view this event.');
 	}
 
 	return (
