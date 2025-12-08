@@ -18,7 +18,7 @@ export const eventInvitationMapper = {
 			id: model.id,
 			concreteEventId: model.id,
 			state: model.state,
-			userId: model.state,
+			userId: model.userId,
 			user: model.user
 				? userMapper.mapUserListModelToDto(model.user)
 				: undefined
@@ -32,7 +32,7 @@ export const eventInvitationMapper = {
 			id: model.id,
 			concreteEventId: model.concreteEventId,
 			state: model.state,
-			userId: model.state,
+			userId: model.userId,
 			user: model.user
 				? userMapper.mapUserListModelToDto(model.user)
 				: undefined

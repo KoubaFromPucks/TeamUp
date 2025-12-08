@@ -40,9 +40,9 @@ const Page = async ({ params }: PageProps) => {
 				isDetail={true}
 			></ConcreteEventCard>
 			<div className="mt-2 mb-2 flex justify-between">
-				<h1 className="text-lg font-semibold">ivited users</h1>
+				<h1 className="text-lg font-semibold">Invited users</h1>
 				{showInviteButton && (
-					<StandardLink href={'/invite/create'}>invite users</StandardLink>
+					<StandardLink href={`/concreteEvent/${id}/invite`}>Invite users</StandardLink>
 				)}
 			</div>
 
