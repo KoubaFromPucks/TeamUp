@@ -9,6 +9,7 @@ import {
 	EventInvitationUpdateDto
 } from './schema';
 import { userMapper } from '../user/mapper';
+import { ConcreteEventMapper } from '../concrete_event/mapper';
 
 export const eventInvitationMapper = {
 	mapEventInvitationDetailModelToDTO(
@@ -21,6 +22,11 @@ export const eventInvitationMapper = {
 			userId: model.userId,
 			user: model.user
 				? userMapper.mapUserListModelToDto(model.user)
+				: undefined,
+			concreteEvent: model.concreteEvent
+				? ConcreteEventMapper.mapConcreteEventListModelToDto(
+						model.concreteEvent
+					)
 				: undefined
 		};
 	},
@@ -35,6 +41,11 @@ export const eventInvitationMapper = {
 			userId: model.userId,
 			user: model.user
 				? userMapper.mapUserListModelToDto(model.user)
+				: undefined,
+			concreteEvent: model.concreteEvent
+				? ConcreteEventMapper.mapConcreteEventListModelToDto(
+						model.concreteEvent
+					)
 				: undefined
 		};
 	},

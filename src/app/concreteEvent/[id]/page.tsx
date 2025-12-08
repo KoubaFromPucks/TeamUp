@@ -42,7 +42,9 @@ const Page = async ({ params }: PageProps) => {
 			<div className="mt-2 mb-2 flex justify-between">
 				<h1 className="text-lg font-semibold">Invited users</h1>
 				{showInviteButton && (
-					<StandardLink href={`/concreteEvent/${id}/invite`}>Invite users</StandardLink>
+					<StandardLink href={`/concreteEvent/${id}/invite`}>
+						Invite users
+					</StandardLink>
 				)}
 			</div>
 
