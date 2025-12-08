@@ -1,14 +1,23 @@
-import { GithubLoginButton } from '@/components/login/githubLoginButton';
+import { getAllConcreteEventsFromCurrentDate } from '@/facades/concrete_event/concrete-event-facade';
+import { ConcreteEventCard } from '@/modules/concreteEvent/components/concrete-event-card';
 import React from 'react';
 
-const Home = () => (
-	<>
-		<h1 className="text-3xl">Teamup</h1>
+const Home = async () => {
+	const { error, concreteEvent } = await getAllConcreteEventsFromCurrentDate();
 
-		<div className="mt-10">Page Content</div>
+	if(!concreteEvent || error){
+		throw new Error('error fetching concrete events');
+	}
 
-		<GithubLoginButton />
-	</>
-);
+	return(
+		<div className='flex flex-wrap gap-6'>
+			{concreteEvent.map(e => (
+				<div className='w-100' key={e.id}>
+					<ConcreteEventCard concreteEvent={e} isDetail={false}></ConcreteEventCard>
+				</div>
+			))}
+		</div>
+	);
+}
 
 export default Home;

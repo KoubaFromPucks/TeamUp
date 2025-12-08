@@ -6,6 +6,7 @@ import { GithubLoginButton } from './login/githubLoginButton';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import React from 'react';
 
 export const Navigation = () => {
 	const { data: session } = useSession();

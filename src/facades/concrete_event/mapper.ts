@@ -22,7 +22,8 @@ export const ConcreteEventMapper = {
 			eventId: model.eventId,
 			invitedUsers: model.invitedUsers.map(
 				eventInvitationMapper.mapEventInvitationListModelToDto
-			)
+			),
+			eventName: model.eventName
 		};
 	},
 
@@ -34,7 +35,8 @@ export const ConcreteEventMapper = {
 			endDate: model.endDate,
 			startDate: model.startDate,
 			eventId: model.eventId,
-			price: model.price
+			price: model.price,
+			eventName: model.eventName
 		};
 	},
 
