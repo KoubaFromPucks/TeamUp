@@ -3,14 +3,12 @@
 import React from 'react';
 import { EventHistoryCard } from './event-history-card';
 import { getUserEventHistoryById } from '@/facades/user/user-facade';
-import { delay } from '@/lib/utils';
 
 export const ServerEventHistoryList = async ({
 	userId
 }: {
 	userId: string;
 }) => {
-	await delay(1000);
 	const { error, history } = await getUserEventHistoryById(userId);
 
 	if (error) {
