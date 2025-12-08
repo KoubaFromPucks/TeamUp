@@ -9,6 +9,13 @@ import {
 	CardLabeledItem
 } from '@/components/card';
 
+const getStatsCountByInvitationState = (
+	userData: UserEventHistoryDataDto[],
+	state: string
+) => {
+	return userData.filter(data => data.eventInvitation.state === state).length;
+};
+
 export const UserStatsCard = ({
 	userData,
 	title
@@ -17,17 +24,17 @@ export const UserStatsCard = ({
 	title: string;
 }) => {
 	const totalEvents = userData.length;
-	const acceptedInvitations = userData.filter(
-		data => data.eventInvitation.state === 'Accepted'
-	).length;
-	const declinedInvitations = userData.filter(
-		data => data.eventInvitation.state === 'Declined'
-	).length;
-	const notSureOrPendingInvitations = userData.filter(
-		data =>
-			data.eventInvitation.state === 'Not sure' ||
-			data.eventInvitation.state === 'Pending'
-	).length;
+	const acceptedInvitations = getStatsCountByInvitationState(
+		userData,
+		'Accepted'
+	);
+	const declinedInvitations = getStatsCountByInvitationState(
+		userData,
+		'Declined'
+	);
+	const notSureOrPendingInvitations =
+		getStatsCountByInvitationState(userData, 'Not sure') +
+		getStatsCountByInvitationState(userData, 'Pending');
 
 	return (
 		<Card className="my-2">
