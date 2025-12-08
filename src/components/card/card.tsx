@@ -45,7 +45,12 @@ export const CardFooter = ({
 );
 
 export const Card = ({ children, className }: CardProps) => (
-	<div className={cn("relative flex flex-col rounded-lg border p-4 shadow", className)}>
+	<div
+		className={cn(
+			'relative flex flex-col rounded-lg border p-4 shadow',
+			className
+		)}
+	>
 		{children}
 	</div>
 );

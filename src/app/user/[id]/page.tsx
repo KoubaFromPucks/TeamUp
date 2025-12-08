@@ -18,7 +18,12 @@ const Page = async ({ params }: PageProps) => {
 			<UserCard user={user} />
 			<h1 className="mt-6 text-3xl font-semibold">User Event History</h1>
 			<Suspense fallback={<p>Loading event history...</p>}>
-				<ServerEventHistoryList userId={'0e8cec7d-5512-4b96-b030-30572a5f0346'} />
+				<ServerEventHistoryList
+					userId={'6cc10416-8fc6-4a12-92d2-6fbaa5648819'}
+				/>
+				{
+					// TODO real id
+				}
 			</Suspense>
 		</>
 	);
