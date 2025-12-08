@@ -2,9 +2,21 @@ import z from 'zod';
 import { BoardItemListDto } from '../board/schema';
 import { ConcreteEventListDto } from '../concrete_event/schema';
 
-export const dayOfWeekEnum = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const;
+export const dayOfWeekEnum = [
+	'Mon',
+	'Tue',
+	'Wed',
+	'Thu',
+	'Fri',
+	'Sat',
+	'Sun'
+] as const;
 export const inviteTypeEnum = ['public', 'private', 'invite_only'] as const;
-export const pricingTypeEnum = ['pre_paid', 'pay_as_you_go', 'pay_later'] as const;
+export const pricingTypeEnum = [
+	'pre_paid',
+	'pay_as_you_go',
+	'pay_later'
+] as const;
 
 export const eventUpdateSchema = z.object({
 	venueId: z.string().uuid('Invalid venue ID'),

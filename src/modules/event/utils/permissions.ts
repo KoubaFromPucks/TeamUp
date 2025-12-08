@@ -17,8 +17,7 @@ export const getEventPermissions = ({
 		(isLoggedIn &&
 			(isOrganisator ||
 				event.inviteType === 'private' ||
-				(event.inviteType === 'invite_only' &&
-					invitedEventIds.has(event.id))));
+				(event.inviteType === 'invite_only' && invitedEventIds.has(event.id))));
 
 	const canManage = isOrganisator;
 

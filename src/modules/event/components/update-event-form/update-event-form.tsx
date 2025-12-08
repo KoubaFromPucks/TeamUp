@@ -8,16 +8,20 @@ import {
 	eventUpdateSchema,
 	EventUpdateDto,
 	EventDetailDto,
-    pricingTypeEnum,
-    inviteTypeEnum,
-    dayOfWeekEnum
+	pricingTypeEnum,
+	inviteTypeEnum,
+	dayOfWeekEnum
 } from '@/facades/event/schema';
 import { FormInput } from '@/components/form/form-input';
 import { FormSelect } from '@/components/form/form-select';
 import { SubmitButton } from '@/components/form/submit-button';
 import { useRouter } from 'next/navigation';
 import { useUpdateEventMutation } from './hooks';
-import { dayOfWeekLabels, inviteTypeLabels, pricingTypeLabels } from './update-event-form-enums';
+import {
+	dayOfWeekLabels,
+	inviteTypeLabels,
+	pricingTypeLabels
+} from './update-event-form-enums';
 
 type VenueOption = { id: string; name: string };
 
@@ -37,7 +41,7 @@ export const EventForm = ({
 	const form = useForm<EventUpdateDto>({
 		resolver: zodResolver(eventUpdateSchema),
 		defaultValues: {
-			venueId: event?.venueId ?? (venues[0]?.id ?? ''),
+			venueId: event?.venueId ?? venues[0]?.id ?? '',
 			organisatorId,
 			name: event?.name ?? '',
 			startTime: event?.startTime ?? '',
@@ -60,27 +64,19 @@ export const EventForm = ({
 					toast.success('Event saved successfully');
 					router.push(navPath);
 				},
-				onError: (error) => toast.error(`Save failed: ${error.message}`)
+				onError: error => toast.error(`Save failed: ${error.message}`)
 			}
 		);
 	};
 
 	return (
 		<FormProvider {...form}>
-			<form
-                onSubmit={form.handleSubmit(
-                    onSubmit,
-                    (errs) => {
-                        toast.error('Form validation failed');
-                    }
-                )}
-                className="space-y-4"
-            >
+			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 				<input
-                    type="hidden"
-                    value={organisatorId}
-                    {...form.register('organisatorId')}
-                />
+					type="hidden"
+					value={organisatorId}
+					{...form.register('organisatorId')}
+				/>
 
 				<div className="flex flex-col gap-6">
 					<FormInput name="name" label="Name" />
@@ -100,31 +96,31 @@ export const EventForm = ({
 					</FormSelect>
 
 					<FormInput name="startTime" label="Start time" type="time" />
-                    <FormInput name="endTime" label="End time" type="time" />
+					<FormInput name="endTime" label="End time" type="time" />
 
 					<FormSelect name="dayOfWeek" label="Day of week">
-                        {dayOfWeekEnum.map(d => (
-                            <option key={d} value={d}>
-                                {dayOfWeekLabels[d]}
-                            </option>
-                        ))}
-                    </FormSelect>
+						{dayOfWeekEnum.map(d => (
+							<option key={d} value={d}>
+								{dayOfWeekLabels[d]}
+							</option>
+						))}
+					</FormSelect>
 
-                    <FormSelect name="inviteType" label="Invite type">
-                        {inviteTypeEnum.map(i => (
-                            <option key={i} value={i}>
-                                {inviteTypeLabels[i]}
-                            </option>
-                        ))}
-                    </FormSelect>
+					<FormSelect name="inviteType" label="Invite type">
+						{inviteTypeEnum.map(i => (
+							<option key={i} value={i}>
+								{inviteTypeLabels[i]}
+							</option>
+						))}
+					</FormSelect>
 
-                    <FormSelect name="pricingType" label="Pricing type">
-                        {pricingTypeEnum.map(p => (
-                            <option key={p} value={p}>
-                                {pricingTypeLabels[p]}
-                            </option>
-                        ))}
-                    </FormSelect>
+					<FormSelect name="pricingType" label="Pricing type">
+						{pricingTypeEnum.map(p => (
+							<option key={p} value={p}>
+								{pricingTypeLabels[p]}
+							</option>
+						))}
+					</FormSelect>
 
 					<FormInput name="totalPrice" label="Total price" type="number" />
 				</div>

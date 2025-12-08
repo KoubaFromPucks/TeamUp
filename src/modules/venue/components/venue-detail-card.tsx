@@ -3,7 +3,7 @@ import { Card, CardLabeledItem } from '@/components/card';
 import { CardContent, CardHeader } from '@/components/card/card';
 import { StandardLink } from '@/components/standard-link';
 import { DeleteVenueButton } from './delete-venue-button/delete-venue-button';
-import { MapPin, DollarSign, Info, User } from 'lucide-react';
+import { MapPin, DollarSign, Info } from 'lucide-react';
 import type { VenueDetailDto } from '@/facades/venue/schema';
 
 export const VenueDetailCard = ({
@@ -20,9 +20,7 @@ export const VenueDetailCard = ({
 
 				{canManage && (
 					<div className="flex gap-3">
-						<StandardLink href={`/venues/edit/${venue.id}`}>
-							Edit
-						</StandardLink>
+						<StandardLink href={`/venues/edit/${venue.id}`}>Edit</StandardLink>
 						<DeleteVenueButton id={venue.id} />
 					</div>
 				)}
@@ -50,7 +48,7 @@ export const VenueDetailCard = ({
 					</div>
 				</CardLabeledItem>
 
-                <CardLabeledItem label="Description">
+				<CardLabeledItem label="Description">
 					<div className="flex items-center justify-center gap-2 text-gray-700">
 						<span className="font-semibold">{venue.description}</span>
 					</div>

@@ -18,19 +18,21 @@ export const createUpdateVenue = async (
 	let result;
 	try {
 		if (venueId) {
-			const patch =
-				venueFacadeMapper.mapUpdateDtoToPatchModel(validationResult.data);
+			const patch = venueFacadeMapper.mapUpdateDtoToPatchModel(
+				validationResult.data
+			);
 			result = await venueService.updateVenueById(venueId, patch);
 		} else {
-			const insertModel =
-				venueFacadeMapper.mapUpdateDtoToInsertModel(validationResult.data);
+			const insertModel = venueFacadeMapper.mapUpdateDtoToInsertModel(
+				validationResult.data
+			);
 			result = await venueService.createVenue(insertModel);
 		}
 	} catch (error) {
 		return { error: (error as Error).message, venue: null };
 	}
 
-    if (!result) {
+	if (!result) {
 		return { error: 'Venue could not be created or updated', venue: null };
 	}
 

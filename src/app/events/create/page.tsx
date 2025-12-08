@@ -19,7 +19,7 @@ const Page = async () => {
 
 	return (
 		<div>
-			<h1 className="text-lg font-semibold mb-4">Create Event</h1>
+			<h1 className="mb-4 text-lg font-semibold">Create Event</h1>
 
 			<EventForm
 				navPath="/events"

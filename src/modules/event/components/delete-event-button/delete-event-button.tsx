@@ -16,13 +16,13 @@ export const DeleteEventButton = ({ id }: { id: string }) => {
 			onClick={() => {
 				deleteMutation.mutate(id, {
 					onSuccess: () => {
-                        toast.success('Event deleted successfully');
+						toast.success('Event deleted successfully');
 						router.push('/events');
 					},
 					onError: e => toast.error(`Delete failed: ${e.message}`)
 				});
 			}}
-            variant="destructive"
+			variant="destructive"
 		>
 			{deleteMutation.isPending ? 'Deleting...' : 'Delete'}
 		</Button>

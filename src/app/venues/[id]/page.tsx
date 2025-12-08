@@ -4,7 +4,6 @@ import { auth } from '@/lib/auth';
 import { getVenueById } from '@/facades/venue/venue-facade';
 import { VenueDetailCard } from '@/modules/venue/components/venue-detail-card';
 
-
 type PageProps = {
 	params: Promise<{ id: string }>;
 };

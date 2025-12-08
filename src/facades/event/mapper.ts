@@ -5,17 +5,12 @@ import type {
 	EventDetailModel
 } from '@/services/event/schema';
 
-import type {
-	EventUpdateDto,
-	EventListDto,
-	EventDetailDto
-} from './schema';
+import type { EventUpdateDto, EventListDto, EventDetailDto } from './schema';
 
 import type { BoardItemListDto } from '../board/schema';
 import type { ConcreteEventListDto } from '../concrete_event/schema';
 import { ConcreteEventMapper } from '../concrete_event/mapper';
 import { boardItemFacadeMapper } from '../board/mapper';
-
 
 function mapListModelToDto(model: EventListModel): EventListDto {
 	return {
@@ -52,18 +47,13 @@ function mapDetailModelToDto(
 		totalPrice: model.totalPrice ?? null,
 
 		boardItems:
-			extras?.boardItems?.map(boardItemFacadeMapper.mapListModelToDto) ??
-			[],
+			extras?.boardItems?.map(boardItemFacadeMapper.mapListModelToDto) ?? [],
 		concreteEvents:
 			extras?.concreteEvents?.map(
 				ConcreteEventMapper.mapConcreteEventListModelToDto
 			) ?? []
 	};
 }
-
-
-
-
 
 function mapUpdateDtoToInsertModel(dto: EventUpdateDto): EventInsertModel {
 	return {

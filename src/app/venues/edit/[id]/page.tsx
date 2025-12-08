@@ -4,7 +4,6 @@ import { auth } from '@/lib/auth';
 import { getVenueById } from '@/facades/venue/venue-facade';
 import { VenueForm } from '@/modules/venue/components/update-venue-form/update-venue-form';
 
-
 type PageProps = {
 	params: Promise<{ id: string }>;
 };
@@ -36,11 +35,7 @@ export default async function Page({ params }: PageProps) {
 		<div>
 			<h1 className="mb-4 text-lg font-semibold">Edit Venue</h1>
 
-			<VenueForm
-				venue={venue}
-				navPath="/venues"
-				ownerId={userId}
-			/>
+			<VenueForm venue={venue} navPath="/venues" ownerId={userId} />
 		</div>
 	);
 }

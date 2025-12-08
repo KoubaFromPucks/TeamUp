@@ -3,8 +3,12 @@
 import { eventService } from '@/services/event/service';
 import { venueService } from '@/services/venue/service';
 import { eventFacadeMapper } from './mapper';
-import { EventUpdateDto, eventUpdateSchema, type EventDetailDto, type EventListDto } from './schema';
-import { boardItemService } from '@/services/board/board-item-service';
+import {
+	EventUpdateDto,
+	eventUpdateSchema,
+	type EventDetailDto,
+	type EventListDto
+} from './schema';
 import { concreteEventService } from '@/services/concrete_event/concrete-event-service';
 
 type GetEventsListArgs = {
@@ -102,8 +106,9 @@ export const createUpdateEvent = async (
 		return { error: errors, event: null };
 	}
 
-	const insertModel =
-		eventFacadeMapper.mapUpdateDtoToInsertModel(validationResult.data);
+	const insertModel = eventFacadeMapper.mapUpdateDtoToInsertModel(
+		validationResult.data
+	);
 
 	let result;
 	try {

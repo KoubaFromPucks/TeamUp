@@ -18,15 +18,6 @@ const SkeletonLabeledItem = ({
 	</div>
 );
 
-const OneLineValue = ({ valueWidthClass }: { valueWidthClass: string }) => (
-	<div className="flex min-h-[24px] items-center justify-center gap-2">
-		<div className="h-[18px] w-[18px] animate-pulse rounded bg-gray-200" />
-		<div
-			className={`h-4 animate-pulse rounded bg-gray-200 ${valueWidthClass}`}
-		/>
-	</div>
-);
-
 const TwoLineValue = ({ valueWidthClass }: { valueWidthClass: string }) => (
 	<div className="flex min-h-[40px] flex-col items-center justify-center gap-2">
 		<div className="flex items-center justify-center gap-2">

@@ -5,7 +5,6 @@ import { ConcreteEventCard } from '@/modules/concreteEvent/components/concrete-e
 import React from 'react';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
-import { DeleteEventButton } from '@/modules/event/components/delete-event-button/delete-event-button';
 import { EventDetailCard } from '@/modules/event/components/event-detail-card';
 import { getEventPermissions } from '@/modules/event/utils/permissions';
 import { VenueCard } from '@/modules/venue/components/venue-card';
@@ -39,28 +38,27 @@ const Page = async ({ params }: PageProps) => {
 		invitedEventIds
 	});
 
-    const { venue } = await getVenueById(event.venueId);
+	const { venue } = await getVenueById(event.venueId);
 
 	if (!canSee) {
 		throw new Error('not allowed');
 	}
 
-
 	return (
 		<div className="flex flex-col gap-8">
 			<div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
-                <div className="lg:w-2/3">
-                    <div className="min-h-[180px] h-full">
-                        <EventDetailCard event={event} canManage={canManage} />
-                    </div>
-                </div>
+				<div className="lg:w-2/3">
+					<div className="h-full min-h-[180px]">
+						<EventDetailCard event={event} canManage={canManage} />
+					</div>
+				</div>
 
-                {venue && (
-                    <div className="lg:w-1/3">
-                        <VenueCard venue={venue} isDetail={false} />
-                    </div>
-                )}
-            </div>
+				{venue && (
+					<div className="lg:w-1/3">
+						<VenueCard venue={venue} isDetail={false} />
+					</div>
+				)}
+			</div>
 
 			<div className="flex flex-wrap gap-6">
 				{event.boardItems.length === 0 ? (
@@ -77,7 +75,7 @@ const Page = async ({ params }: PageProps) => {
 				)}
 			</div>
 
-			<div className="flex mb-2 mt-6 justify-between">
+			<div className="mt-6 mb-2 flex justify-between">
 				<h1 className="text-lg font-semibold">Concrete events</h1>
 				{canManage && (
 					<StandardLink href={`/concreteEvent/create?eventId=${event.id}`}>

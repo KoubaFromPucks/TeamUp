@@ -6,8 +6,6 @@ import { CreateVenueCard } from '@/modules/venue/components/create-venue-card';
 import { VenueCard } from '@/modules/venue/components/venue-card';
 import { VenueCardSkeleton } from '@/modules/venue/components/skeletons/venue-card-skeleton';
 
-
-
 const VenuesList = async ({ userId }: { userId: string | null }) => {
 	const { error, venues } = await getAllVenues();
 

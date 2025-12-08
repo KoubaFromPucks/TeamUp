@@ -56,11 +56,7 @@ export const VenueForm = ({
 	return (
 		<FormProvider {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-				<input
-					type="hidden"
-					value={ownerId}
-					{...form.register('ownerId')}
-				/>
+				<input type="hidden" value={ownerId} {...form.register('ownerId')} />
 
 				<div className="flex flex-col gap-6">
 					<FormInput name="name" label="Name" />

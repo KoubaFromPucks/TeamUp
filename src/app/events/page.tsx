@@ -3,7 +3,6 @@ import React, { Suspense } from 'react';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 
-
 import { getInvitedEventIdsForUser } from '@/facades/event/helper';
 import { EventsListSkeleton } from '@/modules/event/components/skeletons/events-list-skeleton';
 import { EventsList } from '@/modules/event/components/events-list';

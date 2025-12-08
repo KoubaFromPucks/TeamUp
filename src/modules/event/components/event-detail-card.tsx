@@ -3,7 +3,7 @@ import { Card, CardLabeledItem } from '@/components/card';
 import { CardContent, CardHeader } from '@/components/card/card';
 import { StandardLink } from '@/components/standard-link';
 import { DeleteEventButton } from './delete-event-button/delete-event-button';
-import { CalendarDays, MapPin, Lock, Users, DollarSign, BadgeInfo } from 'lucide-react';
+import { CalendarDays, Lock, Users, DollarSign, BadgeInfo } from 'lucide-react';
 import type { EventDetailDto } from '@/facades/event/schema';
 import { pricingTypeLabels } from './update-event-form/update-event-form-enums';
 
@@ -12,10 +12,7 @@ type EventDetailCardProps = {
 	canManage: boolean;
 };
 
-const inviteTypeLabel: Record<
-	'public' | 'private' | 'invite_only',
-	string
-> = {
+const inviteTypeLabel: Record<'public' | 'private' | 'invite_only', string> = {
 	public: 'Public',
 	private: 'Private',
 	invite_only: 'Invite only'
@@ -37,15 +34,15 @@ export const EventDetailCard = ({ event, canManage }: EventDetailCardProps) => (
 				<h3 className="text-lg font-semibold">{event.name}</h3>
 
 				{canManage ? (
-                    <div className="flex gap-3">
-                        <StandardLink href={`/events/edit/${event.id}`}>Edit</StandardLink>
-                        <DeleteEventButton id={event.id} />
-                    </div>
-                ) : (
-                    <div className="invisible flex gap-3">
-                        <span className="px-3 py-5"/>
-                    </div>
-                )}
+					<div className="flex gap-3">
+						<StandardLink href={`/events/edit/${event.id}`}>Edit</StandardLink>
+						<DeleteEventButton id={event.id} />
+					</div>
+				) : (
+					<div className="invisible flex gap-3">
+						<span className="px-3 py-5" />
+					</div>
+				)}
 			</CardHeader>
 
 			<CardContent className="gap-6">
@@ -64,7 +61,7 @@ export const EventDetailCard = ({ event, canManage }: EventDetailCardProps) => (
 						</span>
 					</div>
 				</CardLabeledItem>
-                {canManage && (
+				{canManage && (
 					<>
 						<CardLabeledItem label="Pricing">
 							<div className="flex items-center justify-center gap-2 text-gray-700">
@@ -76,9 +73,7 @@ export const EventDetailCard = ({ event, canManage }: EventDetailCardProps) => (
 						<CardLabeledItem label="Total price">
 							<div className="flex items-center justify-center gap-2 text-gray-700">
 								<DollarSign size={18} />
-								<span className="font-semibold">
-									{event.totalPrice ?? 0}
-								</span>
+								<span className="font-semibold">{event.totalPrice ?? 0}</span>
 							</div>
 						</CardLabeledItem>
 					</>

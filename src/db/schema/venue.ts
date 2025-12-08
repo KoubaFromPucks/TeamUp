@@ -12,5 +12,5 @@ export const venueTable = sqliteTable('venues', {
 	pricePerHour: real('price_per_hour').notNull().default(0),
 	owner: text('owner_id')
 		.notNull()
-		.references(() => userTable.id, { onDelete: 'restrict' }),
+		.references(() => userTable.id, { onDelete: 'restrict' })
 });

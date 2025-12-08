@@ -1,4 +1,8 @@
-import { dayOfWeekEnum, inviteTypeEnum, pricingTypeEnum } from "@/facades/event/schema";
+import {
+	dayOfWeekEnum,
+	inviteTypeEnum,
+	pricingTypeEnum
+} from '@/facades/event/schema';
 
 const dayOfWeekLabels: Record<(typeof dayOfWeekEnum)[number], string> = {
 	Mon: 'Monday',
@@ -22,8 +26,4 @@ const pricingTypeLabels: Record<(typeof pricingTypeEnum)[number], string> = {
 	pay_later: 'Pay later'
 };
 
-export {
-    dayOfWeekLabels,
-    inviteTypeLabels,
-    pricingTypeLabels
-};
+export { dayOfWeekLabels, inviteTypeLabels, pricingTypeLabels };

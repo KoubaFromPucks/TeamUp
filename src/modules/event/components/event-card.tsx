@@ -33,9 +33,7 @@ export const EventCard = ({
 					<div className="flex gap-3">
 						<StandardLink
 							href={
-								isDetail
-									? `/events/edit/${event.id}`
-									: `/events/${event.id}`
+								isDetail ? `/events/edit/${event.id}` : `/events/${event.id}`
 							}
 						>
 							{isDetail ? 'Edit' : 'Detail'}

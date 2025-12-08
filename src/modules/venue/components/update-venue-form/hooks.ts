@@ -4,13 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 
 export const useUpdateVenueMutation = () =>
 	useMutation({
-		mutationFn: async ({
-			data,
-			id
-		}: {
-			data: VenueUpdateDto;
-			id?: string;
-		}) => {
+		mutationFn: async ({ data, id }: { data: VenueUpdateDto; id?: string }) => {
 			const { error, venue } = await createUpdateVenue(id, data);
 
 			if (error) {
