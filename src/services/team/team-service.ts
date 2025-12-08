@@ -3,6 +3,7 @@ import { TeamInsertModel } from './schema';
 import { teamMapper } from './mapper';
 import { teamRepository } from '@/repositories/team/team-repository';
 import { userRepository } from '@/repositories/user/user-repository';
+import { authService } from '../auth/auth-service';
 
 export const teamService = {
 	async doesTeamExist(teamId: string): Promise<boolean> {
@@ -11,6 +12,11 @@ export const teamService = {
 	},
 
 	async createTeam(team: TeamInsertModel) {
+		const user = await authService.getLoggedUserOrThrow(
+			'You must be logged in to create team.'
+		);
+		team.organizerId = user.id;
+
 		const createdTeam = await teamRepository.createTeam(
 			teamMapper.mapInsertModelToEntity(team)
 		);
@@ -37,6 +43,13 @@ export const teamService = {
 	},
 
 	async updateTeamById(teamId: string, teamEntity: Partial<TeamInsertModel>) {
+		const user = await authService.getLoggedUserOrThrow(
+			'You must be logged in to create team.'
+		);
+		if (!(await teamRepository.isUserTeamOrganizer(teamId, user.id))) {
+			throw new Error('Only the team organizer can update the team');
+		}
+
 		const currentTeam = await teamRepository.getTeamWithMembersById(teamId);
 		if (!currentTeam) {
 			throw new Error('Team not found');
@@ -70,6 +83,13 @@ export const teamService = {
 	},
 
 	async addUserToTeam(teamId: string, userId: string) {
+		const user = await authService.getLoggedUserOrThrow(
+			'You must be logged in to be able to add user to the team.'
+		);
+		if (!(await teamRepository.isUserTeamOrganizer(teamId, user.id))) {
+			throw new Error('Only the team organizer can add users to the team');
+		}
+
 		if (!(await this.doesTeamExist(teamId))) {
 			throw new Error('Team does not exist');
 		}
@@ -89,6 +109,14 @@ export const teamService = {
 	},
 
 	async removeUserFromTeam(teamId: string, userId: string) {
+		const user = await authService.getLoggedUserOrThrow(
+			'You must be logged in to be able to remove user from the team.'
+		);
+
+		if (!(await teamRepository.isUserTeamOrganizer(teamId, user.id))) {
+			throw new Error('Only the team organizer can delete the team');
+		}
+
 		if (!(await this.doesTeamExist(teamId))) {
 			throw new Error('Team does not exist');
 		}
@@ -112,6 +140,14 @@ export const teamService = {
 	},
 
 	async deleteTeamById(teamId: string) {
+		const user = await authService.getLoggedUserOrThrow(
+			'You must be logged in to delete team.'
+		);
+
+		if (!(await teamRepository.isUserTeamOrganizer(teamId, user.id))) {
+			throw new Error('Only the team organizer can delete the team');
+		}
+
 		if (!(await this.doesTeamExist(teamId))) {
 			throw new Error('Team does not exist');
 		}

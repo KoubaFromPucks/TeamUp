@@ -55,21 +55,24 @@ export const eventInvitationService = {
 			await eventInvitationRepository.getEventInvitationsByConcreteEventId(
 				concreteEventId
 			);
-		
+
 		return Promise.all(
-			eventInvitations.map(async (eventInvitation) => {
-				const userEntity = await userRepository.getUserById(eventInvitation.userId);
-				
-				if(!userEntity){
+			eventInvitations.map(async eventInvitation => {
+				const userEntity = await userRepository.getUserById(
+					eventInvitation.userId
+				);
+
+				if (!userEntity) {
 					throw new Error('user not found');
 				}
 
 				const userListModel = userMapper.mapEntityToListModel(userEntity);
-				const listModel = EventInvitationMapper.mapEntityToListModel(eventInvitation);
+				const listModel =
+					EventInvitationMapper.mapEntityToListModel(eventInvitation);
 				return {
 					...listModel,
 					user: userListModel
-				}
+				};
 			})
 		);
 	},

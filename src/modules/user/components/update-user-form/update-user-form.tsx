@@ -15,6 +15,7 @@ import { SubmitButton } from '@/components/form/submit-button';
 import { useRouter } from 'next/navigation';
 import { CardImage } from '@/components/card';
 import { getImageUrlOrDefault } from '@/lib/utils';
+import { useSession } from '@/lib/auth-client';
 
 export const UpdateUserForm = ({
 	user,
@@ -36,6 +37,11 @@ export const UpdateUserForm = ({
 
 	const mutation = useUpdateUserMutation();
 	const router = useRouter();
+	const { data: session } = useSession();
+
+	if (!session?.user) {
+		throw new Error('You must be logged in to update your profile.');
+	}
 
 	const onSubmit = (values: UserUpdateCreateDto) => {
 		mutation.mutate(

@@ -5,19 +5,22 @@ import React from 'react';
 const Home = async () => {
 	const { error, concreteEvent } = await getAllConcreteEventsFromCurrentDate();
 
-	if(!concreteEvent || error){
+	if (!concreteEvent || error) {
 		throw new Error('error fetching concrete events');
 	}
 
-	return(
-		<div className='flex flex-wrap gap-6'>
+	return (
+		<div className="flex flex-wrap gap-6">
 			{concreteEvent.map(e => (
-				<div className='w-100' key={e.id}>
-					<ConcreteEventCard concreteEvent={e} isDetail={false}></ConcreteEventCard>
+				<div className="w-100" key={e.id}>
+					<ConcreteEventCard
+						concreteEvent={e}
+						isDetail={false}
+					></ConcreteEventCard>
 				</div>
 			))}
 		</div>
 	);
-}
+};
 
 export default Home;
