@@ -54,6 +54,26 @@ export const boardItemService = {
 		);
 		boardItem.authorId = user.id;
 
+		const event = await eventRepository.getEventById(boardItem.eventId);
+
+		if (!event) {
+			throw new Error('Event not found');
+		}
+
+		const isOrganizer = event.organisatorId === user.id;
+
+		const coorganisers =
+			await eventCoorganiserRepository.getEventCoorganisersByEventId(event.id);
+		const isCoorganizer = coorganisers.some(
+			coorganiser => coorganiser.userId === user.id
+		);
+
+		if (!isOrganizer && !isCoorganizer) {
+			throw new Error(
+				'You do not have permission to create a board item for this event. Only the event organizer or coorganizers can create board items.'
+			);
+		}
+
 		const createEntity =
 			boardItemMapper.mapInsertModelToInsertEntity(boardItem);
 		const createdBoardItem =
