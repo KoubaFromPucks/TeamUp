@@ -44,7 +44,10 @@ export const boardItemRepository = {
 			})
 			.from(boardItemTable)
 			.leftJoin(userTable, eq(boardItemTable.authorId, userTable.id))
-			.leftJoin(eventTable, eq(boardItemTable.eventId, eventTable.id));
+			.leftJoin(
+				eventTable,
+				eq(boardItemTable.eventId, eventTable.id)
+			);
 		return boardItems;
 	},
 
