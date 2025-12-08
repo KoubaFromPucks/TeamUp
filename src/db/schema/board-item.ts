@@ -1,15 +1,15 @@
 import { sql } from 'drizzle-orm';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { concreteEventTable } from './concrete-event';
+import { eventTable } from './event';
 import { user as userTable } from './better-auth';
 
 export const boardItemTable = sqliteTable('board_items', {
 	id: text('id')
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
-	concreteEventId: text('concrete_event_id')
+	eventId: text('event_id')
 		.notNull()
-		.references(() => concreteEventTable.id, { onDelete: 'cascade' }),
+		.references(() => eventTable.id, { onDelete: 'cascade' }),
 	authorId: text('author_id')
 		.notNull()
 		.references(() => userTable.id, { onDelete: 'restrict' }),

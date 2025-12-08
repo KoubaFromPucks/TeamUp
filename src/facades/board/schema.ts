@@ -1,7 +1,7 @@
 import z from 'zod';
 
 export const boardItemCreateUpdateSchema = z.object({
-	concreteEventId: z.string().uuid('Invalid concrete event ID'),
+	eventId: z.string().uuid('Invalid event ID'),
 	authorId: z.string().uuid('Invalid author ID'),
 	title: z.string().min(1, 'Title is required').max(200, 'Title is too long'),
 	content: z.string().min(1, 'Content is required'),
@@ -30,7 +30,6 @@ export type BoardItemDetailDto = BoardItemCreateUpdateDto & {
 	updatedAt: string | null;
 	authorName: string | null;
 	eventName: string | null;
-	eventStartDate: string | null;
 	eventOrganizerId: string | null;
 };
 

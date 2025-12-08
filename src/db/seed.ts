@@ -165,8 +165,8 @@ async function seed() {
 					id: crypto.randomUUID(),
 					eventId: events[1].id,
 					price: 300,
-					startDate: '2025-12-08T14:00:00Z',
-					endDate: '2025-12-08T16:00:00Z'
+					startDate: '2025-12-11T14:00:00Z',
+					endDate: '2025-12-11T16:00:00Z'
 				}
 			])
 			.returning();
@@ -219,7 +219,7 @@ async function seed() {
 		await db.insert(boardItemTable).values([
 			{
 				id: crypto.randomUUID(),
-				concreteEventId: concreteEvents[0].id,
+				eventId: events[0].id,
 				authorId: users[0].id,
 				title: 'Important: Bring your own ball',
 				content:
@@ -230,7 +230,7 @@ async function seed() {
 			},
 			{
 				id: crypto.randomUUID(),
-				concreteEventId: concreteEvents[0].id,
+				eventId: events[0].id,
 				authorId: users[0].id,
 				title: 'Parking information',
 				content:
@@ -241,7 +241,7 @@ async function seed() {
 			},
 			{
 				id: crypto.randomUUID(),
-				concreteEventId: concreteEvents[2].id,
+				eventId: events[1].id,
 				authorId: users[1].id,
 				title: 'Weather update',
 				content: 'Weather forecast looks good for Sunday. Game is confirmed!',
