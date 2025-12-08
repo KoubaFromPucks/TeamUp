@@ -6,14 +6,14 @@ import Link from 'next/link';
 import { GithubLoginButton } from './login/githubLoginButton';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-import React from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 export const Navigation = () => {
 	const { data: session } = useSession();
 	const [isOpen, setIsOpen] = useState(false);
 	const user = session?.user;
 	const pathname = usePathname();
+	const router = useRouter();
 
 	const linkClass = (href: string) =>
 		`rounded-xl px-4 py-2 hover:bg-gray-300 ${
@@ -122,7 +122,10 @@ export const Navigation = () => {
 							<Image
 								src={'/logout.png'}
 								alt="logout"
-								onClick={() => signOut()}
+								onClick={() => {
+									signOut();
+									router.push('/');
+								}}
 								width={30}
 								height={30}
 							></Image>

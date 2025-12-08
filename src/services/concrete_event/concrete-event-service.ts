@@ -7,6 +7,7 @@ import {
 import { concreteEventMapper } from './mapper';
 import { eventInvitationService } from '../event_invitation/event-invitation-service';
 import { eventRepository } from '@/repositories/event/repository';
+import { eventCoorganiserRepository } from '@/repositories/event_coorganiser/event-coorganiser-repository';
 
 export const concreteEventService = {
 	async doesConcreteEventExist(id: string): Promise<boolean> {
@@ -86,21 +87,27 @@ export const concreteEventService = {
 	> {
 		const concreteEvents =
 			await concreteEventRepository.getAllConcreteEventsFromCurrentDate();
-		const result = await Promise.all(
-			concreteEvents.map(async concreteEvent => {
-				const eventModel = await eventRepository.getEventById(
-					concreteEvent.eventId
-				);
+		const result = (
+			await Promise.all(
+				concreteEvents.map(async concreteEvent => {
+					const eventModel = await eventRepository.getEventById(
+						concreteEvent.eventId
+					);
 
-				const listModel =
-					concreteEventMapper.mapEntityToListModel(concreteEvent);
+					if (eventModel?.inviteType !== 'public') {
+						return null;
+					}
 
-				return {
-					...listModel,
-					eventName: eventModel?.name
-				};
-			})
-		);
+					const listModel =
+						concreteEventMapper.mapEntityToListModel(concreteEvent);
+
+					return {
+						...listModel,
+						eventName: eventModel?.name
+					};
+				})
+			)
+		).filter((item): item is NonNullable<typeof item> => item !== null);
 
 		return result;
 	},
@@ -138,5 +145,36 @@ export const concreteEventService = {
 		}
 
 		return concreteEventMapper.mapEntityToListModel(deleted);
+	},
+
+	async isUserEventsOrganizer(
+		concreteEventId: string,
+		userId: string
+	): Promise<boolean> {
+		const concreteEvent =
+			await concreteEventRepository.getConcreteEventById(concreteEventId);
+
+		if (!concreteEvent) {
+			throw new Error('Concrete event not found');
+		}
+
+		const event = await eventRepository.getEventById(concreteEvent?.eventId);
+
+		if (!event) {
+			throw new Error('Event not found');
+		}
+
+		if (event.organisatorId === userId) {
+			return true;
+		}
+
+		const coorganisers =
+			await eventCoorganiserRepository.getEventCoorganisersByEventId(event.id);
+
+		if (coorganisers.some(coorganiser => coorganiser.userId === userId)) {
+			return true;
+		}
+
+		return false;
 	}
 };

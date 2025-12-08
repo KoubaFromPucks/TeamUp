@@ -1,7 +1,12 @@
-import { StandardLink } from '@/components/standard-link';
-import { getConcreteEventById } from '@/facades/concrete_event/concrete-event-facade';
+import { StandardLink } from '@/components/standard-link';;
+import {
+	getConcreteEventById,
+	isUserEventsOrganizer
+} from '@/facades/concrete_event/concrete-event-facade';
+import { auth } from '@/lib/auth';
 import { ConcreteEventCard } from '@/modules/concreteEvent/components/concrete-event-card';
 import { EventInvitationListCard } from '@/modules/EventInvitation/components/event-invitation-list-card';
+import { headers } from 'next/headers';
 import React from 'react';
 
 type PageProps = {
@@ -16,7 +21,17 @@ const Page = async ({ params }: PageProps) => {
 		throw new Error('error fetching concrete events');
 	}
 
-	console.log(concreteEvent);
+	const session = await auth.api.getSession({
+		headers: await headers()
+	});
+
+	const userId = session?.user?.id;
+
+	let showInviteButton = false;
+	if (userId) {
+		const { isOrganiser } = await isUserEventsOrganizer(id, userId);
+		showInviteButton = !!isOrganiser;
+	}
 
 	return (
 		<div>
@@ -26,7 +41,9 @@ const Page = async ({ params }: PageProps) => {
 			></ConcreteEventCard>
 			<div className="mt-2 mb-2 flex justify-between">
 				<h1 className="text-lg font-semibold">ivited users</h1>
-				<StandardLink href={'/invite/create'}>invite users</StandardLink>
+				{showInviteButton && (
+					<StandardLink href={'/invite/create'}>invite users</StandardLink>
+				)}
 			</div>
 
 			<div className="flex flex-wrap gap-6">

@@ -119,3 +119,24 @@ export const getAllConcreteEventsFromCurrentDate = async () => {
 		return { error: (error as Error).message, concreteEvent: null };
 	}
 };
+
+export const isUserEventsOrganizer = async (
+	concreteEventId: string,
+	userId: string
+) => {
+	try {
+		const result = await concreteEventService.isUserEventsOrganizer(
+			concreteEventId,
+			userId
+		);
+		if (!result) {
+			return { error: 'Entities not found', isOrganiser: null };
+		}
+		return {
+			error: null,
+			isOrganiser: result
+		};
+	} catch (error) {
+		return { error: (error as Error).message, isOrganiser: null };
+	}
+};

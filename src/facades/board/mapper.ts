@@ -14,7 +14,7 @@ import {
 function mapDetailModelToDto(model: BoardItemDetailModel): BoardItemDetailDto {
 	return {
 		id: model.id,
-		concreteEventId: model.concreteEventId,
+		eventId: model.eventId,
 		authorId: model.authorId,
 		title: model.title,
 		content: model.content,
@@ -23,7 +23,7 @@ function mapDetailModelToDto(model: BoardItemDetailModel): BoardItemDetailDto {
 		updatedAt: model.updatedAt,
 		authorName: model.authorName,
 		eventName: model.eventName,
-		eventStartDate: model.eventStartDate
+		eventOrganizerId: model.eventOrganizerId
 	};
 }
 
@@ -35,7 +35,7 @@ function mapCreateUpdateDtoToInsertModel(
 	dto: BoardItemCreateUpdateDto
 ): BoardItemInsertModel {
 	return {
-		concreteEventId: dto.concreteEventId,
+		eventId: dto.eventId,
 		authorId: dto.authorId,
 		title: dto.title,
 		content: dto.content,

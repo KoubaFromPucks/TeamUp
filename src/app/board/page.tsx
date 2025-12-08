@@ -85,21 +85,6 @@ const BoardPage = async () => {
 											<span className="truncate">{item.eventName}</span>
 										</div>
 									)}
-									{item.eventStartDate && (
-										<div className="flex items-center gap-2">
-											<span className="font-medium">Event Date:</span>
-											<span>
-												{new Date(item.eventStartDate).toLocaleDateString(
-													'en-US',
-													{
-														year: 'numeric',
-														month: 'short',
-														day: 'numeric'
-													}
-												)}
-											</span>
-										</div>
-									)}
 								</div>
 							</CardContent>
 						</Card>

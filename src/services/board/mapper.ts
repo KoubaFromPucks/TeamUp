@@ -12,7 +12,7 @@ import {
 
 type BoardItemWithRelations = {
 	id: string;
-	concreteEventId: string;
+	eventId: string;
 	authorId: string;
 	title: string;
 	content: string;
@@ -21,7 +21,7 @@ type BoardItemWithRelations = {
 	updatedAt: string | null;
 	authorName: string | null;
 	eventName: string | null;
-	eventStartDate: string | null;
+	eventOrganizerId: string | null;
 };
 
 function mapEntityToListModel(
@@ -31,7 +31,7 @@ function mapEntityToListModel(
 
 	return {
 		id: entity.id,
-		concreteEventId: entity.concreteEventId,
+		eventId: entity.eventId,
 		authorId: entity.authorId,
 		title: entity.title,
 		content: entity.content,
@@ -40,7 +40,7 @@ function mapEntityToListModel(
 		updatedAt: entity.updatedAt,
 		authorName: hasRelations ? entity.authorName : null,
 		eventName: hasRelations ? entity.eventName : null,
-		eventStartDate: hasRelations ? entity.eventStartDate : null
+		eventOrganizerId: hasRelations ? entity.eventOrganizerId : null
 	};
 }
 
@@ -58,7 +58,7 @@ export const boardItemMapper = {
 		model: BoardItemInsertModel
 	): BoardItemInsertEntity {
 		return {
-			concreteEventId: model.concreteEventId,
+			eventId: model.eventId,
 			authorId: model.authorId,
 			title: model.title,
 			content: model.content,

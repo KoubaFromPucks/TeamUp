@@ -3,10 +3,15 @@ import React from 'react';
 import { ChevronLeft } from 'lucide-react';
 import { getTeamWithMembersById } from '@/facades/team/team-facade';
 import { UpdateTeamForm } from '@/modules/team/components';
+import { authService } from '@/services/auth/auth-service';
 
 type PageProps = { params: { id: string } };
 
 const Page = async ({ params }: PageProps) => {
+	await authService.throwIfUserNotLoggedIn(
+		'You must be logged in to edit team'
+	);
+
 	const { id } = await params;
 	const { error, team } = await getTeamWithMembersById(id);
 	const returnPath = `/team/${team?.id}`;

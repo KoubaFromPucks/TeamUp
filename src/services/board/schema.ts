@@ -1,6 +1,6 @@
 export type BoardItemDetailModel = {
 	id: string;
-	concreteEventId: string;
+	eventId: string;
 	authorId: string;
 	title: string;
 	content: string;
@@ -9,7 +9,6 @@ export type BoardItemDetailModel = {
 	updatedAt: string | null;
 	authorName: string | null;
 	eventName: string | null;
-	eventStartDate: string | null;
 	eventOrganizerId: string | null;
 };
 
@@ -22,9 +21,9 @@ export type BoardItemInsertModel = Omit<
 	| 'updatedAt'
 	| 'authorName'
 	| 'eventName'
-	| 'eventStartDate'
+	| 'eventOrganizerId'
 >;
 
 export type BoardItemUpdateModel = Partial<
-	Omit<BoardItemInsertModel, 'concreteEventId' | 'authorId'>
+	Omit<BoardItemInsertModel, 'eventId' | 'authorId'>
 >;

@@ -32,7 +32,8 @@ export const eventRelations = relations(eventTable, ({ one, many }) => ({
 		references: [userTable.id]
 	}),
 	coorganisers: many(eventCoorganiserTable),
-	concreteEvents: many(concreteEventTable)
+	concreteEvents: many(concreteEventTable),
+	boardItems: many(boardItemTable)
 }));
 
 export const teamRelations = relations(teamTable, ({ many, one }) => ({
@@ -89,15 +90,14 @@ export const concreteEventRelations = relations(
 			fields: [concreteEventTable.eventId],
 			references: [eventTable.id]
 		}),
-		invitations: many(eventInvitationTable),
-		boardItems: many(boardItemTable)
+		invitations: many(eventInvitationTable)
 	})
 );
 
 export const boardItemRelations = relations(boardItemTable, ({ one }) => ({
-	concreteEvent: one(concreteEventTable, {
-		fields: [boardItemTable.concreteEventId],
-		references: [concreteEventTable.id]
+	event: one(eventTable, {
+		fields: [boardItemTable.eventId],
+		references: [eventTable.id]
 	}),
 	author: one(userTable, {
 		fields: [boardItemTable.authorId],

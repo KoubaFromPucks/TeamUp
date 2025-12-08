@@ -55,10 +55,9 @@ export async function getAllBoardItems() {
 	}
 }
 
-export async function getBoardItemsByConcreteEventId(concreteEventId: string) {
+export async function getBoardItemsByEventId(eventId: string) {
 	try {
-		const result =
-			await boardItemService.getBoardItemsByConcreteEventId(concreteEventId);
+		const result = await boardItemService.getBoardItemsByEventId(eventId);
 		return {
 			error: null,
 			boardItems: result.map(boardItemFacadeMapper.mapListModelToDto)

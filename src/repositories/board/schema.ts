@@ -6,5 +6,5 @@ export type BoardItemInsertEntity = Omit<
 	'id' | 'createdAt'
 >;
 export type BoardItemUpdateEntity = Partial<
-	Omit<BoardItemInsertEntity, 'concreteEventId' | 'authorId'>
+	Omit<BoardItemInsertEntity, 'eventId' | 'authorId'>
 >;
