@@ -50,10 +50,26 @@ export const boardItemRepository = {
 
 	async getBoardItemsByEventId(eventId: string) {
 		const boardItems = await db
-			.select()
+			.select({
+				id: boardItemTable.id,
+				eventId: boardItemTable.eventId,
+				authorId: boardItemTable.authorId,
+				title: boardItemTable.title,
+				content: boardItemTable.content,
+				isPinned: boardItemTable.isPinned,
+				createdAt: boardItemTable.createdAt,
+				updatedAt: boardItemTable.updatedAt,
+
+				authorName: userTable.name,
+				eventName: eventTable.name,
+				eventOrganizerId: eventTable.organisatorId
+			})
 			.from(boardItemTable)
+			.leftJoin(userTable, eq(boardItemTable.authorId, userTable.id))
+			.leftJoin(eventTable, eq(boardItemTable.eventId, eventTable.id))
 			.where(eq(boardItemTable.eventId, eventId));
-		return boardItems as BoardItemSelectEntity[];
+
+		return boardItems;
 	},
 
 	async getBoardItemsByAuthorId(authorId: string) {

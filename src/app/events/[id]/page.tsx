@@ -8,6 +8,10 @@ import { getEventPermissions } from '@/modules/event/utils/permissions';
 import { VenueCard } from '@/modules/venue/components/venue-card';
 import { getVenueById } from '@/facades/venue/venue-facade';
 import { authService } from '@/services/auth/auth-service';
+import router from 'next/navigation';
+import { Button } from '@/components/basic-components/button';
+import { Link, Plus } from 'lucide-react';
+import { BoardItemCard } from '@/modules/board/components/board-item-card';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -57,20 +61,31 @@ const Page = async ({ params }: PageProps) => {
 				)}
 			</div>
 
-			<div className="flex flex-wrap gap-6">
-				{event.boardItems.length === 0 ? (
-					<p className="text-gray-500">No items</p>
-				) : (
-					event.boardItems.map(b => (
-						<div className="w-100" key={b.id}>
-							<div className="rounded-lg border p-4 shadow">
-								<h3 className="font-semibold">{b.title}</h3>
-								<p className="text-gray-600">{b.content}</p>
-							</div>
-						</div>
-					))
-				)}
-			</div>
+			<div className="flex mb-2 mt-6 justify-between">
+            <h1 className="text-lg font-semibold">Board items</h1>
+
+            {canSee && (
+                <StandardLink href={`/board/create?eventId=${event.id}`}>
+                create board item
+                </StandardLink>
+            )}
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr items-stretch">
+                {event.boardItems.length === 0 ? (
+                    <p className="text-gray-500">No items</p>
+                ) : (
+                    event.boardItems.map(b => (
+                    <BoardItemCard
+                        key={b.id}
+                        item={b}
+                        signedUser={canSee}
+                        showEvent={false}
+                    />
+                    ))
+                )}
+            </div>
+
 
 			<div className="mt-6 mb-2 flex justify-between">
 				<h1 className="text-lg font-semibold">Concrete events</h1>
