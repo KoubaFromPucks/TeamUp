@@ -11,7 +11,6 @@ import {
 } from './schema';
 import { concreteEventService } from '@/services/concrete_event/concrete-event-service';
 import { getBoardItemsByEventId } from '../board/board-item-facade';
-import { init } from 'next/dist/compiled/webpack/webpack';
 
 type GetEventsListArgs = {
 	userId?: string | null;
@@ -60,8 +59,9 @@ export const getEventsList = async ({
 
 export const getEventById = async (eventId: string) => {
 	try {
-		const [event, 
-			{ error: biError, boardItems: initialBoardItems }, 
+		const [
+			event,
+			{ error: biError, boardItems: initialBoardItems },
 			concreteEvents
 		] = await Promise.all([
 			eventService.getEventById(eventId),
