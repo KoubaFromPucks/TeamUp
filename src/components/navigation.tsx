@@ -24,7 +24,7 @@ export const Navigation = () => {
 		}`;
 
 	return (
-		<header className="sticky top-0 flex items-center justify-between bg-gray-100 p-2 px-8">
+		<header className="sticky top-0 z-50 flex items-center justify-between bg-gray-100 p-2 px-8">
 			<Link href="/" className="rounded-xl hover:bg-gray-300">
 				<Image src="/icon.png" alt="Logo" width={50} height={50}></Image>
 			</Link>
