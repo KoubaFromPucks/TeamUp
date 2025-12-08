@@ -5,6 +5,7 @@ import { teamTable } from './schema/team';
 import { teamMemberTable } from './schema/team-member';
 import { user as userTable } from './schema/better-auth';
 import { venueTable } from './schema/venue';
+import { concreteEventTable } from './schema/concrete-event';
 
 export {
 	db,
@@ -13,5 +14,6 @@ export {
 	teamMemberTable,
 	venueTable,
 	eventTable,
+	concreteEventTable,
 	eventCoorganiserTable
 };
