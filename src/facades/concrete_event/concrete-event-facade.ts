@@ -1,4 +1,4 @@
-'use server'
+'use server';
 import { concreteEventService } from '@/services/concrete_event/concrete-event-service';
 import { ConcreteEventMapper } from './mapper';
 import { ConcreteEventUpdateDto, concreteEventUpdateSchema } from './schema';
@@ -104,7 +104,8 @@ export const deleteConcreteEvent = async (concreteEventId: string) => {
 
 export const getAllConcreteEventsFromCurrentDate = async () => {
 	try {
-		const result = await concreteEventService.getAllConcreteEventsFromCurrentDate();
+		const result =
+			await concreteEventService.getAllConcreteEventsFromCurrentDate();
 		if (!result) {
 			return { error: 'Concrete event not found', concreteEvent: null };
 		}
@@ -119,9 +120,15 @@ export const getAllConcreteEventsFromCurrentDate = async () => {
 	}
 };
 
-export const isUserEventsOrganizer = async (concreteEventId: string, userId: string) => {
+export const isUserEventsOrganizer = async (
+	concreteEventId: string,
+	userId: string
+) => {
 	try {
-		const result = await concreteEventService.isUserEventsOrganizer(concreteEventId, userId);
+		const result = await concreteEventService.isUserEventsOrganizer(
+			concreteEventId,
+			userId
+		);
 		if (!result) {
 			return { error: 'Entities not found', isOrganiser: null };
 		}

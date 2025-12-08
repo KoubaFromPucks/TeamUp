@@ -22,17 +22,12 @@ const CreateBoardItemPage = async () => {
 		return (
 			<div className="container mx-auto px-4 py-8">
 				<h1 className="mb-6 text-3xl font-semibold">Create Board Item</h1>
-				<CreateBoardItemForm
-					userId={session.user.id}
-					events={events}
-				/>
+				<CreateBoardItemForm userId={session.user.id} events={events} />
 			</div>
 		);
 	} catch (error) {
 		throw new Error(`Failed to load events: ${error}`);
 	}
-
-
 };
 
 export default CreateBoardItemPage;

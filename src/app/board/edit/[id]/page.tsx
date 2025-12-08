@@ -34,17 +34,12 @@ const EditBoardItemPage = async ({ params }: PageProps) => {
 		return (
 			<div className="container mx-auto px-4 py-8">
 				<h1 className="mb-6 text-3xl font-semibold">Edit Board Item</h1>
-				<EditBoardItemForm
-					boardItem={boardItem}
-					events={events}
-				/>
+				<EditBoardItemForm boardItem={boardItem} events={events} />
 			</div>
 		);
 	} catch (error) {
 		throw new Error(`Failed to load events: ${error}`);
 	}
-
-
 };
 
 export default EditBoardItemPage;
