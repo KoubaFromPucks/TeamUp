@@ -38,10 +38,8 @@ export const concreteEventService = {
 		}
 		const concreteEventDetail =
 			concreteEventMapper.mapEntityToDetailModel(concreteEvent);
-
-		const eventModel = await eventRepository.getEventById(
-			concreteEvent.eventId
-		);
+		
+		const eventModel = await eventRepository.getEventById(concreteEvent.eventId);
 
 		concreteEventDetail.eventName = eventModel?.name;
 
@@ -64,17 +62,16 @@ export const concreteEventService = {
 	async getAllConcreteEvents(): Promise<ConcreteEventListModel[]> {
 		const concreteEvents = await concreteEventRepository.getAllConcreteEvents();
 		const result = await Promise.all(
-			concreteEvents.map(async concreteEvent => {
+			concreteEvents.map(async (concreteEvent) => {
 				const eventModel = await eventRepository.getEventById(
 					concreteEvent.eventId
 				);
 
-				const listModel =
-					concreteEventMapper.mapEntityToListModel(concreteEvent);
+				const listModel = concreteEventMapper.mapEntityToListModel(concreteEvent);
 
 				return {
 					...listModel,
-					eventName: eventModel?.name
+					eventName: eventModel?.name,
 				};
 			})
 		);
@@ -82,32 +79,28 @@ export const concreteEventService = {
 		return result;
 	},
 
-	async getAllConcreteEventsFromCurrentDate(): Promise<
-		ConcreteEventListModel[]
-	> {
-		const concreteEvents =
-			await concreteEventRepository.getAllConcreteEventsFromCurrentDate();
-		const result = (
-			await Promise.all(
-				concreteEvents.map(async concreteEvent => {
-					const eventModel = await eventRepository.getEventById(
-						concreteEvent.eventId
-					);
+	async getAllConcreteEventsFromCurrentDate(): Promise<ConcreteEventListModel[]> {
+		const concreteEvents = await concreteEventRepository.getAllConcreteEventsFromCurrentDate();
+		const result = (await Promise.all(
+			concreteEvents.map(async (concreteEvent) => {
+				const eventModel = await eventRepository.getEventById(
+					concreteEvent.eventId
+				);
 
-					if (eventModel?.inviteType !== 'public') {
-						return null;
-					}
+				if (eventModel?.inviteType !== 'public') {
+					return null;
+				}
 
-					const listModel =
-						concreteEventMapper.mapEntityToListModel(concreteEvent);
+				const listModel = concreteEventMapper.mapEntityToListModel(concreteEvent);
 
-					return {
-						...listModel,
-						eventName: eventModel?.name
-					};
-				})
-			)
-		).filter((item): item is NonNullable<typeof item> => item !== null);
+				return {
+					...listModel,
+					eventName: eventModel?.name,
+				};
+			})
+		)).filter(
+			(item): item is NonNullable<typeof item> => item !== null
+		);;
 
 		return result;
 	},
