@@ -12,7 +12,6 @@ import router from 'next/navigation';
 import { Button } from '@/components/basic-components/button';
 import { Link, Plus } from 'lucide-react';
 import { BoardItemCard } from '@/modules/board/components/board-item-card';
-import { canUserModifyBoardItem } from '@/facades/board/board-item-facade';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -49,15 +48,6 @@ const Page = async ({ params }: PageProps) => {
 		throw new Error('You are not allowed to view this event.');
 	}
 
-	const boardItemsWithAuth = userId
-		? await Promise.all(
-				event.boardItems.map(async item => {
-					const { canModify } = await canUserModifyBoardItem(item.id, userId);
-					return { ...item, canUserModify: canModify };
-				})
-			)
-		: event.boardItems.map(item => ({ ...item, canUserModify: false }));
-
 	return (
 		<div className="flex flex-col gap-8">
 			<div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
@@ -85,16 +75,16 @@ const Page = async ({ params }: PageProps) => {
 			</div>
 
 			<div className="grid auto-rows-fr grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{boardItemsWithAuth.length === 0 ? (
+				{event.boardItems.length === 0 ? (
 					<p className="text-gray-500">No items</p>
 				) : (
-					boardItemsWithAuth.map(b => (
+					event.boardItems.map(b => (
 						<BoardItemCard
 							key={b.id}
 							item={b}
 							showEvent={false}
 							showActions={true}
-							canUserModify={b.canUserModify}
+							canUserModify={canManage}
 						/>
 					))
 				)}
