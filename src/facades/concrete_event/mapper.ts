@@ -23,7 +23,8 @@ export const ConcreteEventMapper = {
 			invitedUsers: model.invitedUsers.map(
 				eventInvitationMapper.mapEventInvitationListModelToDto
 			),
-			eventName: model.eventName
+			eventName: model.eventName,
+			eventPricingType: model.eventPricingType
 		};
 	},
 
@@ -36,7 +37,8 @@ export const ConcreteEventMapper = {
 			startDate: model.startDate,
 			eventId: model.eventId,
 			price: model.price,
-			eventName: model.eventName
+			eventName: model.eventName,
+			eventPricingType: model.eventPricingType
 		};
 	},
 

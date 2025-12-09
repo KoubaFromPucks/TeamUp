@@ -19,6 +19,7 @@ export type ConcreteEventDetailDto = ConcreteEventUpdateDto & {
 	id: string;
 	invitedUsers: EventInvitationListDto[];
 	eventName: string | undefined;
+	eventPricingType: string | undefined;
 };
 
 export type ConcreteEventListDto = Omit<ConcreteEventDetailDto, 'invitedUsers'>;

@@ -49,6 +49,7 @@ export const concreteEventService = {
 		);
 
 		concreteEventDetail.eventName = eventModel?.name;
+		concreteEventDetail.eventPricingType = eventModel?.pricingType;
 
 		concreteEventDetail.invitedUsers =
 			await eventInvitationService.getEventInvitationsByConcreteEventId(
