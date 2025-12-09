@@ -89,20 +89,13 @@ const Page = async ({ params }: PageProps) => {
 				)}
 			</div>
 
-			<div className="mt-6 mb-2 flex justify-between">
-				<h1 className="text-lg font-semibold">Concrete events</h1>
-				{canManage && (
-					<StandardLink href={`/concreteEvent/create?eventId=${event.id}`}>
-						create concrete event
-					</StandardLink>
-				)}
-			</div>
-
 			<div className="flex flex-wrap gap-6">
-				<CreateEventCard
-					label="Create concrete event"
-					href={`/concreteEvent/create/${id}`}
-				></CreateEventCard>
+				{canManage && (
+					<CreateEventCard
+						label="Create concrete event"
+						href={`/concreteEvent/create/${id}`}
+					></CreateEventCard>
+				)}
 				{event.concreteEvents.length === 0 ? (
 					<p className="text-gray-500">No concrete events</p>
 				) : (
