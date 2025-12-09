@@ -1,6 +1,6 @@
 'use server';
 import React from 'react';
-import { UpdateTeamForm } from '@/modules/team/components';
+import { CreateUpdateTeamForm } from '@/modules/team/components';
 import { authService } from '@/services/auth/auth-service';
 
 const Page = async () => {
@@ -13,7 +13,7 @@ const Page = async () => {
 	return (
 		<>
 			<h1 className="text-3xl font-semibold">Create Team</h1>
-			<UpdateTeamForm
+			<CreateUpdateTeamForm
 				team={null}
 				navPath={`/user/${loggedUserId}`}
 				update={false}
