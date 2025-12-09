@@ -6,7 +6,13 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import React from 'react';
 
-export const DeleteConcreteEventButton = ({ id, route }: { id: string; route: string }) => {
+export const DeleteConcreteEventButton = ({
+	id,
+	route
+}: {
+	id: string;
+	route: string;
+}) => {
 	const deleteMutation = useDeleteConcreteEventMutation();
 	const router = useRouter();
 

@@ -9,6 +9,9 @@ import { eventInvitationService } from '../event_invitation/event-invitation-ser
 import { eventRepository } from '@/repositories/event/repository';
 import { eventCoorganiserRepository } from '@/repositories/event_coorganiser/event-coorganiser-repository';
 import { authService } from '../auth/auth-service';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { eventInvitationRepository } from '@/repositories/event_invitation/event-invitataion-repository';
 
 export const concreteEventService = {
 	async doesConcreteEventExist(id: string): Promise<boolean> {
@@ -93,6 +96,7 @@ export const concreteEventService = {
 	> {
 		const concreteEvents =
 			await concreteEventRepository.getAllConcreteEventsFromCurrentDate();
+
 		const result = (
 			await Promise.all(
 				concreteEvents.map(async concreteEvent => {
@@ -115,6 +119,39 @@ export const concreteEventService = {
 			)
 		).filter((item): item is NonNullable<typeof item> => item !== null);
 
+		const session = await auth.api.getSession({ headers: await headers() });
+		const user = session?.user;
+		if (user) {
+			const eventInvitations =
+				await eventInvitationRepository.getEventInvitationsByUserId(user.id);
+
+			for (const e of eventInvitations) {
+				const concreteEvent =
+					await concreteEventRepository.getConcreteEventById(e.concreteEventId);
+				if (!concreteEvent) {
+					throw new Error('concrete event not found');
+				}
+
+				if (new Date(concreteEvent.startDate) > new Date()) {
+					const eventModel = await eventRepository.getEventById(
+						concreteEvent.eventId
+					);
+					if (!eventModel) {
+						throw new Error('event model not found');
+					}
+					const listModel =
+						concreteEventMapper.mapEntityToListModel(concreteEvent);
+
+					result.push({
+						...listModel,
+						eventName: eventModel.name,
+						eventPricingType: eventModel.pricingType
+					});
+				}
+			}
+		}
+
+		console.log('final length' + result.length);
 		return result;
 	},
 

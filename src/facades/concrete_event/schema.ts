@@ -4,14 +4,11 @@ import { EventInvitationListDto } from '../event_invitation/schema';
 export const concreteEventUpdateSchema = z
 	.object({
 		eventId: z.string().uuid('Invalid event ID'),
-		price: z.preprocess(
-			value => {
-				if (value === "") return null;
-				if (typeof value === "string") return Number(value);
-				return value;
-			},
-			z.number().gte(0).nullable()
-		),
+		price: z.preprocess(value => {
+			if (value === '') return null;
+			if (typeof value === 'string') return Number(value);
+			return value;
+		}, z.number().gte(0).nullable()),
 		startDate: z.string(),
 		endDate: z.string()
 	})
