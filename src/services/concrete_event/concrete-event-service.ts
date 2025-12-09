@@ -95,7 +95,8 @@ export const concreteEventService = {
 		ConcreteEventListModel[]
 	> {
 		const concreteEvents =
-			await concreteEventRepository.getAllConcreteEventsFromCurrentDate();
+			(await concreteEventRepository.getAllConcreteEventsFromCurrentDate()) ||
+			[];
 
 		const result = (
 			await Promise.all(
@@ -104,7 +105,7 @@ export const concreteEventService = {
 						concreteEvent.eventId
 					);
 
-					if (eventModel?.inviteType !== 'public') {
+					if (!eventModel || eventModel.inviteType !== 'public') {
 						return null;
 					}
 
@@ -113,45 +114,51 @@ export const concreteEventService = {
 
 					return {
 						...listModel,
-						eventName: eventModel?.name
+						eventName: eventModel.name
 					};
 				})
 			)
 		).filter((item): item is NonNullable<typeof item> => item !== null);
 
-		const session = await auth.api.getSession({ headers: await headers() });
-		const user = session?.user;
-		if (user) {
-			const eventInvitations =
-				await eventInvitationRepository.getEventInvitationsByUserId(user.id);
+		try {
+			const session = await auth.api.getSession({ headers: await headers() });
+			const user = session?.user;
 
-			for (const e of eventInvitations) {
-				const concreteEvent =
-					await concreteEventRepository.getConcreteEventById(e.concreteEventId);
-				if (!concreteEvent) {
-					throw new Error('concrete event not found');
-				}
+			if (user) {
+				const eventInvitations =
+					(await eventInvitationRepository.getEventInvitationsByUserId(
+						user.id
+					)) || [];
 
-				if (new Date(concreteEvent.startDate) > new Date()) {
-					const eventModel = await eventRepository.getEventById(
-						concreteEvent.eventId
-					);
-					if (!eventModel) {
-						throw new Error('event model not found');
+				for (const e of eventInvitations) {
+					const concreteEvent =
+						await concreteEventRepository.getConcreteEventById(
+							e.concreteEventId
+						);
+
+					if (!concreteEvent) continue;
+
+					if (new Date(concreteEvent.startDate) > new Date()) {
+						const eventModel = await eventRepository.getEventById(
+							concreteEvent.eventId
+						);
+						if (!eventModel) continue;
+
+						const listModel =
+							concreteEventMapper.mapEntityToListModel(concreteEvent);
+
+						result.push({
+							...listModel,
+							eventName: eventModel.name,
+							eventPricingType: eventModel.pricingType
+						});
 					}
-					const listModel =
-						concreteEventMapper.mapEntityToListModel(concreteEvent);
-
-					result.push({
-						...listModel,
-						eventName: eventModel.name,
-						eventPricingType: eventModel.pricingType
-					});
 				}
 			}
+		} catch (err) {
+			console.warn('Error fetching user session or invitations', err);
 		}
 
-		console.log('final length' + result.length);
 		return result;
 	},
 
