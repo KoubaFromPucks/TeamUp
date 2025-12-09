@@ -8,9 +8,6 @@ import { getEventPermissions } from '@/modules/event/utils/permissions';
 import { VenueCard } from '@/modules/venue/components/venue-card';
 import { getVenueById } from '@/facades/venue/venue-facade';
 import { authService } from '@/services/auth/auth-service';
-import router from 'next/navigation';
-import { Button } from '@/components/basic-components/button';
-import { Link, Plus } from 'lucide-react';
 import { BoardItemCard } from '@/modules/board/components/board-item-card';
 
 type PageProps = {

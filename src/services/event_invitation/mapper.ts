@@ -18,7 +18,8 @@ export const EventInvitationMapper = {
 			concreteEventId: entity.concreteEventId,
 			state: entity.state,
 			userId: entity.userId,
-			user: undefined
+			user: undefined,
+			concreteEvent: undefined
 		};
 	},
 
@@ -40,7 +41,8 @@ export const EventInvitationMapper = {
 			id: entity.id,
 			state: entity.state,
 			userId: entity.userId,
-			user: undefined
+			user: undefined,
+			concreteEvent: undefined
 		};
 	},
 
