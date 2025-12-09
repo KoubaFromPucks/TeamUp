@@ -15,6 +15,7 @@ export const ConcreteEventsList = async () => {
 					<ConcreteEventCard
 						concreteEvent={e}
 						isDetail={false}
+						pricePerPerson={undefined}
 					></ConcreteEventCard>
 				</div>
 			))}

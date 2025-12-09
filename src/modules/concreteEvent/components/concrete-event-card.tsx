@@ -8,10 +8,12 @@ import { StandardLink } from '@/components/standard-link';
 
 export const ConcreteEventCard = ({
 	concreteEvent,
-	isDetail
+	isDetail,
+	pricePerPerson
 }: {
 	concreteEvent: ConcreteEventListDto;
 	isDetail: boolean;
+	pricePerPerson: number | undefined;
 }) => {
 	return (
 		<div className="transition-transform hover:-translate-y-1">
@@ -20,7 +22,12 @@ export const ConcreteEventCard = ({
 					<h3 className="text-lg font-semibold">{concreteEvent.eventName}</h3>
 
 					<div className="flex gap-3">
-						{isDetail && <DeleteConcreteEventButton id={concreteEvent.id} />}
+						{isDetail && (
+							<DeleteConcreteEventButton
+								id={concreteEvent.id}
+								route={`/events/${concreteEvent.eventId}`}
+							/>
+						)}
 
 						<StandardLink
 							href={
@@ -44,12 +51,22 @@ export const ConcreteEventCard = ({
 						</div>
 					</CardLabeledItem>
 
-					<CardLabeledItem label="Price">
+					<CardLabeledItem label="Total price">
 						<div className="flex items-center justify-center gap-2 text-gray-700">
 							<DollarSign size={18} />
 							<span className="font-semibold">{concreteEvent.price}</span>
 						</div>
 					</CardLabeledItem>
+					{pricePerPerson && (
+						<CardLabeledItem label="Price per person">
+							<div className="flex items-center justify-center gap-2 text-gray-700">
+								<DollarSign size={18} />
+								<span className="font-semibold">
+									{Number(pricePerPerson).toFixed(2)}
+								</span>
+							</div>
+						</CardLabeledItem>
+					)}
 				</CardContent>
 			</Card>
 		</div>
