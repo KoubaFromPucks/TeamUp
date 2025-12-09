@@ -32,6 +32,7 @@ export const Page = async ({ params }: { params: { id: string } }) => {
 			<ConcreteEventForm
 				concreteEvent={concreteEvent}
 				navPath={`/concreteEvent/${id}`}
+				eventId={concreteEvent.eventId}
 			/>
 		</div>
 	);

@@ -1,25 +1,12 @@
-import { getAllConcreteEventsFromCurrentDate } from '@/facades/concrete_event/concrete-event-facade';
-import { ConcreteEventCard } from '@/modules/concreteEvent/components/concrete-event-card';
-import React from 'react';
+import { ConcreteEventsList } from '@/modules/concreteEvent/components/concrete-events-list';
+import { EventsListSkeleton } from '@/modules/event/components/skeletons/events-list-skeleton';
+import React, { Suspense } from 'react';
 
 const Home = async () => {
-	const { error, concreteEvent } = await getAllConcreteEventsFromCurrentDate();
-
-	if (!concreteEvent || error) {
-		throw new Error('error fetching concrete events');
-	}
-
 	return (
-		<div className="flex flex-wrap gap-6">
-			{concreteEvent.map(e => (
-				<div className="w-100" key={e.id}>
-					<ConcreteEventCard
-						concreteEvent={e}
-						isDetail={false}
-					></ConcreteEventCard>
-				</div>
-			))}
-		</div>
+		<Suspense fallback={<EventsListSkeleton></EventsListSkeleton>}>
+			<ConcreteEventsList></ConcreteEventsList>
+		</Suspense>
 	);
 };
 
