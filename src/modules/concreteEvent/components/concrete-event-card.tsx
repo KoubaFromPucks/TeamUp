@@ -9,11 +9,13 @@ import { StandardLink } from '@/components/standard-link';
 export const ConcreteEventCard = ({
 	concreteEvent,
 	isDetail,
-	pricePerPerson
+	pricePerPerson,
+	isOrganiser
 }: {
 	concreteEvent: ConcreteEventListDto;
 	isDetail: boolean;
 	pricePerPerson: number | undefined;
+	isOrganiser: boolean;
 }) => {
 	return (
 		<div className="transition-transform hover:-translate-y-1">
@@ -22,22 +24,24 @@ export const ConcreteEventCard = ({
 					<h3 className="text-lg font-semibold">{concreteEvent.eventName}</h3>
 
 					<div className="flex gap-3">
-						{isDetail && (
+						{isDetail && isOrganiser && (
 							<DeleteConcreteEventButton
 								id={concreteEvent.id}
 								route={`/events/${concreteEvent.eventId}`}
 							/>
 						)}
 
-						<StandardLink
-							href={
-								isDetail
-									? `/concreteEvent/edit/${concreteEvent.id}`
-									: `/concreteEvent/${concreteEvent.id}`
-							}
-						>
-							{isDetail ? 'Edit' : 'Detail'}
-						</StandardLink>
+						{!isDetail && (
+							<StandardLink href={`/concreteEvent/${concreteEvent.id}`}>
+								Detail
+							</StandardLink>
+						)}
+
+						{isDetail && isOrganiser && (
+							<StandardLink href={`/concreteEvent/edit/${concreteEvent.id}`}>
+								Edit
+							</StandardLink>
+						)}
 					</div>
 				</CardHeader>
 

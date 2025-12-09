@@ -6,7 +6,8 @@ import { Button } from '@/components/basic-components/button';
 import { BasicInput } from '@/components/basic-components/basic-input';
 import {
 	createUpdateEventInvitation,
-	deleteEventInvitation
+	deleteEventInvitation,
+	inviteTeamMembers
 } from '@/facades/event_invitation/event-invitation-facade';
 import { CardImage } from '@/components/card/card-image';
 import { getImageUrlOrDefault } from '@/lib/utils';
@@ -17,28 +18,33 @@ import {
 	Trash2,
 	XCircle,
 	Clock,
-	HelpCircle
+	HelpCircle,
+	Users
 } from 'lucide-react';
 import { toast } from 'sonner';
 import React from 'react';
 import type { UserListDto } from '@/facades/user/schema';
+import type { TeamListDto } from '@/facades/team/schema';
 import type { EventInvitationListDto } from '@/facades/event_invitation/schema';
 import type { InviteState } from '@/db/schema/enums/inviteState';
 
 interface InviteUsersViewProps {
 	concreteEventId: string;
 	allUsers: UserListDto[];
+	allTeams: TeamListDto[];
 	invitedUsers: EventInvitationListDto[];
 }
 
 export const InviteUsersView = ({
 	concreteEventId,
 	allUsers,
+	allTeams,
 	invitedUsers: initialInvitedUsers
 }: InviteUsersViewProps) => {
 	const [invitedUsers, setInvitedUsers] = useState(initialInvitedUsers);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [isInviting, setIsInviting] = useState<string | null>(null);
+	const [isInvitingTeam, setIsInvitingTeam] = useState<string | null>(null);
 	const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
 	const stateConfig: Record<
@@ -80,6 +86,10 @@ export const InviteUsersView = ({
 			user.email.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
+	const filteredAllTeams = allTeams.filter(team =>
+		team.name.toLowerCase().includes(searchTerm.toLowerCase())
+	);
+
 	const uninvitedUsers = filteredAllUsers.filter(user => {
 		const isInvited = invitedUserIds.has(user.id);
 		return !isInvited;
@@ -112,16 +122,16 @@ export const InviteUsersView = ({
 				return;
 			}
 
-			const newInvitation: EventInvitationListDto = {
-				id: eventInvitation.id,
-				concreteEventId,
-				userId: user.id,
-				state: 'Pending',
-				user: user,
-				concreteEvent: undefined
-			};
+			if (eventInvitation) {
+				const newInvitation: EventInvitationListDto = {
+					...eventInvitation,
+					user: user,
+					concreteEvent: undefined
+				};
 
-			setInvitedUsers(prev => [...prev, newInvitation]);
+				setInvitedUsers(prev => [...prev, newInvitation]);
+			}
+
 			toast.success(`Invitation sent to ${user.name}`);
 		} catch (err) {
 			const errorMessage =
@@ -129,6 +139,38 @@ export const InviteUsersView = ({
 			toast.error(errorMessage);
 		} finally {
 			setIsInviting(null);
+		}
+	};
+
+	const handleInviteTeam = async (team: TeamListDto) => {
+		setIsInvitingTeam(team.id);
+
+		try {
+			const {
+				error,
+				count,
+				message,
+				invitedUsers: newInvitations
+			} = await inviteTeamMembers(concreteEventId, team.id);
+
+			if (error) {
+				toast.error(`Failed to invite team: ${error}`);
+				return;
+			}
+
+			const successMessage =
+				message || `Successfully invited ${count} members from ${team.name}`;
+			toast.success(successMessage);
+
+			if (newInvitations && newInvitations.length > 0) {
+				setInvitedUsers(prev => [...prev, ...newInvitations]);
+			}
+		} catch (err) {
+			const errorMessage =
+				err instanceof Error ? err.message : 'An unexpected error occurred';
+			toast.error(errorMessage);
+		} finally {
+			setIsInvitingTeam(null);
 		}
 	};
 
@@ -175,13 +217,73 @@ export const InviteUsersView = ({
 						<Search className="h-5 w-5 text-gray-400" />
 						<BasicInput
 							type="text"
-							placeholder="Search users by name, nickname, or email..."
+							placeholder="Search users or teams..."
 							value={searchTerm}
 							onChange={e => setSearchTerm(e.target.value)}
 						/>
 					</div>
 				</CardContent>
 			</Card>
+
+			<div className="space-y-6">
+				<div>
+					<h2 className="mb-4 text-xl font-semibold text-gray-800">
+						Invite Teams ({filteredAllTeams.length})
+					</h2>
+					<div className="max-h-96 space-y-4 overflow-y-auto">
+						{filteredAllTeams.length === 0 ? (
+							<Card>
+								<CardContent>
+									<p className="py-4 text-center text-gray-500">
+										{searchTerm
+											? 'No teams found matching your search'
+											: 'No teams available'}
+									</p>
+								</CardContent>
+							</Card>
+						) : (
+							filteredAllTeams.map(team => (
+								<Card key={team.id}>
+									<CardContent>
+										<div className="flex items-center gap-4">
+											<CardImage
+												imageUrl={getImageUrlOrDefault(team.imageUrl)}
+												size="small"
+											/>
+											<div className="flex-1">
+												<div className="flex items-center gap-2">
+													<Users className="h-4 w-4 text-gray-600" />
+													<h3 className="font-semibold">{team.name}</h3>
+												</div>
+												{team.desc && (
+													<p className="text-sm text-gray-600">{team.desc}</p>
+												)}
+											</div>
+											<Button
+												onClick={() => handleInviteTeam(team)}
+												disabled={isInvitingTeam === team.id}
+												className="flex items-center gap-2"
+											>
+												{isInvitingTeam === team.id ? (
+													<>
+														<div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+														Inviting All...
+													</>
+												) : (
+													<>
+														<Plus className="h-4 w-4" />
+														Invite Team
+													</>
+												)}
+											</Button>
+										</div>
+									</CardContent>
+								</Card>
+							))
+						)}
+					</div>
+				</div>
+			</div>
 
 			<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 				<div>

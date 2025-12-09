@@ -16,6 +16,7 @@ export const ConcreteEventsList = async () => {
 						concreteEvent={e}
 						isDetail={false}
 						pricePerPerson={undefined}
+						isOrganiser={false}
 					></ConcreteEventCard>
 				</div>
 			))}
