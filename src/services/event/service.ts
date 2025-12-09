@@ -93,6 +93,8 @@ export const eventService = {
 				: 0;
 
 		return myPrice;
+	},
+
 	async getEventWithCoorganisersById(
 		id: string
 	): Promise<EventWithCoorganisersModel | undefined> {
