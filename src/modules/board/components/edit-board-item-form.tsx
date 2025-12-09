@@ -14,11 +14,9 @@ import {
 	type BoardItemDetailDto
 } from '@/facades/board/schema';
 import { updateBoardItemById } from '@/facades/board/board-item-facade';
-import type { EventListModel } from '@/services/event/schema';
 
 type EditBoardItemFormProps = {
 	boardItem: BoardItemDetailDto;
-	events: EventListModel[];
 };
 
 export const EditBoardItemForm = ({ boardItem }: EditBoardItemFormProps) => {
