@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { Card, CardHeader, CardContent, CardLabeledItem } from '@/components/card';
-import { StandardLink } from '@/components/standard-link';
+import { Card, CardHeader, CardContent } from '@/components/card';
 import { UserPlus, X } from 'lucide-react';
 import type { UserListDto } from '@/facades/user/schema';
-import { useAddCoorganiserMutation, useRemoveCoorganiserMutation } from './hooks';
+import {
+	useAddCoorganiserMutation,
+	useRemoveCoorganiserMutation
+} from './hooks';
 
 import { useQuery } from '@tanstack/react-query';
 import { getAllUsers } from '@/facades/user/user-facade';
@@ -68,9 +70,7 @@ export const CoorganisersCard = ({
 
 			<CardContent className="flex flex-col gap-4">
 				{coorganisers.length === 0 ? (
-					<p className="text-gray-500">
-						No co-organisers yet
-					</p>
+					<p className="text-gray-500">No co-organisers yet</p>
 				) : (
 					<div className="flex flex-col gap-2">
 						{coorganisers.map(u => (
@@ -81,9 +81,7 @@ export const CoorganisersCard = ({
 								<div className="flex items-center gap-2">
 									<div className="font-medium">{u.name}</div>
 									{u.nickname && (
-										<div className="text-xs text-gray-500">
-											({u.nickname})
-										</div>
+										<div className="text-xs text-gray-500">({u.nickname})</div>
 									)}
 								</div>
 

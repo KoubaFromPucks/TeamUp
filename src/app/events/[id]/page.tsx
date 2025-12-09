@@ -108,11 +108,13 @@ const Page = async ({ params }: PageProps) => {
 				)}
 			</div>
 
-			{isOwner && <CoorganisersCard
-				eventId={event.id}
-				coorganisers={event.coorganisers}
-				canManage={isOwner}
-			/>}
+			{isOwner && (
+				<CoorganisersCard
+					eventId={event.id}
+					coorganisers={event.coorganisers}
+					canManage={isOwner}
+				/>
+			)}
 		</div>
 	);
 };

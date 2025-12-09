@@ -1,11 +1,14 @@
 import { userMapper } from '../user/mapper';
-import type { EventInsertModel, EventListModel, EventWithCoorganisersModel } from './schema';
+import type {
+	EventInsertModel,
+	EventListModel,
+	EventWithCoorganisersModel
+} from './schema';
 import type {
 	EventInsertEntity,
 	EventSelectEntity,
 	EventWithCoorganisersEntity
 } from '@/repositories/event/schema';
-
 
 export const mapEntityToSelectModel = (
 	entity: EventSelectEntity

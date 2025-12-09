@@ -1,7 +1,6 @@
 import z from 'zod';
 import { BoardItemListDto } from '../board/schema';
 import { ConcreteEventListDto } from '../concrete_event/schema';
-import { User } from 'better-auth';
 import { UserListDto } from '../user/schema';
 
 export const dayOfWeekEnum = [

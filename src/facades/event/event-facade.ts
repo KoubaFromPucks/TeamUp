@@ -68,7 +68,7 @@ export const getEventById = async (eventId: string) => {
 		] = await Promise.all([
 			eventService.getEventWithCoorganisersById(eventId),
 			getBoardItemsByEventId(eventId),
-			concreteEventService.getConcreteEventsByEventId(eventId),
+			concreteEventService.getConcreteEventsByEventId(eventId)
 		]);
 
 		console.log(initialBoardItems);
@@ -167,7 +167,6 @@ export const getOwnedEventsList = async (userId: string) => {
 		return { error: (error as Error).message, events: null };
 	}
 };
-
 
 export const addCoorganiser = async (dto: CoorganiserAddDto) => {
 	const validation = coorganiserAddSchema.safeParse(dto);

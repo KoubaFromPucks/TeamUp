@@ -13,7 +13,9 @@ export const getEventPermissions = async ({
 	const isLoggedIn = !!userId;
 	const isOrganisator = isLoggedIn && event.organisatorId === userId;
 
-	const canManage = await (isLoggedIn && eventService.isUserCoorganiser(event.id, userId)) || isOrganisator;
+	const canManage =
+		(await (isLoggedIn && eventService.isUserCoorganiser(event.id, userId))) ||
+		isOrganisator;
 
 	const canSee =
 		event.inviteType === 'public' ||

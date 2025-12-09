@@ -1,6 +1,14 @@
 import { eventRepository } from '@/repositories/event/repository';
-import type { EventInsertModel, EventListModel, EventWithCoorganisersModel } from './schema';
-import { mapEntityToSelectModel, mapEntityWithCoorganisersToSelectModel, mapInsertModelToEntity } from './mapper';
+import type {
+	EventInsertModel,
+	EventListModel,
+	EventWithCoorganisersModel
+} from './schema';
+import {
+	mapEntityToSelectModel,
+	mapEntityWithCoorganisersToSelectModel,
+	mapInsertModelToEntity
+} from './mapper';
 import { authService } from '../auth/auth-service';
 
 export const eventService = {

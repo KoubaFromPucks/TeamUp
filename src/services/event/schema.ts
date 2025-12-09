@@ -1,4 +1,4 @@
-import { UserListModel } from "../user/schema";
+import { UserListModel } from '../user/schema';
 
 export type EventDetailModel = {
 	id: string;
