@@ -53,6 +53,7 @@ const Page = async ({ params }: PageProps) => {
 				concreteEvent={concreteEvent}
 				isDetail={true}
 				pricePerPerson={pricePerPerson}
+				isOrganiser={showInviteButton}
 			></ConcreteEventCard>
 			<div className="mt-2 mb-2 flex justify-between">
 				<h1 className="text-lg font-semibold">Invited users</h1>
