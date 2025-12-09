@@ -8,6 +8,7 @@ export type ConcreteEventDetailModel = {
 	endDate: string;
 	invitedUsers: EventInvitationListModel[];
 	eventName: string | undefined;
+	eventPricingType: string | undefined;
 };
 
 export type ConcreteEventListModel = Omit<
@@ -17,5 +18,5 @@ export type ConcreteEventListModel = Omit<
 
 export type ConcreteEventInsertModel = Omit<
 	ConcreteEventDetailModel,
-	'id' | 'invitedUsers' | 'eventName'
+	'id' | 'invitedUsers' | 'eventName' | 'eventPricingType'
 >;

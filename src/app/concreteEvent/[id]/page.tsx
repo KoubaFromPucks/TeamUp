@@ -36,11 +36,23 @@ const Page = async ({ params }: PageProps) => {
 		showInviteButton = !!isOrganiser;
 	}
 
+	let pricePerPerson = undefined;
+	if (concreteEvent.eventPricingType === 'pay_as_you_go') {
+		let count = 0;
+		concreteEvent.invitedUsers.forEach(element => {
+			if (element.state === 'Accepted') {
+				count++;
+			}
+		});
+		pricePerPerson = (concreteEvent.price ? concreteEvent.price : 0) / count;
+	}
+
 	return (
 		<div>
 			<ConcreteEventCard
 				concreteEvent={concreteEvent}
 				isDetail={true}
+				pricePerPerson={pricePerPerson}
 			></ConcreteEventCard>
 			<div className="mt-2 mb-2 flex justify-between">
 				<h1 className="text-lg font-semibold">Invited users</h1>

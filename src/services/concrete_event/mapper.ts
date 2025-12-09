@@ -19,7 +19,8 @@ export const concreteEventMapper = {
 			eventId: entity.eventId,
 			startDate: entity.startDate,
 			endDate: entity.endDate,
-			eventName: undefined
+			eventName: undefined,
+			eventPricingType: undefined
 		};
 	},
 
@@ -44,7 +45,8 @@ export const concreteEventMapper = {
 			endDate: entity.endDate,
 			price: entity.price,
 			invitedUsers: [],
-			eventName: undefined
+			eventName: undefined,
+			eventPricingType: undefined
 		};
 	},
 

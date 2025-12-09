@@ -101,7 +101,11 @@ const Page = async ({ params }: PageProps) => {
 				) : (
 					event.concreteEvents.map(ce => (
 						<div className="w-100" key={ce.id}>
-							<ConcreteEventCard concreteEvent={ce} isDetail={false} />
+							<ConcreteEventCard
+								concreteEvent={ce}
+								isDetail={false}
+								pricePerPerson={undefined}
+							/>
 						</div>
 					))
 				)}

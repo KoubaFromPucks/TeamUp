@@ -6,7 +6,13 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import React from 'react';
 
-export const DeleteConcreteEventButton = ({ id }: { id: string }) => {
+export const DeleteConcreteEventButton = ({
+	id,
+	route
+}: {
+	id: string;
+	route: string;
+}) => {
 	const deleteMutation = useDeleteConcreteEventMutation();
 	const router = useRouter();
 
@@ -16,7 +22,7 @@ export const DeleteConcreteEventButton = ({ id }: { id: string }) => {
 			onClick={() => {
 				deleteMutation.mutate(id, {
 					onSuccess: () => {
-						router.push('/');
+						router.push(route);
 						toast.success('Concrete event deleted successfully');
 					},
 					onError: error => {
