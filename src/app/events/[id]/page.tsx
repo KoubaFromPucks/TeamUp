@@ -77,7 +77,7 @@ const Page = async ({ params }: PageProps) => {
 			<div className="mt-6 mb-2 flex justify-between">
 				<h1 className="text-lg font-semibold">Board items</h1>
 
-				{canSee && (
+				{canManage && (
 					<StandardLink href={`/board/create?eventId=${event.id}`}>
 						create board item
 					</StandardLink>
