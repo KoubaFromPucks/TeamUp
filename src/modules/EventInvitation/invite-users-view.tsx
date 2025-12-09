@@ -206,9 +206,6 @@ export const InviteUsersView = ({
 		}
 	};
 
-	console.log('Invited users:', invitedUsers);
-	console.log('Currently invited users:', currentlyInvitedUsers);
-
 	return (
 		<div className="space-y-6">
 			<Card>
