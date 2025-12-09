@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { TeamListDto } from '../team/schema';
 import { emptyToUndefined } from '@/lib/utils';
+import { EventInvitationListDto } from '../event_invitation/schema';
+import { ConcreteEventListDto } from '../concrete_event/schema';
 
 export const userUpdateCreateSchema = z
 	.object({
@@ -50,3 +52,12 @@ export type UserDetailDto = {
 };
 
 export type UserListDto = Omit<UserDetailDto, 'adminedTeams' | 'memberTeams'>;
+
+export type UserEventHistoryDataDto = {
+	concreteEvent: ConcreteEventListDto;
+	eventInvitation: EventInvitationListDto;
+	event: {
+		id: string;
+		name: string;
+	};
+};

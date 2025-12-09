@@ -15,10 +15,10 @@ const formatDate = (iso: string) => {
 };
 
 type BoardItemCardProps = {
-    item: BoardItemListDto;
-    showActions?: boolean;
-    signedUser?: boolean;
-    showEvent?: boolean;
+	item: BoardItemListDto;
+	showActions?: boolean;
+	signedUser?: boolean;
+	showEvent?: boolean;
 };
 
 export const BoardItemCard = ({
@@ -27,8 +27,8 @@ export const BoardItemCard = ({
 	signedUser = false,
 	showEvent = true
 }: BoardItemCardProps) => (
-	<div className="h-full min-h-[210px] flex"> 
-		<div className="flex-1 flex flex-col">
+	<div className="flex h-full min-h-[210px]">
+		<div className="flex flex-1 flex-col">
 			<Card>
 				<CardHeader className="border-b-0 pb-3 !text-left">
 					<div className="flex items-start justify-between gap-2">
@@ -39,13 +39,7 @@ export const BoardItemCard = ({
 					</div>
 				</CardHeader>
 
-				<CardContent
-					className="
-						flex-1 w-full
-						!flex-col !items-start !justify-start
-						lg:!flex-col lg:!items-start lg:!justify-start
-					"
-				>
+				<CardContent className="w-full flex-1 !flex-col !items-start !justify-start lg:!flex-col lg:!items-start lg:!justify-start">
 					<p className="h-[72px] overflow-hidden text-sm leading-relaxed text-gray-700">
 						{item.content}
 					</p>

@@ -1,10 +1,18 @@
 import {
 	UserInsertModel,
 	UserDetailModel,
-	UserListModel
+	UserListModel,
+	UserEventHistoryModel
 } from '@/services/user/schema';
-import { UserDetailDto, UserListDto, UserUpdateCreateDto } from './schema';
+import {
+	UserDetailDto,
+	UserEventHistoryDataDto,
+	UserListDto,
+	UserUpdateCreateDto
+} from './schema';
 import { teamMapper } from '../team/mapper';
+import { ConcreteEventMapper } from '../concrete_event/mapper';
+import { eventInvitationMapper } from '../event_invitation/mapper';
 
 export const userMapper = {
 	mapUserDetailModelToDto(model: UserDetailModel): UserDetailDto {
@@ -49,6 +57,23 @@ export const userMapper = {
 			email: dto.email,
 			phoneNumber: dto.phoneNumber ?? null,
 			imageUrl: dto.imageUrl ?? null
+		};
+	},
+
+	mapUserHistoryDataModelToDto(
+		model: UserEventHistoryModel
+	): UserEventHistoryDataDto {
+		return {
+			concreteEvent: ConcreteEventMapper.mapConcreteEventListModelToDto(
+				model.concreteEvent
+			),
+			eventInvitation: eventInvitationMapper.mapEventInvitationListModelToDto(
+				model.eventInvitation
+			),
+			event: {
+				id: model.event.id,
+				name: model.event.name
+			}
 		};
 	}
 };

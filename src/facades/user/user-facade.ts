@@ -76,3 +76,15 @@ export const getUserWithTeamsById = async (userId: string) => {
 		return { error: (error as Error).message, user: null };
 	}
 };
+
+export const getUserEventHistoryById = async (userId: string) => {
+	try {
+		const history = await userService.getUserEventHistoryById(userId);
+		return {
+			error: null,
+			history: history.map(userMapper.mapUserHistoryDataModelToDto)
+		};
+	} catch (error) {
+		return { error: (error as Error).message, history: null };
+	}
+};
