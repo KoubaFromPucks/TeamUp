@@ -6,7 +6,6 @@ import {
 	getBoardItemById,
 	canUserModifyBoardItem
 } from '@/facades/board/board-item-facade';
-import { eventService } from '@/services/event/service';
 import { EditBoardItemForm } from '../../../../modules/board/components/edit-board-item-form';
 
 type PageProps = {
@@ -34,16 +33,10 @@ const EditBoardItemPage = async ({ params }: PageProps) => {
 	}
 
 	try {
-		const events = await eventService.getAllEvents();
-
-		if (!events) {
-			throw new Error('Failed to load events');
-		}
-
 		return (
 			<div className="container mx-auto px-4 py-8">
 				<h1 className="mb-6 text-3xl font-semibold">Edit Board Item</h1>
-				<EditBoardItemForm boardItem={boardItem} events={events} />
+				<EditBoardItemForm boardItem={boardItem} />
 			</div>
 		);
 	} catch (error) {
