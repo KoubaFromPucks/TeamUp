@@ -38,6 +38,7 @@ const CreateBoardItemPage = async ({ searchParams }: PageProps) => {
 					userId={session.user.id}
 					events={events}
 					preselectedEventId={selectedEventId}
+					redirectUrl={`/events/${selectedEventId}`}
 				/>
 			</div>
 		);
