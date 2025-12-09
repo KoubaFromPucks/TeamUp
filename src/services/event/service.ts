@@ -1,6 +1,14 @@
 import { eventRepository } from '@/repositories/event/repository';
-import type { EventInsertModel, EventListModel } from './schema';
-import { mapEntityToSelectModel, mapInsertModelToEntity } from './mapper';
+import type {
+	EventInsertModel,
+	EventListModel,
+	EventWithCoorganisersModel
+} from './schema';
+import {
+	mapEntityToSelectModel,
+	mapEntityWithCoorganisersToSelectModel,
+	mapInsertModelToEntity
+} from './mapper';
 import { authService } from '../auth/auth-service';
 
 export const eventService = {
@@ -43,5 +51,36 @@ export const eventService = {
 
 		const deleted = await eventRepository.deleteEventById(id);
 		return deleted ? mapEntityToSelectModel(deleted) : undefined;
+	},
+
+	async getEventWithCoorganisersById(
+		id: string
+	): Promise<EventWithCoorganisersModel | undefined> {
+		const event = await eventRepository.getEventWithCoorganisersById(id);
+		return event ? mapEntityWithCoorganisersToSelectModel(event) : undefined;
+	},
+
+	async getCoorganisersByEventId(eventId: string) {
+		return eventRepository.getCoorganisersByEventId(eventId);
+	},
+
+	async isUserCoorganiser(eventId: string, userId: string) {
+		return eventRepository.isUserCoorganiser(eventId, userId);
+	},
+
+	async addCoorganiser(eventId: string, userId: string) {
+		await authService.throwIfUserNotLoggedIn(
+			'You must be logged in to add coorganiser.'
+		);
+
+		await eventRepository.addCoorganiser(eventId, userId);
+	},
+
+	async removeCoorganiser(eventId: string, userId: string) {
+		await authService.throwIfUserNotLoggedIn(
+			'You must be logged in to remove coorganiser.'
+		);
+
+		await eventRepository.removeCoorganiser(eventId, userId);
 	}
 };

@@ -1,9 +1,11 @@
 import type {
 	EventSelectEntity,
-	EventInsertEntity
+	EventInsertEntity,
+	EventWithCoorganisersEntity
 } from '@/repositories/event/schema';
-import { db, eventTable } from '@/db';
-import { eq } from 'drizzle-orm';
+import { db, eventCoorganiserTable, eventTable, userTable } from '@/db';
+import { and, eq } from 'drizzle-orm';
+import { UserSelectEntity } from '../user/schema';
 
 export const eventRepository = {
 	async createEvent(eventEntity: EventInsertEntity) {
@@ -58,5 +60,66 @@ export const eventRepository = {
 		});
 
 		return events;
+	},
+
+	async getCoorganisersByEventId(eventId: string): Promise<UserSelectEntity[]> {
+		const rows = await db
+			.select({
+				id: userTable.id,
+				name: userTable.name,
+				email: userTable.email,
+				image: userTable.image,
+				nickname: userTable.nickname,
+				phoneNumber: userTable.phoneNumber
+			})
+			.from(eventCoorganiserTable)
+			.leftJoin(userTable, eq(eventCoorganiserTable.userId, userTable.id))
+			.where(eq(eventCoorganiserTable.eventId, eventId));
+
+		return rows.filter(r => r.id != null) as UserSelectEntity[];
+	},
+
+	async isUserCoorganiser(eventId: string, userId: string): Promise<boolean> {
+		const row = await db
+			.select({ userId: eventCoorganiserTable.userId })
+			.from(eventCoorganiserTable)
+			.where(
+				and(
+					eq(eventCoorganiserTable.eventId, eventId),
+					eq(eventCoorganiserTable.userId, userId)
+				)
+			)
+			.limit(1);
+
+		return row.length > 0;
+	},
+
+	async addCoorganiser(eventId: string, userId: string) {
+		await db.insert(eventCoorganiserTable).values({ eventId, userId });
+	},
+
+	async removeCoorganiser(eventId: string, userId: string) {
+		await db
+			.delete(eventCoorganiserTable)
+			.where(
+				and(
+					eq(eventCoorganiserTable.eventId, eventId),
+					eq(eventCoorganiserTable.userId, userId)
+				)
+			);
+	},
+
+	async getEventWithCoorganisersById(
+		eventId: string
+	): Promise<EventWithCoorganisersEntity | undefined> {
+		const event = await this.getEventById(eventId);
+		if (!event) return undefined;
+
+		const coorganisers = await this.getCoorganisersByEventId(eventId);
+
+		return {
+			...event,
+			coorganisers
+		};
 	}
 };

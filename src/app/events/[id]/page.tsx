@@ -10,6 +10,7 @@ import { getVenueById } from '@/facades/venue/venue-facade';
 import { authService } from '@/services/auth/auth-service';
 import { CreateEventCard } from '@/modules/event/components/create-event-card';
 import { BoardItemCard } from '@/modules/board/components/board-item-card';
+import { CoorganisersCard } from '@/modules/event/components/coorganisers/coorganisers-card';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -34,7 +35,7 @@ const Page = async ({ params }: PageProps) => {
 		? await getInvitedEventIdsForUser(userId)
 		: new Set<string>();
 
-	const { canSee, canManage } = getEventPermissions({
+	const { canSee, canManage, isOwner } = await getEventPermissions({
 		event,
 		userId,
 		invitedEventIds
@@ -88,20 +89,13 @@ const Page = async ({ params }: PageProps) => {
 				)}
 			</div>
 
-			<div className="mt-6 mb-2 flex justify-between">
-				<h1 className="text-lg font-semibold">Concrete events</h1>
-				{canManage && (
-					<StandardLink href={`/concreteEvent/create?eventId=${event.id}`}>
-						create concrete event
-					</StandardLink>
-				)}
-			</div>
-
 			<div className="flex flex-wrap gap-6">
-				<CreateEventCard
-					label="Create concrete event"
-					href={`/concreteEvent/create/${id}`}
-				></CreateEventCard>
+				{canManage && (
+					<CreateEventCard
+						label="Create concrete event"
+						href={`/concreteEvent/create/${id}`}
+					></CreateEventCard>
+				)}
 				{event.concreteEvents.length === 0 ? (
 					<p className="text-gray-500">No concrete events</p>
 				) : (
@@ -112,6 +106,14 @@ const Page = async ({ params }: PageProps) => {
 					))
 				)}
 			</div>
+
+			{isOwner && (
+				<CoorganisersCard
+					eventId={event.id}
+					coorganisers={event.coorganisers}
+					canManage={isOwner}
+				/>
+			)}
 		</div>
 	);
 };
