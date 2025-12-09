@@ -1,1 +1,1 @@
-export { CreateUpdateTeamForm } from './update-team-form';
+export { CreateUpdateTeamForm } from './create-update-team-form';
