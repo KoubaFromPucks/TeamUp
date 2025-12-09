@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { FormInput } from '@/components/form/form-input';
-import { FormSelect } from '@/components/form/form-select';
 import { SubmitButton } from '@/components/form/submit-button';
 import { Button } from '@/components/basic-components/button';
 import {
@@ -19,11 +18,13 @@ import type { EventListModel } from '@/services/event/schema';
 type CreateBoardItemFormProps = {
 	userId: string;
 	events: EventListModel[];
+	preselectedEventId?: string;
 };
 
 export const CreateBoardItemForm = ({
 	userId,
-	events
+	events,
+	preselectedEventId
 }: CreateBoardItemFormProps) => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +33,7 @@ export const CreateBoardItemForm = ({
 		resolver: zodResolver(boardItemCreateUpdateSchema),
 		defaultValues: {
 			authorId: userId,
-			eventId: events[0]?.id ?? '',
+			eventId: preselectedEventId ?? events[0]?.id ?? '',
 			title: '',
 			content: '',
 			isPinned: false
@@ -108,13 +109,16 @@ export const CreateBoardItemForm = ({
 					)}
 				</div>
 
-				<FormSelect name="eventId" label="Event">
-					{events.map(event => (
-						<option key={event.id} value={event.id}>
-							{event.name} ({event.dayOfWeek})
-						</option>
-					))}
-				</FormSelect>
+				<FormInput
+					name="eventId"
+					label="Event"
+					value={
+						events.find(e => e.id === form.watch('eventId'))?.name ??
+						'Unknown Event'
+					}
+					disabled
+					className="w-full bg-gray-50"
+				/>
 
 				<div className="flex gap-4 pt-4">
 					<SubmitButton text="Create Board Item" isLoading={isLoading} />

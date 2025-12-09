@@ -4,12 +4,9 @@ import {
 } from '@/facades/board/board-item-facade';
 import React from 'react';
 import type { BoardItemListDto } from '@/facades/board/schema';
-import Link from 'next/link';
-import { Button } from '@/components/basic-components/button';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { Plus } from 'lucide-react';
 import { BoardItemCard } from '@/modules/board/components/board-item-card';
 
 const BoardPage = async () => {
@@ -37,14 +34,8 @@ const BoardPage = async () => {
 
 	return (
 		<div className="container mx-auto px-4 py-8">
-			<div className="mb-10 flex items-center justify-between">
+			<div className="mb-10">
 				<h1 className="mb-2 text-4xl font-bold tracking-tight">Board</h1>
-				<Button asChild>
-					<Link href="/board/create">
-						<Plus className="h-4 w-4" />
-						Create Board Item
-					</Link>
-				</Button>
 			</div>
 
 			{boardItems.length === 0 ? (
