@@ -10,6 +10,7 @@ import { pricingTypeLabels } from './update-event-form/update-event-form-enums';
 type EventDetailCardProps = {
 	event: EventDetailDto;
 	canManage: boolean;
+	myPrice?: number | null;
 };
 
 const inviteTypeLabel: Record<'public' | 'private' | 'invite_only', string> = {
@@ -27,7 +28,11 @@ const inviteTypeIcon: Record<
 	invite_only: <Lock size={18} />
 };
 
-export const EventDetailCard = ({ event, canManage }: EventDetailCardProps) => (
+export const EventDetailCard = ({
+	event,
+	canManage,
+	myPrice
+}: EventDetailCardProps) => (
 	<div className="transition-transform">
 		<Card>
 			<CardHeader className="flex items-center justify-between text-left">
@@ -61,6 +66,14 @@ export const EventDetailCard = ({ event, canManage }: EventDetailCardProps) => (
 						</span>
 					</div>
 				</CardLabeledItem>
+				{myPrice !== null && myPrice !== undefined && (
+					<CardLabeledItem label="My price">
+						<div className="flex items-center justify-center gap-2 text-gray-700">
+							<DollarSign size={18} />
+							<span className="font-semibold">{myPrice.toFixed(2)}</span>
+						</div>
+					</CardLabeledItem>
+				)}
 
 				<CardLabeledItem label="Pricing">
 					<div className="flex items-center justify-center gap-2 text-gray-700">
@@ -73,7 +86,9 @@ export const EventDetailCard = ({ event, canManage }: EventDetailCardProps) => (
 						<CardLabeledItem label="Total price">
 							<div className="flex items-center justify-center gap-2 text-gray-700">
 								<DollarSign size={18} />
-								<span className="font-semibold">{event.totalPrice ?? 0}</span>
+								<span className="font-semibold">
+									{event.totalPrice?.toFixed(2)}
+								</span>
 							</div>
 						</CardLabeledItem>
 					</>

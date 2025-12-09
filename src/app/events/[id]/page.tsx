@@ -10,6 +10,7 @@ import { getVenueById } from '@/facades/venue/venue-facade';
 import { authService } from '@/services/auth/auth-service';
 import { CreateEventCard } from '@/modules/event/components/create-event-card';
 import { BoardItemCard } from '@/modules/board/components/board-item-card';
+import { eventService } from '@/services/event/service';
 import { CoorganisersCard } from '@/modules/event/components/coorganisers/coorganisers-card';
 
 type PageProps = {
@@ -47,12 +48,28 @@ const Page = async ({ params }: PageProps) => {
 		throw new Error('You are not allowed to view this event.');
 	}
 
+	let myPrice: number | null = null;
+	if (
+		sessionUser &&
+		event.pricingType === 'pay_later' &&
+		event.inviteType !== 'public'
+	) {
+		myPrice =
+			await eventService.getPriceForPayLaterOptionSelectedForEachConcreteEvent(
+				event.id
+			);
+	}
+
 	return (
 		<div className="flex flex-col gap-8">
 			<div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
 				<div className="lg:w-2/3">
 					<div className="h-full min-h-[180px]">
-						<EventDetailCard event={event} canManage={canManage} />
+						<EventDetailCard
+							event={event}
+							canManage={canManage}
+							myPrice={myPrice}
+						/>
 					</div>
 				</div>
 

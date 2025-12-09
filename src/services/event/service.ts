@@ -10,6 +10,7 @@ import {
 	mapInsertModelToEntity
 } from './mapper';
 import { authService } from '../auth/auth-service';
+import { concreteEventService } from '../concrete_event/concrete-event-service';
 
 export const eventService = {
 	async createEvent(model: EventInsertModel): Promise<EventListModel> {
@@ -51,6 +52,47 @@ export const eventService = {
 
 		const deleted = await eventRepository.deleteEventById(id);
 		return deleted ? mapEntityToSelectModel(deleted) : undefined;
+	},
+
+	async getPriceForPayLaterOptionSelectedForEachConcreteEvent(
+		eventId: string
+	): Promise<number | null> {
+		const eventEntity = await eventRepository.getEventById(eventId);
+		const loggedUser = await authService.getLoggedUserOrNull();
+
+		if (!eventEntity) {
+			throw new Error('Event Does not exist.');
+		}
+
+		if (!loggedUser) {
+			return null;
+		}
+
+		const concreteEvents =
+			await concreteEventService.getConcreteEventDetailsByEventId(eventId);
+
+		if (!concreteEvents || concreteEvents.length === 0) {
+			return 0;
+		}
+
+		const myAcceptedInvitationCount = concreteEvents.flatMap(ce =>
+			ce.invitedUsers.filter(
+				invitation =>
+					invitation.userId === loggedUser.id && invitation.state === 'Accepted'
+			)
+		).length;
+
+		const totalAcceptedInvitationCount = concreteEvents.flatMap(ce =>
+			ce.invitedUsers.filter(invitation => invitation.state === 'Accepted')
+		).length;
+
+		const myPrice =
+			totalAcceptedInvitationCount > 0
+				? (eventEntity.totalPrice / totalAcceptedInvitationCount) *
+					myAcceptedInvitationCount
+				: 0;
+
+		return myPrice;
 	},
 
 	async getEventWithCoorganisersById(

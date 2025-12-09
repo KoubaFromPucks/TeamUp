@@ -9,8 +9,8 @@ import { eventInvitationService } from '../event_invitation/event-invitation-ser
 import { eventRepository } from '@/repositories/event/repository';
 import { eventCoorganiserRepository } from '@/repositories/event_coorganiser/event-coorganiser-repository';
 import { authService } from '../auth/auth-service';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+import { EventInvitationMapper } from '../event_invitation/mapper';
+import { EventInvitationDetailModel } from '../event_invitation/schema';
 import { eventInvitationRepository } from '@/repositories/event_invitation/event-invitataion-repository';
 
 export const concreteEventService = {
@@ -70,6 +70,29 @@ export const concreteEventService = {
 		return concreteEvents.map(concreteEventMapper.mapEntityToListModel);
 	},
 
+	async getConcreteEventDetailsByEventId(
+		eventId: string
+	): Promise<ConcreteEventDetailModel[]> {
+		const concreteEvents =
+			await concreteEventRepository.getConcreteEventsByEventId(eventId);
+
+		const mappedEntities = concreteEvents.map(
+			concreteEventMapper.mapEntityToDetailModel
+		);
+		return await Promise.all(
+			mappedEntities.map(async concreteEventDetail => ({
+				...concreteEventDetail,
+				invitedUsers: (
+					await eventInvitationService.getEventInvitationsByConcreteEventId(
+						concreteEventDetail.id
+					)
+				).map(
+					EventInvitationMapper.mapEntityToDetailModel
+				) as EventInvitationDetailModel[]
+			}))
+		);
+	},
+
 	async getAllConcreteEvents(): Promise<ConcreteEventListModel[]> {
 		const concreteEvents = await concreteEventRepository.getAllConcreteEvents();
 		const result = await Promise.all(
@@ -121,8 +144,7 @@ export const concreteEventService = {
 		).filter((item): item is NonNullable<typeof item> => item !== null);
 
 		try {
-			const session = await auth.api.getSession({ headers: await headers() });
-			const user = session?.user;
+			const user = await authService.getLoggedUserOrNull();
 
 			if (user) {
 				const eventInvitations =
