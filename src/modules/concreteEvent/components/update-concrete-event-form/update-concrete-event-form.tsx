@@ -16,23 +16,25 @@ import React from 'react';
 
 export const ConcreteEventForm = ({
 	concreteEvent,
-	navPath
+	navPath,
+	eventId
 }: {
 	concreteEvent?: ConcreteEventDetailDto;
 	navPath: string;
+	eventId: string;
 }) => {
 	const isEdit = !!concreteEvent?.id;
 
 	const form = useForm<ConcreteEventUpdateDto>({
 		resolver: zodResolver(concreteEventUpdateSchema),
 		defaultValues: {
-			eventId: concreteEvent?.eventId ?? '',
+			eventId: eventId,
 			startDate: concreteEvent?.startDate
 				? concreteEvent.startDate.replace(' ', 'T').slice(0, 16)
-				: '',
+				: undefined,
 			endDate: concreteEvent?.endDate
 				? concreteEvent.endDate.replace(' ', 'T').slice(0, 16)
-				: '',
+				: undefined,
 			price: concreteEvent?.price ?? null
 		}
 	});
