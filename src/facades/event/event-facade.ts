@@ -69,8 +69,6 @@ export const getEventById = async (eventId: string) => {
 			concreteEventService.getConcreteEventsByEventId(eventId)
 		]);
 
-		console.log(initialBoardItems);
-
 		if (!event) {
 			return { error: 'Event not found', event: null };
 		}

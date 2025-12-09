@@ -83,17 +83,15 @@ export const eventInvitationService = {
 		const eventInvitations =
 			await eventInvitationRepository.getEventInvitationsByUserId(userId);
 
-		const concreteEventRepository =
-			await import('@/repositories/concrete_event/concrete-event-repository').then(
-				m => m.concreteEventRepository
-			);
+		const concreteEventRepository = await import(
+			'@/repositories/concrete_event/concrete-event-repository'
+		).then(m => m.concreteEventRepository);
 		const concreteEventMapper = await import('../concrete_event/mapper').then(
 			m => m.concreteEventMapper
 		);
-		const eventRepository =
-			await import('@/repositories/event/repository').then(
-				m => m.eventRepository
-			);
+		const eventRepository = await import(
+			'@/repositories/event/repository'
+		).then(m => m.eventRepository);
 
 		return Promise.all(
 			eventInvitations.map(async eventInvitation => {

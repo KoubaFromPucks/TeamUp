@@ -9,6 +9,8 @@ import { eventInvitationService } from '../event_invitation/event-invitation-ser
 import { eventRepository } from '@/repositories/event/repository';
 import { eventCoorganiserRepository } from '@/repositories/event_coorganiser/event-coorganiser-repository';
 import { authService } from '../auth/auth-service';
+import { EventInvitationMapper } from '../event_invitation/mapper';
+import { EventInvitationDetailModel } from '../event_invitation/schema';
 
 export const concreteEventService = {
 	async doesConcreteEventExist(id: string): Promise<boolean> {
@@ -64,6 +66,29 @@ export const concreteEventService = {
 		const concreteEvents =
 			await concreteEventRepository.getConcreteEventsByEventId(eventId);
 		return concreteEvents.map(concreteEventMapper.mapEntityToListModel);
+	},
+
+	async getConcreteEventDetailsByEventId(
+		eventId: string
+	): Promise<ConcreteEventDetailModel[]> {
+		const concreteEvents =
+			await concreteEventRepository.getConcreteEventsByEventId(eventId);
+
+		const mappedEntities = concreteEvents.map(
+			concreteEventMapper.mapEntityToDetailModel
+		);
+		return await Promise.all(
+			mappedEntities.map(async concreteEventDetail => ({
+				...concreteEventDetail,
+				invitedUsers: (
+					await eventInvitationService.getEventInvitationsByConcreteEventId(
+						concreteEventDetail.id
+					)
+				).map(
+					EventInvitationMapper.mapEntityToDetailModel
+				) as EventInvitationDetailModel[]
+			}))
+		);
 	},
 
 	async getAllConcreteEvents(): Promise<ConcreteEventListModel[]> {
