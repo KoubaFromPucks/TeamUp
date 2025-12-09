@@ -25,8 +25,8 @@ export const EventHistoryCard = ({
 			<CardContent>
 				<CardLabeledItem label="Start - End">
 					<p className="text-base font-medium text-gray-700">
-						{userData.concreteEvent.startDate} -{' '}
-						{userData.concreteEvent.endDate}
+						{new Date(userData.concreteEvent.startDate).toLocaleString()} -{' '}
+						{new Date(userData.concreteEvent.endDate).toLocaleString()}
 					</p>
 				</CardLabeledItem>
 
