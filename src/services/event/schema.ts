@@ -1,3 +1,5 @@
+import { UserListModel } from '../user/schema';
+
 export type EventDetailModel = {
 	id: string;
 	venueId: string;
@@ -17,3 +19,7 @@ export type EventDetailModel = {
 export type EventListModel = EventDetailModel;
 
 export type EventInsertModel = Omit<EventListModel, 'id'>;
+
+export type EventWithCoorganisersModel = EventDetailModel & {
+	coorganisers: UserListModel[];
+};

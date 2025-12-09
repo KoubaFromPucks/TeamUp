@@ -74,15 +74,15 @@ export const EventDetailCard = ({
 						</div>
 					</CardLabeledItem>
 				)}
+
+				<CardLabeledItem label="Pricing">
+					<div className="flex items-center justify-center gap-2 text-gray-700">
+						<BadgeInfo size={18} />
+						<span>{pricingTypeLabels[event.pricingType]}</span>
+					</div>
+				</CardLabeledItem>
 				{canManage && (
 					<>
-						<CardLabeledItem label="Pricing">
-							<div className="flex items-center justify-center gap-2 text-gray-700">
-								<BadgeInfo size={18} />
-								<span>{pricingTypeLabels[event.pricingType]}</span>
-							</div>
-						</CardLabeledItem>
-
 						<CardLabeledItem label="Total price">
 							<div className="flex items-center justify-center gap-2 text-gray-700">
 								<DollarSign size={18} />
