@@ -6,6 +6,7 @@ import {
 	isUserEventsOrganizer
 } from '@/facades/concrete_event/concrete-event-facade';
 import { getAllUsers } from '@/facades/user/user-facade';
+import { getAllTeams } from '@/facades/team/team-facade';
 import { InviteUsersView } from '@/modules/EventInvitation/invite-users-view';
 import React from 'react';
 
@@ -45,10 +46,16 @@ const InvitePage = async ({ params }: PageProps) => {
 		throw new Error('Failed to load users');
 	}
 
+	const { teams, error: teamsError } = await getAllTeams();
+
+	if (teamsError || !teams) {
+		throw new Error('Failed to load teams');
+	}
+
 	return (
 		<div className="container mx-auto p-6">
 			<div className="mb-6">
-				<h1 className="text-3xl font-bold">Invite Users</h1>
+				<h1 className="text-3xl font-bold">Invite Users and Teams</h1>
 				<p className="mt-2 text-gray-600">
 					Manage invitations for &ldquo;{concreteEvent.eventName}&rdquo;
 				</p>
@@ -57,6 +64,7 @@ const InvitePage = async ({ params }: PageProps) => {
 			<InviteUsersView
 				concreteEventId={id}
 				allUsers={users}
+				allTeams={teams}
 				invitedUsers={concreteEvent.invitedUsers}
 			/>
 		</div>
