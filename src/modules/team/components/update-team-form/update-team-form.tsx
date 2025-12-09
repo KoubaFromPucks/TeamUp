@@ -18,7 +18,7 @@ import { FormSelect } from '@/components/form/form-select';
 import { getImageUrlOrDefault } from '@/lib/utils';
 import { useSession } from '@/lib/auth-client';
 
-export const UpdateTeamForm = ({
+export const CreateUpdateTeamForm = ({
 	team,
 	navPath,
 	update,

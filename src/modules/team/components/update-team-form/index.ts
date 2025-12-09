@@ -1,3 +1,1 @@
-import { UpdateTeamForm } from './update-team-form';
-
-export { UpdateTeamForm };
+export { CreateUpdateTeamForm } from './update-team-form';

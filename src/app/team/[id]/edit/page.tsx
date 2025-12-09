@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ChevronLeft } from 'lucide-react';
 import { getTeamWithMembersById } from '@/facades/team/team-facade';
-import { UpdateTeamForm } from '@/modules/team/components';
+import { CreateUpdateTeamForm } from '@/modules/team/components';
 import { authService } from '@/services/auth/auth-service';
 
 type PageProps = { params: { id: string } };
@@ -28,7 +28,7 @@ const Page = async ({ params }: PageProps) => {
 				</a>
 				<h1 className="text-3xl font-semibold">Edit Team</h1>
 			</div>
-			<UpdateTeamForm
+			<CreateUpdateTeamForm
 				team={{ ...team }}
 				navPath={returnPath}
 				update={true}
