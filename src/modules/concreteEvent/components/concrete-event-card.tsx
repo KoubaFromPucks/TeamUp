@@ -50,7 +50,8 @@ export const ConcreteEventCard = ({
 						<div className="flex items-center justify-center gap-2 text-gray-700">
 							<CalendarDays size={18} />
 							<span>
-								{concreteEvent.startDate} – {concreteEvent.endDate}
+								{new Date(concreteEvent.startDate).toLocaleString()} –{' '}
+								{new Date(concreteEvent.endDate).toLocaleString()}
 							</span>
 						</div>
 					</CardLabeledItem>
