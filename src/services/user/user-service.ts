@@ -67,5 +67,11 @@ export const userService = {
 		}
 
 		return userMapper.mapEntityWithTeamsToDetailModel(user);
+	},
+
+	async getUserEventHistoryById(userId: string) {
+		const history =
+			await userRepository.getUserConcreteEventInvitationsById(userId);
+		return history.map(userMapper.mapEntityToHistoryModel);
 	}
 };

@@ -11,7 +11,6 @@ import {
 } from './schema';
 import { concreteEventService } from '@/services/concrete_event/concrete-event-service';
 import { getBoardItemsByEventId } from '../board/board-item-facade';
-import { init } from 'next/dist/compiled/webpack/webpack';
 
 type GetEventsListArgs = {
 	userId?: string | null;

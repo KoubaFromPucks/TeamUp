@@ -8,7 +8,7 @@ export const concreteEventTable = sqliteTable('concrete_event', {
 		.$defaultFn(() => crypto.randomUUID()),
 	eventId: text('event_id')
 		.notNull()
-		.references(() => eventTable.id),
+		.references(() => eventTable.id, { onDelete: 'cascade' }),
 	price: integer('price'),
 	startDate: text('start_date')
 		.notNull()

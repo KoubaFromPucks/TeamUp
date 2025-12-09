@@ -8,9 +8,7 @@ import { getEventPermissions } from '@/modules/event/utils/permissions';
 import { VenueCard } from '@/modules/venue/components/venue-card';
 import { getVenueById } from '@/facades/venue/venue-facade';
 import { authService } from '@/services/auth/auth-service';
-import router from 'next/navigation';
-import { Button } from '@/components/basic-components/button';
-import { Link, Plus } from 'lucide-react';
+import { CreateEventCard } from '@/modules/event/components/create-event-card';
 import { BoardItemCard } from '@/modules/board/components/board-item-card';
 
 type PageProps = {
@@ -100,6 +98,7 @@ const Page = async ({ params }: PageProps) => {
 			</div>
 
 			<div className="flex flex-wrap gap-6">
+				<CreateEventCard label='Create concrete event' href={`/concreteEvent/create/${id}`}></CreateEventCard>
 				{event.concreteEvents.length === 0 ? (
 					<p className="text-gray-500">No concrete events</p>
 				) : (

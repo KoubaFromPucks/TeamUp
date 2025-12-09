@@ -10,7 +10,7 @@ export const eventInvitationTable = sqliteTable('event_invitation', {
 	state: text('state', { enum: inviteStateEnum }).notNull(),
 	concreteEventId: text('concrete_event_id')
 		.notNull()
-		.references(() => concreteEventTable.id),
+		.references(() => concreteEventTable.id, { onDelete: 'cascade' }),
 	userId: text('user_id')
 		.notNull()
 		.references(() => userTable.id)
