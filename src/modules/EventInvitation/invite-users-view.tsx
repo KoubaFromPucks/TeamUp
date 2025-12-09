@@ -96,13 +96,16 @@ export const InviteUsersView = ({
 		setIsInviting(user.id);
 
 		try {
-			const { error } = await createUpdateEventInvitation(undefined, {
-				concreteEventId,
-				userId: user.id,
-				state: 'Pending'
-			});
+			const { error, eventInvitation } = await createUpdateEventInvitation(
+				undefined,
+				{
+					concreteEventId,
+					userId: user.id,
+					state: 'Pending'
+				}
+			);
 
-			if (error) {
+			if (error || !eventInvitation) {
 				const errorMsg =
 					typeof error === 'string' ? error : 'Failed to send invitation';
 				toast.error(errorMsg);
@@ -110,7 +113,7 @@ export const InviteUsersView = ({
 			}
 
 			const newInvitation: EventInvitationListDto = {
-				id: `temp-${user.id}`,
+				id: eventInvitation.id,
 				concreteEventId,
 				userId: user.id,
 				state: 'Pending',
@@ -160,6 +163,9 @@ export const InviteUsersView = ({
 			setIsDeleting(null);
 		}
 	};
+
+	console.log('Invited users:', invitedUsers);
+	console.log('Currently invited users:', currentlyInvitedUsers);
 
 	return (
 		<div className="space-y-6">
