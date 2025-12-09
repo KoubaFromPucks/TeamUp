@@ -16,23 +16,25 @@ import React from 'react';
 
 export const ConcreteEventForm = ({
 	concreteEvent,
-	navPath
+	navPath,
+	eventId
 }: {
 	concreteEvent?: ConcreteEventDetailDto;
 	navPath: string;
+	eventId: string;
 }) => {
 	const isEdit = !!concreteEvent?.id;
 
 	const form = useForm<ConcreteEventUpdateDto>({
 		resolver: zodResolver(concreteEventUpdateSchema),
 		defaultValues: {
-			eventId: concreteEvent?.eventId ?? '',
+			eventId: eventId,
 			startDate: concreteEvent?.startDate
 				? concreteEvent.startDate.replace(' ', 'T').slice(0, 16)
-				: '',
+				: undefined,
 			endDate: concreteEvent?.endDate
 				? concreteEvent.endDate.replace(' ', 'T').slice(0, 16)
-				: '',
+				: undefined,
 			price: concreteEvent?.price ?? null
 		}
 	});
@@ -41,6 +43,7 @@ export const ConcreteEventForm = ({
 	const router = useRouter();
 
 	const onSubmit = (values: ConcreteEventUpdateDto) => {
+		console.log("gere");
 		const dataToSend = {
 			...values,
 			startDate: values.startDate.replace('T', ' '),
@@ -60,7 +63,10 @@ export const ConcreteEventForm = ({
 
 	return (
 		<FormProvider {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+			<form onSubmit={form.handleSubmit(
+    (values) => { console.log('onSubmit called', values); onSubmit(values); },
+    (errors) => { console.log('validation errors', errors); }
+  )} className="space-y-4">
 				<div className="flex flex-col gap-10">
 					<FormInput
 						name="startDate"
