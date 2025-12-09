@@ -1,10 +1,19 @@
 import type {
 	UserSelectEntity,
 	UserInsertEntity,
-	UserWithTeamsEntity
+	UserWithTeamsEntity,
+	UserEventHistoryDataEntity
 } from '@/repositories/user/schema';
-import { db, teamTable, userTable, teamMemberTable } from '@/db';
+import {
+	db,
+	teamTable,
+	userTable,
+	teamMemberTable,
+	concreteEventTable,
+	eventTable
+} from '@/db';
 import { eq } from 'drizzle-orm';
+import { eventInvitationTable } from '@/db/schema/event-invitation';
 
 export const userRepository = {
 	async getUserById(userId: string) {
@@ -108,5 +117,28 @@ export const userRepository = {
 		};
 
 		return userWithTeamsEntity as UserWithTeamsEntity;
+	},
+
+	async getUserConcreteEventInvitationsById(userId: string) {
+		try {
+			const events = await db
+				.select()
+				.from(concreteEventTable)
+				.innerJoin(
+					eventInvitationTable,
+					eq(concreteEventTable.id, eventInvitationTable.concreteEventId)
+				)
+				.innerJoin(eventTable, eq(concreteEventTable.eventId, eventTable.id))
+				.where(eq(eventInvitationTable.userId, userId));
+
+			return events.map(row => ({
+				concreteEvent: row.concrete_event,
+				eventInvitation: row.event_invitation,
+				event: row.events
+			})) as UserEventHistoryDataEntity[];
+		} catch (error) {
+			console.error('Error fetching user concrete events:', error);
+			throw new Error('Could not fetch user concrete events');
+		}
 	}
 };

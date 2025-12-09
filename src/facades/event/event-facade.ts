@@ -10,6 +10,7 @@ import {
 	type EventListDto
 } from './schema';
 import { concreteEventService } from '@/services/concrete_event/concrete-event-service';
+import { getBoardItemsByEventId } from '../board/board-item-facade';
 
 type GetEventsListArgs = {
 	userId?: string | null;
@@ -58,17 +59,29 @@ export const getEventsList = async ({
 
 export const getEventById = async (eventId: string) => {
 	try {
-		const [event, concreteEvents] = await Promise.all([
+		const [
+			event,
+			{ error: biError, boardItems: initialBoardItems },
+			concreteEvents
+		] = await Promise.all([
 			eventService.getEventById(eventId),
-			//boardItemService.getBoardItemsByEventId(eventId),
+			getBoardItemsByEventId(eventId),
 			concreteEventService.getConcreteEventsByEventId(eventId)
 		]);
+
+		console.log(initialBoardItems);
 
 		if (!event) {
 			return { error: 'Event not found', event: null };
 		}
 
+		let boardItems = initialBoardItems ?? undefined;
+		if (biError) {
+			boardItems = [];
+		}
+
 		const dto: EventDetailDto = eventFacadeMapper.mapDetailModelToDto(event, {
+			boardItems,
 			concreteEvents
 		});
 

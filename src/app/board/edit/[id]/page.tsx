@@ -2,7 +2,10 @@ import React from 'react';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getBoardItemById } from '@/facades/board/board-item-facade';
+import {
+	getBoardItemById,
+	canUserModifyBoardItem
+} from '@/facades/board/board-item-facade';
 import { eventService } from '@/services/event/service';
 import { EditBoardItemForm } from '../../../../modules/board/components/edit-board-item-form';
 
@@ -22,6 +25,12 @@ const EditBoardItemPage = async ({ params }: PageProps) => {
 
 	if (boardItemError || !boardItem) {
 		throw new Error(`Failed to load board item: ${boardItemError}`);
+	}
+
+	const { canModify } = await canUserModifyBoardItem(id, session.user.id);
+
+	if (!canModify) {
+		redirect('/board');
 	}
 
 	try {

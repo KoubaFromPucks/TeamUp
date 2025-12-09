@@ -11,9 +11,9 @@ export default async function Page({ params }: PageProps) {
 	const { id } = await params;
 
 	const sessionUser = await authService.getLoggedUserOrThrow(
-        'You must be logged in to edit a venue.'
-    );
-    const userId = sessionUser?.id ?? null;
+		'You must be logged in to edit a venue.'
+	);
+	const userId = sessionUser?.id ?? null;
 
 	if (!userId) {
 		throw new Error('You have to be logged in to edit a venue.');
@@ -22,7 +22,10 @@ export default async function Page({ params }: PageProps) {
 	const { error, venue } = await getVenueById(id);
 
 	if (!venue || error) {
-		throw new Error('Error fetching venue data. Either venue does not exist or there was an error: ' + (error ?? ''));
+		throw new Error(
+			'Error fetching venue data. Either venue does not exist or there was an error: ' +
+				(error ?? '')
+		);
 	}
 
 	const canManage = venue.ownerId === userId;

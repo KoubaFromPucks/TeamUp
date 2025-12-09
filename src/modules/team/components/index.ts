@@ -1,4 +1,4 @@
-import { TeamDetailCard } from './team-detail-card';
+import { ServerTeamDetailCard, TeamDetailCard } from './team-detail-card';
 import { UpdateTeamForm } from './update-team-form';
 
-export { TeamDetailCard, UpdateTeamForm };
+export { TeamDetailCard, ServerTeamDetailCard, UpdateTeamForm };

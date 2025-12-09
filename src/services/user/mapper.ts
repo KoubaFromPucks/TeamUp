@@ -1,10 +1,19 @@
-import { UserDetailModel, UserInsertModel, UserListModel } from './schema';
 import {
+	UserDetailModel,
+	UserEventHistoryModel,
+	UserInsertModel,
+	UserListModel
+} from './schema';
+import {
+	UserEventHistoryDataEntity,
 	UserInsertEntity,
 	UserSelectEntity,
 	UserWithTeamsEntity
 } from '@/repositories/user/schema';
 import { teamMapper } from '../team/mapper';
+import { concreteEventMapper } from '../concrete_event/mapper';
+import { EventInvitationMapper } from '../event_invitation/mapper';
+import * as eventMapper from '../event/mapper';
 
 export const userMapper = {
 	mapEntityToListModel(entity: UserSelectEntity): UserListModel {
@@ -58,5 +67,19 @@ export const userMapper = {
 		if (model.imageUrl !== undefined) entity.image = model.imageUrl;
 
 		return entity;
+	},
+
+	mapEntityToHistoryModel(
+		entity: UserEventHistoryDataEntity
+	): UserEventHistoryModel {
+		return {
+			concreteEvent: concreteEventMapper.mapEntityToListModel(
+				entity.concreteEvent
+			),
+			eventInvitation: EventInvitationMapper.mapEntityToListModel(
+				entity.eventInvitation
+			),
+			event: eventMapper.mapEntityToSelectModel(entity.event)
+		};
 	}
 };

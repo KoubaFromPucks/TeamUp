@@ -9,6 +9,7 @@ import { VenueCard } from '@/modules/venue/components/venue-card';
 import { getVenueById } from '@/facades/venue/venue-facade';
 import { authService } from '@/services/auth/auth-service';
 import { CreateEventCard } from '@/modules/event/components/create-event-card';
+import { BoardItemCard } from '@/modules/board/components/board-item-card';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -23,7 +24,10 @@ const Page = async ({ params }: PageProps) => {
 	const { error, event } = await getEventById(id);
 
 	if (!event || error) {
-		throw new Error('Error fetching event data. Either event does not exist or ther was an error: ' + (error ?? ''));
+		throw new Error(
+			'Error fetching event data. Either event does not exist or ther was an error: ' +
+				(error ?? '')
+		);
 	}
 
 	const invitedEventIds = userId
@@ -58,17 +62,27 @@ const Page = async ({ params }: PageProps) => {
 				)}
 			</div>
 
-			<div className="flex flex-wrap gap-6">
+			<div className="mt-6 mb-2 flex justify-between">
+				<h1 className="text-lg font-semibold">Board items</h1>
+
+				{canSee && (
+					<StandardLink href={`/board/create?eventId=${event.id}`}>
+						create board item
+					</StandardLink>
+				)}
+			</div>
+
+			<div className="grid auto-rows-fr grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
 				{event.boardItems.length === 0 ? (
 					<p className="text-gray-500">No items</p>
 				) : (
 					event.boardItems.map(b => (
-						<div className="w-100" key={b.id}>
-							<div className="rounded-lg border p-4 shadow">
-								<h3 className="font-semibold">{b.title}</h3>
-								<p className="text-gray-600">{b.content}</p>
-							</div>
-						</div>
+						<BoardItemCard
+							key={b.id}
+							item={b}
+							signedUser={canSee}
+							showEvent={false}
+						/>
 					))
 				)}
 			</div>

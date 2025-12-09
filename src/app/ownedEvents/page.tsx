@@ -8,7 +8,7 @@ const Page = async () => {
 	const sessionUser = await authService.getLoggedUserOrThrow(
 		'You must be logged in to view your owned events.'
 	);
-    const userId = sessionUser?.id ?? null;
+	const userId = sessionUser?.id ?? null;
 
 	if (!userId) {
 		throw new Error('You have to be logged in to view your owned events.');
@@ -17,7 +17,10 @@ const Page = async () => {
 	const { error, events } = await getOwnedEventsList(userId);
 
 	if (!events || error) {
-		throw new Error('Error fetching owned events data. Either there was an error: ' + (error ?? ''));
+		throw new Error(
+			'Error fetching owned events data. Either there was an error: ' +
+				(error ?? '')
+		);
 	}
 
 	return (

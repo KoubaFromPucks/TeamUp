@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';;
+import React, { Suspense } from 'react';
 
 import { getInvitedEventIdsForUser } from '@/facades/event/helper';
 import { EventsListSkeleton } from '@/modules/event/components/skeletons/events-list-skeleton';
