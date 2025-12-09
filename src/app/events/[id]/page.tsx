@@ -12,6 +12,7 @@ import router from 'next/navigation';
 import { Button } from '@/components/basic-components/button';
 import { Link, Plus } from 'lucide-react';
 import { BoardItemCard } from '@/modules/board/components/board-item-card';
+import { canUserModifyBoardItem } from '@/facades/board/board-item-facade';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -48,6 +49,15 @@ const Page = async ({ params }: PageProps) => {
 		throw new Error('You are not allowed to view this event.');
 	}
 
+	const boardItemsWithAuth = userId
+		? await Promise.all(
+				event.boardItems.map(async item => {
+					const { canModify } = await canUserModifyBoardItem(item.id, userId);
+					return { ...item, canUserModify: canModify };
+				})
+			)
+		: event.boardItems.map(item => ({ ...item, canUserModify: false }));
+
 	return (
 		<div className="flex flex-col gap-8">
 			<div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
@@ -64,31 +74,31 @@ const Page = async ({ params }: PageProps) => {
 				)}
 			</div>
 
-			<div className="flex mb-2 mt-6 justify-between">
-            <h1 className="text-lg font-semibold">Board items</h1>
+			<div className="mt-6 mb-2 flex justify-between">
+				<h1 className="text-lg font-semibold">Board items</h1>
 
-            {canSee && (
-                <StandardLink href={`/board/create?eventId=${event.id}`}>
-                create board item
-                </StandardLink>
-            )}
-            </div>
+				{canSee && (
+					<StandardLink href={`/board/create?eventId=${event.id}`}>
+						create board item
+					</StandardLink>
+				)}
+			</div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 auto-rows-fr items-stretch">
-                {event.boardItems.length === 0 ? (
-                    <p className="text-gray-500">No items</p>
-                ) : (
-                    event.boardItems.map(b => (
-                    <BoardItemCard
-                        key={b.id}
-                        item={b}
-                        signedUser={canSee}
-                        showEvent={false}
-                    />
-                    ))
-                )}
-            </div>
-
+			<div className="grid auto-rows-fr grid-cols-1 items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
+				{boardItemsWithAuth.length === 0 ? (
+					<p className="text-gray-500">No items</p>
+				) : (
+					boardItemsWithAuth.map(b => (
+						<BoardItemCard
+							key={b.id}
+							item={b}
+							showEvent={false}
+							showActions={true}
+							canUserModify={b.canUserModify}
+						/>
+					))
+				)}
+			</div>
 
 			<div className="mt-6 mb-2 flex justify-between">
 				<h1 className="text-lg font-semibold">Concrete events</h1>

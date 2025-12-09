@@ -2,8 +2,6 @@ import {
 	getBoardItemsForUser,
 	canUserModifyBoardItem
 } from '@/facades/board/board-item-facade';
-import { Card, CardContent, CardHeader } from '@/components/card';
-import { Calendar, User, Plus } from 'lucide-react';
 import React from 'react';
 import type { BoardItemListDto } from '@/facades/board/schema';
 import Link from 'next/link';
@@ -11,7 +9,8 @@ import { Button } from '@/components/basic-components/button';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { BoardItemActions } from './board-item-actions';
+import { Plus } from 'lucide-react';
+import { BoardItemCard } from '@/modules/board/components/board-item-card';
 
 const BoardPage = async () => {
 	const session = await auth.api.getSession({ headers: await headers() });
@@ -62,45 +61,13 @@ const BoardPage = async () => {
 			) : (
 				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 					{boardItemsWithAuth.map((item: BoardItemListDto) => (
-						<Card key={item.id}>
-							<CardHeader className="border-b-0 pb-3 !text-left">
-								<div className="flex items-start justify-between gap-2">
-									<h3 className="text-lg leading-tight font-semibold">
-										{item.title}
-									</h3>
-									{item.canUserModify && <BoardItemActions itemId={item.id} />}
-								</div>
-							</CardHeader>
-							<CardContent className="flex-col items-start">
-								<p className="mb-4 line-clamp-4 text-sm leading-relaxed text-gray-700">
-									{item.content}
-								</p>
-								<div className="mt-auto w-full space-y-2 border-t pt-3 text-xs text-gray-500">
-									<div className="flex items-center gap-2">
-										<User className="h-3.5 w-3.5" />
-										<span className="truncate">
-											{item.authorName || 'Unknown Author'}
-										</span>
-									</div>
-									<div className="flex items-center gap-2">
-										<Calendar className="h-3.5 w-3.5" />
-										<span>
-											{new Date(item.createdAt).toLocaleDateString('en-US', {
-												year: 'numeric',
-												month: 'short',
-												day: 'numeric'
-											})}
-										</span>
-									</div>
-									{item.eventName && (
-										<div className="flex items-center gap-2">
-											<span className="font-medium">Event:</span>
-											<span className="truncate">{item.eventName}</span>
-										</div>
-									)}
-								</div>
-							</CardContent>
-						</Card>
+						<BoardItemCard
+							key={item.id}
+							item={item}
+							showEvent={true}
+							showActions={true}
+							canUserModify={item.canUserModify}
+						/>
 					))}
 				</div>
 			)}
