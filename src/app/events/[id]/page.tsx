@@ -122,6 +122,7 @@ const Page = async ({ params }: PageProps) => {
 								concreteEvent={ce}
 								isDetail={false}
 								pricePerPerson={undefined}
+								isOrganiser={false}
 							/>
 						</div>
 					))
