@@ -9,6 +9,7 @@ import { VenueCard } from '@/modules/venue/components/venue-card';
 import { getVenueById } from '@/facades/venue/venue-facade';
 import { authService } from '@/services/auth/auth-service';
 import { BoardItemCard } from '@/modules/board/components/board-item-card';
+import { CoorganisersCard } from '@/modules/event/components/coorganisers/coorganisers-card';
 
 type PageProps = {
 	params: Promise<{ id: string }>;
@@ -33,7 +34,7 @@ const Page = async ({ params }: PageProps) => {
 		? await getInvitedEventIdsForUser(userId)
 		: new Set<string>();
 
-	const { canSee, canManage } = getEventPermissions({
+	const { canSee, canManage, isOwner } = await getEventPermissions({
 		event,
 		userId,
 		invitedEventIds
@@ -106,6 +107,12 @@ const Page = async ({ params }: PageProps) => {
 					))
 				)}
 			</div>
+
+			{isOwner && <CoorganisersCard
+				eventId={event.id}
+				coorganisers={event.coorganisers}
+				canManage={isOwner}
+			/>}
 		</div>
 	);
 };

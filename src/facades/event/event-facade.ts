@@ -4,6 +4,8 @@ import { eventService } from '@/services/event/service';
 import { venueService } from '@/services/venue/service';
 import { eventFacadeMapper } from './mapper';
 import {
+	CoorganiserAddDto,
+	coorganiserAddSchema,
 	EventUpdateDto,
 	eventUpdateSchema,
 	type EventDetailDto,
@@ -64,9 +66,9 @@ export const getEventById = async (eventId: string) => {
 			{ error: biError, boardItems: initialBoardItems },
 			concreteEvents
 		] = await Promise.all([
-			eventService.getEventById(eventId),
+			eventService.getEventWithCoorganisersById(eventId),
 			getBoardItemsByEventId(eventId),
-			concreteEventService.getConcreteEventsByEventId(eventId)
+			concreteEventService.getConcreteEventsByEventId(eventId),
 		]);
 
 		console.log(initialBoardItems);
@@ -163,5 +165,44 @@ export const getOwnedEventsList = async (userId: string) => {
 		return { error: null, events: mapped };
 	} catch (error) {
 		return { error: (error as Error).message, events: null };
+	}
+};
+
+
+export const addCoorganiser = async (dto: CoorganiserAddDto) => {
+	const validation = coorganiserAddSchema.safeParse(dto);
+
+	if (!validation.success) {
+		const errors = validation.error.flatten().fieldErrors;
+		return { error: errors, ok: false };
+	}
+
+	try {
+		await eventService.addCoorganiser(
+			validation.data.eventId,
+			validation.data.userId
+		);
+		return { error: null, ok: true };
+	} catch (error) {
+		return { error: (error as Error).message, ok: false };
+	}
+};
+
+export const removeCoorganiser = async (dto: CoorganiserAddDto) => {
+	const validation = coorganiserAddSchema.safeParse(dto);
+
+	if (!validation.success) {
+		const errors = validation.error.flatten().fieldErrors;
+		return { error: errors, ok: false };
+	}
+
+	try {
+		await eventService.removeCoorganiser(
+			validation.data.eventId,
+			validation.data.userId
+		);
+		return { error: null, ok: true };
+	} catch (error) {
+		return { error: (error as Error).message, ok: false };
 	}
 };

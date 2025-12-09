@@ -1,6 +1,7 @@
 import type { EventDetailDto } from '@/facades/event/schema';
+import { eventService } from '@/services/event/service';
 
-export const getEventPermissions = ({
+export const getEventPermissions = async ({
 	event,
 	userId,
 	invitedEventIds
@@ -12,6 +13,8 @@ export const getEventPermissions = ({
 	const isLoggedIn = !!userId;
 	const isOrganisator = isLoggedIn && event.organisatorId === userId;
 
+	const canManage = await (isLoggedIn && eventService.isUserCoorganiser(event.id, userId)) || isOrganisator;
+
 	const canSee =
 		event.inviteType === 'public' ||
 		(isLoggedIn &&
@@ -19,7 +22,7 @@ export const getEventPermissions = ({
 				event.inviteType === 'private' ||
 				(event.inviteType === 'invite_only' && invitedEventIds.has(event.id))));
 
-	const canManage = isOrganisator;
+	const isOwner = isOrganisator;
 
-	return { canSee, canManage };
+	return { canSee, canManage, isOwner };
 };

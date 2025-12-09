@@ -1,6 +1,8 @@
 import z from 'zod';
 import { BoardItemListDto } from '../board/schema';
 import { ConcreteEventListDto } from '../concrete_event/schema';
+import { User } from 'better-auth';
+import { UserListDto } from '../user/schema';
 
 export const dayOfWeekEnum = [
 	'Mon',
@@ -50,4 +52,21 @@ export type EventDetailDto = EventUpdateDto & {
 	id: string;
 	boardItems: BoardItemListDto[];
 	concreteEvents: ConcreteEventListDto[];
+	coorganisers: UserListDto[];
 };
+
+export const idSchema = z.string().uuid('Invalid ID');
+
+export const coorganiserAddSchema = z.object({
+	eventId: idSchema,
+	userId: idSchema
+});
+
+export type CoorganiserAddDto = z.infer<typeof coorganiserAddSchema>;
+
+export const coorganiserSetSchema = z.object({
+	eventId: idSchema,
+	userIds: z.array(idSchema)
+});
+
+export type CoorganiserSetDto = z.infer<typeof coorganiserSetSchema>;

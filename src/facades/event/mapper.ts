@@ -2,7 +2,8 @@
 import type {
 	EventInsertModel,
 	EventListModel,
-	EventDetailModel
+	EventDetailModel,
+	EventWithCoorganisersModel
 } from '@/services/event/schema';
 
 import type { EventUpdateDto, EventListDto, EventDetailDto } from './schema';
@@ -11,6 +12,11 @@ import type { BoardItemListDto } from '../board/schema';
 import type { ConcreteEventListDto } from '../concrete_event/schema';
 import { ConcreteEventMapper } from '../concrete_event/mapper';
 import { boardItemFacadeMapper } from '../board/mapper';
+import { UserListDto } from '../user/schema';
+import { userMapper } from '../user/mapper';
+import { UserListModel } from '@/services/user/schema';
+import { ConcreteEventListModel } from '@/services/concrete_event/schema';
+import { BoardItemListModel } from '@/services/board/schema';
 
 function mapListModelToDto(model: EventListModel): EventListDto {
 	return {
@@ -25,10 +31,10 @@ function mapListModelToDto(model: EventListModel): EventListDto {
 }
 
 function mapDetailModelToDto(
-	model: EventDetailModel,
+	model: EventWithCoorganisersModel,
 	extras?: {
-		boardItems?: BoardItemListDto[];
-		concreteEvents?: ConcreteEventListDto[];
+		boardItems?: BoardItemListModel[];
+		concreteEvents?: ConcreteEventListModel[];
 	}
 ): EventDetailDto {
 	return {
@@ -45,6 +51,8 @@ function mapDetailModelToDto(
 		pricingType: model.pricingType,
 
 		totalPrice: model.totalPrice ?? null,
+
+		coorganisers: model.coorganisers.map(userMapper.mapUserListModelToDto) as UserListDto[],
 
 		boardItems:
 			extras?.boardItems?.map(boardItemFacadeMapper.mapListModelToDto) ?? [],

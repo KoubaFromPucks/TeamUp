@@ -1,8 +1,11 @@
-import type { EventInsertModel, EventListModel } from './schema';
+import { userMapper } from '../user/mapper';
+import type { EventInsertModel, EventListModel, EventWithCoorganisersModel } from './schema';
 import type {
 	EventInsertEntity,
-	EventSelectEntity
+	EventSelectEntity,
+	EventWithCoorganisersEntity
 } from '@/repositories/event/schema';
+
 
 export const mapEntityToSelectModel = (
 	entity: EventSelectEntity
@@ -72,4 +75,11 @@ export const mapEntityToInsertModel = (
 	pricingType: entity.pricingType,
 
 	totalPrice: entity.totalPrice ?? 0
+});
+
+export const mapEntityWithCoorganisersToSelectModel = (
+	entity: EventWithCoorganisersEntity
+): EventWithCoorganisersModel => ({
+	...mapEntityToSelectModel(entity),
+	coorganisers: entity.coorganisers.map(userMapper.mapEntityToListModel)
 });
