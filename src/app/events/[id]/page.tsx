@@ -65,7 +65,7 @@ const Page = async ({ params }: PageProps) => {
 			<div className="mt-6 mb-2 flex justify-between">
 				<h1 className="text-lg font-semibold">Board items</h1>
 
-				{canSee && (
+				{canManage && (
 					<StandardLink href={`/board/create?eventId=${event.id}`}>
 						create board item
 					</StandardLink>
@@ -80,8 +80,9 @@ const Page = async ({ params }: PageProps) => {
 						<BoardItemCard
 							key={b.id}
 							item={b}
-							signedUser={canSee}
 							showEvent={false}
+							showActions={true}
+							canUserModify={canManage}
 						/>
 					))
 				)}
@@ -97,7 +98,10 @@ const Page = async ({ params }: PageProps) => {
 			</div>
 
 			<div className="flex flex-wrap gap-6">
-				<CreateEventCard label='Create concrete event' href={`/concreteEvent/create/${id}`}></CreateEventCard>
+				<CreateEventCard
+					label="Create concrete event"
+					href={`/concreteEvent/create/${id}`}
+				></CreateEventCard>
 				{event.concreteEvents.length === 0 ? (
 					<p className="text-gray-500">No concrete events</p>
 				) : (
