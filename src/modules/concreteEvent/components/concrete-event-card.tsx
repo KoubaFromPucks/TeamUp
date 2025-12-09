@@ -22,7 +22,7 @@ export const ConcreteEventCard = ({
 					<h3 className="text-lg font-semibold">{concreteEvent.eventName}</h3>
 
 					<div className="flex gap-3">
-						{isDetail && <DeleteConcreteEventButton id={concreteEvent.id} />}
+						{isDetail && <DeleteConcreteEventButton id={concreteEvent.id} route={`/events/${concreteEvent.eventId}`}/>}
 
 						<StandardLink
 							href={
