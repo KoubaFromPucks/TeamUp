@@ -19,12 +19,14 @@ type CreateBoardItemFormProps = {
 	userId: string;
 	events: EventListModel[];
 	preselectedEventId?: string;
+	redirectUrl: string;
 };
 
 export const CreateBoardItemForm = ({
 	userId,
 	events,
-	preselectedEventId
+	preselectedEventId,
+	redirectUrl
 }: CreateBoardItemFormProps) => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +60,7 @@ export const CreateBoardItemForm = ({
 				}
 			} else {
 				toast.success('Board item created successfully!');
-				router.push('/board');
+				router.push(redirectUrl);
 			}
 		} catch (error) {
 			toast.error(`An unexpected error occurred: ${error}`);

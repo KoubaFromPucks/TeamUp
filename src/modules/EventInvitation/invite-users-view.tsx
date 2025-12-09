@@ -115,7 +115,7 @@ export const InviteUsersView = ({
 				}
 			);
 
-			if (error) {
+			if (error || !eventInvitation) {
 				const errorMsg =
 					typeof error === 'string' ? error : 'Failed to send invitation';
 				toast.error(errorMsg);
